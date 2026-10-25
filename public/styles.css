@@ -207,6 +207,10 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .lesson-section-label { display: grid; place-items: center; width: 36px; height: 36px; margin-top: .1rem; color: #fff; background: var(--green); border-radius: 50%; font-family: system-ui,sans-serif; font-size: .72rem; font-weight: 850; line-height: 1; }
 .lesson-section-copy h2 { margin: 0 0 .75rem; font-family: Georgia,"Times New Roman",serif; font-size: clamp(1.55rem,3vw,2.25rem); font-weight: 550; line-height: 1.1; letter-spacing: -.025em; }
 .lesson-section-copy>div { white-space: pre-wrap; }
+.collocation-comparison { width: min(100%,560px); margin: 1.2rem 0; border-collapse: collapse; background: #fff; font-family: system-ui,sans-serif; font-size: .85rem; line-height: 1.55; }
+.collocation-comparison th,.collocation-comparison td { width: 50%; padding: .65rem .8rem; border: 1px solid rgba(36,95,80,.28); text-align: left; vertical-align: top; }
+.collocation-comparison th { color: #fff; background: var(--green); font-size: .72rem; letter-spacing: .025em; }
+.collocation-comparison s { color: var(--muted); text-decoration-color: var(--orange); text-decoration-thickness: 1.5px; }
 .recall-panel { display: grid; place-items: center; min-height: 420px; padding: 3rem; text-align: center; background: #ebe7dc; border-radius: 18px; }
 .recall-panel span { color: var(--orange); font-size: .7rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
 .recall-panel h2 { max-width: 620px; margin: 1rem 0; font-family: Georgia,serif; font-size: clamp(2rem,4vw,3.5rem); font-weight: 550; }

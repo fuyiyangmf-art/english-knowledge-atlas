@@ -162,10 +162,19 @@ function withoutDetachedSectionLabels(content="") {
   return lines.filter((_,index)=>!detached.has(index)).join("\n").trim();
 }
 
+function collocationComparisonHTML() {
+  return `<table class="collocation-comparison"><thead><tr><th scope="col">We say …</th><th scope="col">We don’t say …</th></tr></thead><tbody><tr><td><strong>fast cars</strong><br><strong>fast food</strong></td><td><s>quick cars</s><br><s>quick food</s></td></tr><tr><td><strong>a quick glance</strong><br><strong>a quick meal</strong></td><td>a <s>fast</s> glance<br>a <s>fast</s> meal</td></tr></tbody></table>`;
+}
+
 function lessonContentHTML(record) {
-  const content=withoutDetachedSectionLabels(record.content);
+  let content=withoutDetachedSectionLabels(record.content);
   const layout=LESSON_SECTION_LAYOUTS[record.id];
   if(!layout) return `<div class="lesson-content">${escapeHTML(content)}</div>`;
+
+  if(record.id==="collocations-intermediate-unit-1") {
+    const detachedTable=content.indexOf("We say … We don’t say …");
+    if(detachedTable>=0) content=content.slice(0,detachedTable).trim();
+  }
 
   const starts=layout.map(section=>content.indexOf(section.marker));
   const valid=starts.every((start,index)=>start>=0 && (index===0 || start>starts[index-1]));
@@ -174,9 +183,15 @@ function lessonContentHTML(record) {
   const sections=layout.map((section,index)=>{
     const bodyStart=starts[index]+section.marker.length;
     const bodyEnd=index+1<layout.length?starts[index+1]:content.length;
-    const body=content.slice(bodyStart,bodyEnd).trim();
+    let body=content.slice(bodyStart,bodyEnd).trim();
+    if(record.id==="collocations-intermediate-unit-1" && section.label==="B" && body.endsWith("We deal with idioms")) body+=" in detail in the book English Idioms in Use in this series.";
     const headingId=`lesson-section-${record.id}-${section.label.toLowerCase()}`;
-    return `<section class="lesson-section" aria-labelledby="${headingId}"><span class="lesson-section-label" aria-hidden="true">${section.label}</span><div class="lesson-section-copy"><h2 id="${headingId}">${escapeHTML(section.heading)}</h2><div>${escapeHTML(body)}</div></div></section>`;
+    let bodyHTML=`<div>${escapeHTML(body)}</div>`;
+    if(record.id==="collocations-intermediate-unit-1" && section.label==="A") {
+      const secondParagraph=body.indexOf("Learning collocations is an important part");
+      if(secondParagraph>=0) bodyHTML=`<div>${escapeHTML(body.slice(0,secondParagraph).trim())}</div>${collocationComparisonHTML()}<div>${escapeHTML(body.slice(secondParagraph).trim())}</div>`;
+    }
+    return `<section class="lesson-section" aria-labelledby="${headingId}"><span class="lesson-section-label" aria-hidden="true">${section.label}</span><div class="lesson-section-copy"><h2 id="${headingId}">${escapeHTML(section.heading)}</h2>${bodyHTML}</div></section>`;
   }).join("");
   return `<div class="lesson-content lesson-content-sectioned">${sections}</div>`;
 }
