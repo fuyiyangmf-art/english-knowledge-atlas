@@ -4,10 +4,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isExistingLearner() {
       return request.auth != null && request.auth.uid in [
-        "28OZksHIcUUwzPOgHTwyFnZJzKq1",
-        "9fizd35wQsfXZE2P05cTecfFIPO2",
-        "pwtZ0J3OZbeznmcDhNyhmXeaX1E3",
-        "wTVd7f6q0VTfW8qMsNYY7oYYyjh1"
+        "9fizd35wQsfXZE2P05cTecfFIPO2"
       ];
     }
 
