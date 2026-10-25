@@ -1,0 +1,113 @@
+{
+  "expectedTotalUnits": 1094,
+  "actualTotalUnits": 1094,
+  "referencePages": 98,
+  "records": 1192,
+  "coverage": [
+    {
+      "bookId": "grammar-essential",
+      "expectedUnits": 115,
+      "extractedUnits": 115,
+      "supplementPages": 9,
+      "minChars": 830,
+      "medianChars": 1466
+    },
+    {
+      "bookId": "grammar-intermediate",
+      "expectedUnits": 145,
+      "extractedUnits": 145,
+      "supplementPages": 9,
+      "minChars": 1520,
+      "medianChars": 2227
+    },
+    {
+      "bookId": "grammar-advanced",
+      "expectedUnits": 100,
+      "extractedUnits": 100,
+      "supplementPages": 27,
+      "minChars": 2434,
+      "medianChars": 2966
+    },
+    {
+      "bookId": "vocabulary-elementary",
+      "expectedUnits": 60,
+      "extractedUnits": 60,
+      "supplementPages": 0,
+      "minChars": 550,
+      "medianChars": 1208
+    },
+    {
+      "bookId": "vocabulary-pre-intermediate",
+      "expectedUnits": 100,
+      "extractedUnits": 100,
+      "supplementPages": 0,
+      "minChars": 668,
+      "medianChars": 2130
+    },
+    {
+      "bookId": "vocabulary-upper-intermediate",
+      "expectedUnits": 101,
+      "extractedUnits": 101,
+      "supplementPages": 0,
+      "minChars": 1089,
+      "medianChars": 2451
+    },
+    {
+      "bookId": "vocabulary-advanced",
+      "expectedUnits": 101,
+      "extractedUnits": 101,
+      "supplementPages": 0,
+      "minChars": 1760,
+      "medianChars": 3134
+    },
+    {
+      "bookId": "collocations-intermediate",
+      "expectedUnits": 60,
+      "extractedUnits": 60,
+      "supplementPages": 0,
+      "minChars": 1337,
+      "medianChars": 2658
+    },
+    {
+      "bookId": "collocations-advanced",
+      "expectedUnits": 60,
+      "extractedUnits": 60,
+      "supplementPages": 0,
+      "minChars": 2089,
+      "medianChars": 3020
+    },
+    {
+      "bookId": "idioms-intermediate",
+      "expectedUnits": 62,
+      "extractedUnits": 62,
+      "supplementPages": 0,
+      "minChars": 478,
+      "medianChars": 1927
+    },
+    {
+      "bookId": "idioms-advanced",
+      "expectedUnits": 60,
+      "extractedUnits": 60,
+      "supplementPages": 0,
+      "minChars": 1919,
+      "medianChars": 2574
+    },
+    {
+      "bookId": "phrasal-intermediate",
+      "expectedUnits": 70,
+      "extractedUnits": 70,
+      "supplementPages": 24,
+      "minChars": 1579,
+      "medianChars": 2315
+    },
+    {
+      "bookId": "phrasal-advanced",
+      "expectedUnits": 60,
+      "extractedUnits": 60,
+      "supplementPages": 29,
+      "minChars": 1890,
+      "medianChars": 2845
+    }
+  ],
+  "failures": []
+}

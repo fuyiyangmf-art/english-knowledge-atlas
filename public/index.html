@@ -8,7 +8,7 @@
   <title>English Knowledge Atlas</title>
   <meta name="description" content="A private, encrypted English learning website.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2318201e'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='24' font-weight='700' fill='white'%3EEA%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css?v=20261025-2">
 </head>
 <body>
   <a class="skip-link" href="#mainContent">跳到主要内容</a>
@@ -31,7 +31,7 @@
         <button class="primary-button login-button" id="loginButton" type="submit"><span>进入学习空间</span><span aria-hidden="true">→</span></button>
         <p class="login-error" id="loginError" role="alert" hidden></p>
       </form>
-      <p class="security-note"><span aria-hidden="true">◆</span> 内容只在本机浏览器内解密，账号密码不会发送到服务器。</p>
+      <p class="security-note" id="securityNote"><span aria-hidden="true">◆</span> 教材内容只在浏览器内解密；学习进度可安全同步到你的账号。</p>
     </section>
     <aside class="login-aside" aria-hidden="true">
       <span class="edition">Personal curriculum · 01</span>
@@ -49,9 +49,11 @@
       <nav class="main-nav" aria-label="主导航">
         <button class="active" data-nav="dashboard" type="button">学习主页</button>
         <button data-nav="paths" type="button">学习路径</button>
+        <button data-nav="library" type="button">完整书库</button>
         <button data-nav="review" type="button">复习</button>
       </nav>
       <div class="header-actions">
+        <span class="sync-status" id="syncStatus" data-state="local"><i></i><span>本机保存</span></span>
         <button class="search-button" id="openSearch" type="button" aria-label="搜索知识点"><span aria-hidden="true">⌕</span><span>搜索</span><kbd>/</kbd></button>
         <div class="header-progress" title="总体完成度"><span id="headerProgressText">0%</span><i><b id="headerProgressBar"></b></i></div>
         <button class="lock-button" id="logoutButton" type="button">锁定</button>
@@ -109,6 +111,23 @@
         </div>
       </section>
 
+      <section class="view library-view" id="libraryView" hidden>
+        <div class="library-hero">
+          <div><p class="eyebrow">Complete source library</p><h1>完整书库</h1><p>按原书、原级别与原单元顺序浏览。主题路径负责重组知识，这里负责保证每一个知识单元都有明确入口。</p></div>
+          <div class="coverage-seal" id="coverageSeal"><strong>100%</strong><span>覆盖审计</span></div>
+        </div>
+        <div class="coverage-strip" id="coverageStrip"></div>
+        <section class="book-section">
+          <div class="section-heading compact"><div><p class="eyebrow">13 source books</p><h2>选择原书</h2></div><p>练习与答案已排除，知识讲解完整保留</p></div>
+          <div class="book-grid" id="bookGrid"></div>
+        </section>
+        <section class="book-curriculum" id="bookCurriculum">
+          <div class="section-heading compact"><div><p class="eyebrow" id="bookDetailMeta">Book curriculum</p><h2 id="bookDetailTitle">原书目录</h2></div><p id="bookDetailCount"></p></div>
+          <div class="lesson-grid" id="bookLessonGrid"></div>
+          <button class="more-button" id="showMoreBookLessons" type="button" hidden>显示更多单元</button>
+        </section>
+      </section>
+
       <section class="view review-view" id="reviewView" hidden>
         <div class="review-heading">
           <div><p class="eyebrow">Active recall</p><h1>复习队列</h1><p>不要先看答案。试着说出规则、意义和一个自己的例句。</p></div>
@@ -128,6 +147,8 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" hidden></div>
-  <script src="./app.js" defer></script>
+  <script src="./cloud-config.js?v=20261025-2" defer></script>
+  <script src="./cloud-sync.js?v=20261025-2" defer></script>
+  <script src="./app.js?v=20261025-2" defer></script>
 </body>
 </html>

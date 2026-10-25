@@ -65,7 +65,8 @@ const TOPICS = {
 const LEVELS = ["All","Elementary","Pre-intermediate & Intermediate","Intermediate","Upper-intermediate","Advanced"];
 const state = {
   data:null, records:[], view:"dashboard", category:"Grammar", topic:null, level:"All", lessonLimit:12,
-  currentLesson:null, recall:false, reviewIndex:0, reviewRevealed:false,
+  currentLesson:null, lessonOrigin:"path", recall:false, reviewIndex:0, reviewRevealed:false,
+  bookId:null, bookLimit:18, cloudEnabled:false,
   completed:new Set(JSON.parse(localStorage.getItem("eka-v2-completed") || localStorage.getItem("eka-studied") || "[]")),
   review:new Set(JSON.parse(localStorage.getItem("eka-v2-review") || localStorage.getItem("eka-bookmarks") || "[]")),
   history:JSON.parse(localStorage.getItem("eka-v2-history") || "[]"),
@@ -76,7 +77,10 @@ const $ = selector => document.querySelector(selector);
 const els = {
   loginView:$("#loginView"), appShell:$("#appShell"), loginForm:$("#loginForm"), username:$("#usernameInput"), password:$("#passwordInput"),
   togglePassword:$("#togglePassword"), loginButton:$("#loginButton"), loginError:$("#loginError"), logout:$("#logoutButton"),
-  dashboard:$("#dashboardView"), path:$("#pathView"), lesson:$("#lessonView"), review:$("#reviewView"),
+  dashboard:$("#dashboardView"), path:$("#pathView"), lesson:$("#lessonView"), library:$("#libraryView"), review:$("#reviewView"),
+  bookGrid:$("#bookGrid"), bookLessonGrid:$("#bookLessonGrid"), bookCurriculum:$("#bookCurriculum"),
+  bookDetailMeta:$("#bookDetailMeta"), bookDetailTitle:$("#bookDetailTitle"), bookDetailCount:$("#bookDetailCount"), showMoreBook:$("#showMoreBookLessons"),
+  coverageSeal:$("#coverageSeal"), coverageStrip:$("#coverageStrip"), syncStatus:$("#syncStatus"), securityNote:$("#securityNote"),
   today:$("#todayLabel"), continueCard:$("#continueCard"), progressStrip:$("#progressStrip"), pathGrid:$("#pathGrid"), reviewCallout:$("#reviewCallout"),
   pathHero:$("#pathHero"), levelTabs:$("#levelTabs"), topicGrid:$("#topicGrid"), topicSummary:$("#topicSummary"),
   curriculumTitle:$("#curriculumTitle"), curriculumCount:$("#curriculumCount"), lessonGrid:$("#lessonGrid"), showMore:$("#showMoreLessons"),
@@ -87,6 +91,19 @@ const els = {
 
 function escapeHTML(value="") { return String(value).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c])); }
 function normalize(value="") { return String(value).toLocaleLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,""); }
+function repairWrappedTitle(record) {
+  if (record.category!=="Vocabulary" || !/\b(?:and|or)$/i.test(record.title)) return record.title;
+  const lines=record.content.split("\n").map(line=>line.replace(/\s+/g," ").trim()).filter(Boolean);
+  if (!lines.length) return record.title;
+  const unit=String(record.unit ?? ""), strip=value=>value.replace(new RegExp(`^\\s*${unit}\\s+`),"").replace(new RegExp(`\\s*${unit}\\s*$`),"").replace(/^[ .:\-–—]+|[ .:\-–—]+$/g,"");
+  const first=strip(lines[0]);
+  if (first.length>record.title.length && first.toLowerCase().startsWith(record.title.toLowerCase())) return first;
+  if (first.toLowerCase()===record.title.toLowerCase() && lines[1]) {
+    const continuation=strip(lines[1]);
+    if (continuation.length>=2 && continuation.length<=70) return `${record.title} ${continuation}`;
+  }
+  return record.title;
+}
 function decodeBase64(value) { return Uint8Array.from(atob(value),c=>c.charCodeAt(0)); }
 function unitRecords() { return state.records.filter(r=>r.kind === "unit"); }
 function topicDefinition(category,id) { return TOPICS[category].find(t=>t[0]===id) || TOPICS[category].at(-1); }
@@ -116,6 +133,7 @@ function persist() {
   localStorage.setItem("eka-v2-history",JSON.stringify([...new Set(state.history)].slice(-120)));
   if (state.last) localStorage.setItem("eka-v2-last",state.last);
   renderHeaderProgress();
+  scheduleCloudSave();
 }
 
 function renderHeaderProgress() {
@@ -140,11 +158,34 @@ function showToast(message) {
   clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>els.toast.hidden=true,1800);
 }
 
+function progressSnapshot() {
+  return {
+    completed:[...state.completed], review:[...state.review], history:[...new Set(state.history)].slice(-120),
+    last:state.last, updatedAt:new Date().toISOString(),
+  };
+}
+
+function setSyncStatus(status,label) {
+  els.syncStatus.dataset.state=status;
+  els.syncStatus.lastElementChild.textContent=label;
+}
+
+let cloudSaveTimer;
+function scheduleCloudSave() {
+  if (!state.cloudEnabled || !window.EKACloud?.isAuthenticated()) return;
+  clearTimeout(cloudSaveTimer); setSyncStatus("syncing","同步中");
+  cloudSaveTimer=setTimeout(async()=>{
+    try { await window.EKACloud.saveProgress(progressSnapshot()); setSyncStatus("synced","已同步"); }
+    catch(error) { setSyncStatus("error","等待同步"); }
+  },600);
+}
+
 function setView(view) {
   state.view=view;
-  [els.dashboard,els.path,els.lesson,els.review].forEach(section=>section.hidden=true);
-  ({dashboard:els.dashboard,path:els.path,lesson:els.lesson,review:els.review}[view]).hidden=false;
-  document.querySelectorAll("[data-nav]").forEach(button=>button.classList.toggle("active",button.dataset.nav === (view==="lesson"||view==="path"?"paths":view)));
+  [els.dashboard,els.path,els.lesson,els.library,els.review].forEach(section=>section.hidden=true);
+  ({dashboard:els.dashboard,path:els.path,lesson:els.lesson,library:els.library,review:els.review}[view]).hidden=false;
+  const activeNav=view==="lesson"?(state.lessonOrigin==="library"?"library":"paths"):(view==="path"?"paths":view);
+  document.querySelectorAll("[data-nav]").forEach(button=>button.classList.toggle("active",button.dataset.nav===activeNav));
   window.scrollTo(0,0);
 }
 
@@ -179,6 +220,37 @@ function renderDashboard() {
   const reviewCount=state.review.size;
   els.reviewCallout.innerHTML=`<p class="eyebrow">Review queue</p><h2>${reviewCount?`${reviewCount} 个知识点等你复习`:"复习队列还是空的"}</h2><p>${reviewCount?"先主动回忆，再查看完整讲解。答对的知识点会标记为完成。":"学习课程时点击“加入复习”，这里就会生成回忆卡片。"}</p><button type="button" data-nav="review">${reviewCount?"开始复习 →":"了解复习模式 →"}</button>`;
   persist();
+}
+
+function bookRecords(bookId) { return state.records.filter(record=>record.bookId===bookId); }
+
+function renderLibrary() {
+  setView("library");
+  if (!state.bookId || !state.data.books.some(book=>book.id===state.bookId)) state.bookId=state.data.books[0]?.id || null;
+  history.replaceState(null,"",`#library=${encodeURIComponent(state.bookId || "")}`);
+  const units=unitRecords(), references=state.records.filter(record=>record.kind==="reference");
+  els.coverageStrip.innerHTML=`
+    <div class="coverage-stat"><strong>${state.data.books.length}</strong><span>本原书</span></div>
+    <div class="coverage-stat"><strong>${units.length.toLocaleString()}</strong><span>正式单元</span></div>
+    <div class="coverage-stat"><strong>${references.length}</strong><span>附录与参考页</span></div>
+    <div class="coverage-stat"><strong>${state.records.length.toLocaleString()}</strong><span>知识记录总数</span></div>`;
+  els.bookGrid.innerHTML=state.data.books.map(book=>{
+    const records=bookRecords(book.id), lessons=records.filter(record=>record.kind==="unit");
+    const done=lessons.filter(record=>state.completed.has(record.id)).length;
+    return `<button class="book-card ${book.id===state.bookId?"active":""}" type="button" data-open-book="${book.id}"><span>${escapeHTML(book.category)} · ${escapeHTML(book.level)}</span><h3>${escapeHTML(book.title)}</h3><p>${lessons.length} 个单元${records.length-lessons.length?` · ${records.length-lessons.length} 页参考资料`:""}</p><footer><b>${percent(done,lessons.length)}%</b><i><em style="width:${percent(done,lessons.length)}%"></em></i></footer></button>`;
+  }).join("");
+  renderBookCurriculum();
+}
+
+function renderBookCurriculum() {
+  const book=state.data.books.find(item=>item.id===state.bookId); if(!book) return;
+  const records=bookRecords(book.id), lessons=records.filter(record=>record.kind==="unit"), references=records.filter(record=>record.kind==="reference");
+  els.bookDetailMeta.textContent=`${book.category} · ${book.level}`;
+  els.bookDetailTitle.textContent=book.title;
+  els.bookDetailCount.textContent=`${lessons.length} 个单元${references.length?` + ${references.length} 页参考资料`:""}`;
+  els.bookLessonGrid.style.cssText=`--category-accent:${CATEGORY_META[book.category].accent}`;
+  els.bookLessonGrid.innerHTML=records.slice(0,state.bookLimit).map(record=>`<button class="lesson-card ${state.completed.has(record.id)?"complete":""}" type="button" data-open-lesson="${record.id}"><span class="lesson-number">${record.kind==="unit"?`Unit ${escapeHTML(record.unit)}`:"Reference"}</span>${state.completed.has(record.id)?'<span class="lesson-check">✓</span>':""}<h3>${escapeHTML(record.title)}</h3><p>PDF page ${record.sourcePage}${record.ocr?" · OCR":""}</p></button>`).join("");
+  els.showMoreBook.hidden=state.bookLimit>=records.length;
 }
 
 function categoryRecords(category,{unitsOnly=false}={}) { return state.records.filter(r=>r.category===category && (!unitsOnly||r.kind==="unit")); }
@@ -221,12 +293,14 @@ function renderCurriculum() {
 }
 
 function relatedLessons(record) {
+  if (state.lessonOrigin==="library") return bookRecords(record.bookId);
   const topicId=topicFor(record)[0];
   return state.records.filter(r=>r.category===record.category && topicFor(r)[0]===topicId && r.level===record.level);
 }
 
 function openLesson(id) {
   const record=state.records.find(r=>r.id===id); if(!record) return;
+  if (state.view!=="lesson") state.lessonOrigin=state.view==="library"?"library":"path";
   state.currentLesson=record; state.last=id; state.recall=false;
   persist(); setView("lesson"); renderLesson();
   history.replaceState(null,"",`#lesson=${encodeURIComponent(id)}`);
@@ -235,7 +309,8 @@ function openLesson(id) {
 function renderLesson() {
   const record=state.currentLesson, meta=CATEGORY_META[record.category], topic=topicFor(record), related=relatedLessons(record), index=related.findIndex(r=>r.id===record.id);
   const nearby=related.slice(Math.max(0,index-3),Math.min(related.length,index+5));
-  els.lessonOutline.innerHTML=`<button class="back-button" type="button" data-back-path>← ${escapeHTML(meta.zh)}</button><p class="outline-label">${escapeHTML(topic[1])}</p>${nearby.map(r=>`<button class="outline-item ${r.id===record.id?"active":""}" type="button" data-open-lesson="${r.id}"><span class="${state.completed.has(r.id)?"done":""}">${state.completed.has(r.id)?"✓":r.kind==="unit"?escapeHTML(r.unit):"·"}</span><span>${escapeHTML(r.title)}</span></button>`).join("")}`;
+  const back=state.lessonOrigin==="library"?`<button class="back-button" type="button" data-back-library>← ${escapeHTML(record.bookTitle)}</button>`:`<button class="back-button" type="button" data-back-path>← ${escapeHTML(meta.zh)}</button>`;
+  els.lessonOutline.innerHTML=`${back}<p class="outline-label">${state.lessonOrigin==="library"?"原书顺序":escapeHTML(topic[1])}</p>${nearby.map(r=>`<button class="outline-item ${r.id===record.id?"active":""}" type="button" data-open-lesson="${r.id}"><span class="${state.completed.has(r.id)?"done":""}">${state.completed.has(r.id)?"✓":r.kind==="unit"?escapeHTML(r.unit):"·"}</span><span>${escapeHTML(r.title)}</span></button>`).join("")}`;
   const body=state.recall?`<div class="recall-panel"><span>Active recall</span><h2>不看讲解，你能说出“${escapeHTML(record.title)}”的核心规则和一个例句吗？</h2><p>先在脑中或大声复述，再揭晓完整内容。</p><button type="button" data-reveal-lesson>查看完整讲解</button></div>`:`<div class="lesson-content">${escapeHTML(record.content)}</div>`;
   const previous=related[index-1], next=related[index+1];
   els.lessonPage.innerHTML=`<div class="lesson-actions"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?"退出回忆":"回忆模式"}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?"已加入复习":"加入复习"}</button><button class="${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?"已完成 ✓":"标记完成"}</button></div><p class="lesson-breadcrumb">${escapeHTML(record.category)} · ${escapeHTML(topic[1])} · ${escapeHTML(record.level)}</p><h1>${escapeHTML(record.title)}</h1><p class="lesson-source">${escapeHTML(record.bookTitle)} · PDF page ${record.sourcePage}${record.ocr?" · OCR": ""}</p>${body}<nav class="lesson-nav">${previous?`<button type="button" data-open-lesson="${previous.id}"><small>← 上一课</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>下一课 →</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
@@ -274,20 +349,34 @@ function renderSearch(query) {
   els.searchResults.innerHTML=matches.length?matches.map(record=>`<button class="search-result" type="button" data-search-lesson="${record.id}"><span><strong>${escapeHTML(record.title)}</strong><small>${escapeHTML(CATEGORY_META[record.category].zh)} · ${escapeHTML(topicFor(record)[1])} · ${escapeHTML(record.level)}</small></span><span>→</span></button>`).join(""):'<p class="search-hint">没有找到匹配内容，试试更短的关键词。</p>';
 }
 
-function initialize(data) {
+function mergeCloudProgress(remote) {
+  if (!remote) return;
+  const valid=new Set(state.records.map(record=>record.id));
+  state.completed=new Set([...state.completed,...(remote.completed||[])].filter(id=>valid.has(id)));
+  state.review=new Set([...state.review,...(remote.review||[])].filter(id=>valid.has(id)));
+  state.history=[...new Set([...state.history,...(remote.history||[])])].slice(-120);
+  state.last=remote.last && valid.has(remote.last)?remote.last:state.last;
+}
+
+function initialize(data,cloud={enabled:false,progress:null}) {
   state.data=data; state.records=data.records;
-  state.records.forEach(record=>record._search=normalize(`${record.title} ${record.bookTitle} ${record.category} ${record.level} ${record.content}`));
+  state.records.forEach(record=>{ record.title=repairWrappedTitle(record); record._search=normalize(`${record.title} ${record.bookTitle} ${record.category} ${record.level} ${record.content}`); });
+  state.cloudEnabled=Boolean(cloud.enabled); mergeCloudProgress(cloud.progress);
+  setSyncStatus("synced","已同步");
+  if (!state.cloudEnabled) setSyncStatus("local","本机保存");
   els.loginView.hidden=true; els.appShell.hidden=false; window.scrollTo(0,0);
   const lessonHash=location.hash.match(/^#lesson=(.+)$/);
   const route=new URLSearchParams(location.hash.replace(/^#/,""));
-  const routeCategory=route.get("path"), routeLevel=route.get("level");
+  const routeCategory=route.get("path"), routeLevel=route.get("level"), routeBook=route.get("library");
   if(lessonHash && state.records.some(r=>r.id===decodeURIComponent(lessonHash[1]))) openLesson(decodeURIComponent(lessonHash[1]));
   else if(location.hash==="#review") renderReview();
+  else if(routeBook && state.data.books.some(book=>book.id===routeBook)) { state.bookId=routeBook; state.bookLimit=18; renderLibrary(); }
   else if(routeCategory && CATEGORY_META[routeCategory]) { state.category=routeCategory; state.level=LEVELS.includes(routeLevel)?routeLevel:"All"; state.topic=null; renderPath(); }
   else renderDashboard();
 }
 
 function lockLibrary() {
+  clearTimeout(cloudSaveTimer); window.EKACloud?.signOut(); state.cloudEnabled=false; setSyncStatus("local","本机保存");
   state.data=null; state.records=[]; state.currentLesson=null;
   els.password.value=""; els.appShell.hidden=true; els.loginView.hidden=false;
   history.replaceState(null,"",location.pathname); window.scrollTo(0,0); requestAnimationFrame(()=>els.username.focus());
@@ -295,21 +384,27 @@ function lockLibrary() {
 
 function bindEvents() {
   els.loginForm.addEventListener("submit",async event=>{
-    event.preventDefault(); els.loginError.hidden=true; els.loginButton.disabled=true; els.loginButton.firstElementChild.textContent="正在解密……";
-    try { initialize(await decryptLibrary(els.username.value.trim(),els.password.value)); els.password.value=""; }
-    catch(error) { els.loginError.textContent="用户名或密码不正确。"; els.loginError.hidden=false; els.password.select(); }
+    event.preventDefault(); els.loginError.hidden=true; els.loginButton.disabled=true; els.loginButton.firstElementChild.textContent="正在验证并解密……";
+    try {
+      const username=els.username.value.trim(), password=els.password.value;
+      const [data,cloud]=await Promise.all([decryptLibrary(username,password),window.EKACloud.signIn(username,password)]);
+      initialize(data,cloud); els.password.value="";
+    }
+    catch(error) { els.loginError.textContent="用户名或密码不正确，或暂时无法连接云端。"; els.loginError.hidden=false; els.password.select(); }
     finally { els.loginButton.disabled=false; els.loginButton.firstElementChild.textContent="进入学习空间"; }
   });
   els.togglePassword.addEventListener("click",()=>{ const shown=els.password.type==="text"; els.password.type=shown?"password":"text"; els.togglePassword.textContent=shown?"显示":"隐藏"; });
   els.logout.addEventListener("click",lockLibrary);
   document.addEventListener("click",event=>{
     const nav=event.target.closest("[data-nav]");
-    if(nav) { const target=nav.dataset.nav; if(target==="dashboard") renderDashboard(); if(target==="paths") { state.category="Grammar"; state.topic=null; state.level="All"; state.lessonLimit=12; renderPath(); } if(target==="review") { state.reviewRevealed=false; renderReview(); } return; }
+    if(nav) { const target=nav.dataset.nav; if(target==="dashboard") renderDashboard(); if(target==="paths") { state.category="Grammar"; state.topic=null; state.level="All"; state.lessonLimit=12; renderPath(); } if(target==="library") { state.bookLimit=18; renderLibrary(); } if(target==="review") { state.reviewRevealed=false; renderReview(); } return; }
     const path=event.target.closest("[data-open-path]"); if(path) { state.category=path.dataset.openPath; state.topic=null; state.level="All"; state.lessonLimit=12; renderPath(); return; }
+    const book=event.target.closest("[data-open-book]"); if(book) { state.bookId=book.dataset.openBook; state.bookLimit=18; renderLibrary(); requestAnimationFrame(()=>els.bookCurriculum.scrollIntoView({behavior:"smooth",block:"start"})); return; }
     const lesson=event.target.closest("[data-open-lesson]"); if(lesson) { openLesson(lesson.dataset.openLesson); return; }
     const level=event.target.closest("[data-level]"); if(level) { state.level=level.dataset.level; state.topic=null; state.lessonLimit=12; renderPath(); return; }
     const topic=event.target.closest("[data-topic]"); if(topic) { state.topic=topic.dataset.topic; state.lessonLimit=12; renderPath(); requestAnimationFrame(()=>$("#curriculumSection").scrollIntoView({behavior:"smooth",block:"start"})); return; }
     if(event.target.closest("[data-back-path]")) { state.category=state.currentLesson.category; state.topic=topicFor(state.currentLesson)[0]; state.level=state.currentLesson.level; state.lessonLimit=12; renderPath(); return; }
+    if(event.target.closest("[data-back-library]")) { state.bookId=state.currentLesson.bookId; state.bookLimit=18; renderLibrary(); return; }
     if(event.target.closest("[data-toggle-recall]")) { state.recall=!state.recall; renderLesson(); return; }
     if(event.target.closest("[data-reveal-lesson]")) { state.recall=false; renderLesson(); return; }
     if(event.target.closest("[data-complete-lesson]")) { completeCurrent(); return; }
@@ -320,10 +415,16 @@ function bindEvents() {
     const searchLesson=event.target.closest("[data-search-lesson]"); if(searchLesson) { els.searchDialog.close(); openLesson(searchLesson.dataset.searchLesson); }
   });
   els.showMore.addEventListener("click",()=>{ state.lessonLimit+=12; renderCurriculum(); });
+  els.showMoreBook.addEventListener("click",()=>{ state.bookLimit+=18; renderBookCurriculum(); });
   els.openSearch.addEventListener("click",openSearch); els.closeSearch.addEventListener("click",()=>els.searchDialog.close());
   els.searchInput.addEventListener("input",event=>renderSearch(event.target.value));
   els.searchDialog.addEventListener("click",event=>{ if(event.target===els.searchDialog) els.searchDialog.close(); });
   document.addEventListener("keydown",event=>{ if(!state.data)return; if(event.key==="/"&&!els.searchDialog.open){event.preventDefault();openSearch();} if(event.key==="Escape"&&els.searchDialog.open)els.searchDialog.close(); });
 }
 
+if (window.EKACloud?.available()) {
+  els.securityNote.lastChild.textContent=" 教材内容只在浏览器内解密；学习进度会加密传输并绑定云端账号。";
+} else {
+  els.securityNote.lastChild.textContent=" 教材内容只在浏览器内解密；云同步启用前继续保存在本机。";
+}
 bindEvents(); els.username.focus();
