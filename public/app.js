@@ -141,14 +141,6 @@ const els = {
 
 function escapeHTML(value="") { return String(value).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c])); }
 
-const LESSON_SECTION_LAYOUTS = {
-  "collocations-intermediate-unit-1": [
-    {label:"A", heading:"What is a collocation?", marker:"What is a collocation?1"},
-    {label:"B", heading:"Compounds and idioms", marker:"Compounds and idioms"},
-    {label:"C", heading:"Why learn collocations?", marker:"Why learn collocations?"},
-  ],
-};
-
 function withoutDetachedSectionLabels(content="") {
   const lines=String(content).replace(/\r\n?/g,"\n").split("\n");
   const detached=new Set();
@@ -162,36 +154,30 @@ function withoutDetachedSectionLabels(content="") {
   return lines.filter((_,index)=>!detached.has(index)).join("\n").trim();
 }
 
-function collocationComparisonHTML() {
-  return `<table class="collocation-comparison"><thead><tr><th scope="col">We say …</th><th scope="col">We don’t say …</th></tr></thead><tbody><tr><td><strong>fast cars</strong><br><strong>fast food</strong></td><td><s>quick cars</s><br><s>quick food</s></td></tr><tr><td><strong>a quick glance</strong><br><strong>a quick meal</strong></td><td>a <s>fast</s> glance<br>a <s>fast</s> meal</td></tr></tbody></table>`;
+function lessonBlockHTML(block={}) {
+  if(block.type==="table" && Array.isArray(block.rows)) {
+    const rows=block.rows.filter(row=>Array.isArray(row) && row.some(cell=>String(cell||"").trim()));
+    if(!rows.length) return "";
+    const columnCount=Math.max(...rows.map(row=>row.length));
+    const body=rows.map((row,rowIndex)=>`<tr class="${rowIndex===0?"source-table-first-row":""}">${Array.from({length:columnCount},(_,index)=>`<td>${escapeHTML(row[index]||"")}</td>`).join("")}</tr>`).join("");
+    return `<div class="lesson-table-scroll" role="region" aria-label="Source table" tabindex="0"><table class="lesson-table"><tbody>${body}</tbody></table></div>`;
+  }
+  const text=String(block.text||"").trim();
+  if(!text) return "";
+  if(block.type==="subheading") return `<h3 class="lesson-subheading">${escapeHTML(text)}</h3>`;
+  return `<p class="${block.type==="text"?"lesson-textblock":"lesson-paragraph"}">${escapeHTML(text).replace(/\n/g,"<br>")}</p>`;
 }
 
 function lessonContentHTML(record) {
-  let content=withoutDetachedSectionLabels(record.content);
-  const layout=LESSON_SECTION_LAYOUTS[record.id];
-  if(!layout) return `<div class="lesson-content">${escapeHTML(content)}</div>`;
-
-  if(record.id==="collocations-intermediate-unit-1") {
-    const detachedTable=content.indexOf("We say … We don’t say …");
-    if(detachedTable>=0) content=content.slice(0,detachedTable).trim();
-  }
-
-  const starts=layout.map(section=>content.indexOf(section.marker));
-  const valid=starts.every((start,index)=>start>=0 && (index===0 || start>starts[index-1]));
-  if(!valid) return `<div class="lesson-content">${escapeHTML(content)}</div>`;
-
-  const sections=layout.map((section,index)=>{
-    const bodyStart=starts[index]+section.marker.length;
-    const bodyEnd=index+1<layout.length?starts[index+1]:content.length;
-    let body=content.slice(bodyStart,bodyEnd).trim();
-    if(record.id==="collocations-intermediate-unit-1" && section.label==="B" && body.endsWith("We deal with idioms")) body+=" in detail in the book English Idioms in Use in this series.";
-    const headingId=`lesson-section-${record.id}-${section.label.toLowerCase()}`;
-    let bodyHTML=`<div>${escapeHTML(body)}</div>`;
-    if(record.id==="collocations-intermediate-unit-1" && section.label==="A") {
-      const secondParagraph=body.indexOf("Learning collocations is an important part");
-      if(secondParagraph>=0) bodyHTML=`<div>${escapeHTML(body.slice(0,secondParagraph).trim())}</div>${collocationComparisonHTML()}<div>${escapeHTML(body.slice(secondParagraph).trim())}</div>`;
-    }
-    return `<section class="lesson-section" aria-labelledby="${headingId}"><span class="lesson-section-label" aria-hidden="true">${section.label}</span><div class="lesson-section-copy"><h2 id="${headingId}">${escapeHTML(section.heading)}</h2>${bodyHTML}</div></section>`;
+  if(!Array.isArray(record.sections) || !record.sections.length) return `<div class="lesson-content">${escapeHTML(withoutDetachedSectionLabels(record.content))}</div>`;
+  const sections=record.sections.map((section,index)=>{
+    const label=String(section.label||"").trim();
+    const title=String(section.title||"").trim();
+    const headingId=`lesson-section-${record.id}-${index}`;
+    const blocks=(section.blocks||[]).map(lessonBlockHTML).join("");
+    const heading=title && !(record.sections.length===1 && normalize(title)===normalize(record.title))?`<h2 id="${headingId}">${escapeHTML(title)}</h2>`:"";
+    const labelledBy=heading?` aria-labelledby="${headingId}"`:"";
+    return `<section class="lesson-section ${label?"":"lesson-section-unlabelled"}"${labelledBy}>${label?`<span class="lesson-section-label" aria-hidden="true">${escapeHTML(label)}</span>`:""}<div class="lesson-section-copy">${heading}${blocks}</div></section>`;
   }).join("");
   return `<div class="lesson-content lesson-content-sectioned">${sections}</div>`;
 }

@@ -3,6 +3,12 @@
   "actualTotalUnits": 1094,
   "referencePages": 98,
   "records": 1192,
+  "structureVersion": 2,
+  "sourceVerifiedRecords": 1192,
+  "labeledSections": 3252,
+  "tables": 233,
+  "exerciseWordsExcluded": 142,
+  "structureAuditPassed": true,
   "coverage": [
     {
       "bookId": "grammar-essential",
