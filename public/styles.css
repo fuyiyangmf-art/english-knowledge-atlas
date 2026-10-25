@@ -27,7 +27,11 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 
 /* Login */
 .login-view { display: grid; grid-template-columns: minmax(460px,.9fr) minmax(480px,1.1fr); min-height: 100vh; background: linear-gradient(90deg,rgba(23,32,29,.035) 1px,transparent 1px),linear-gradient(rgba(23,32,29,.035) 1px,transparent 1px),var(--bg); background-size: 28px 28px; }
-.login-card { width: min(470px,calc(100% - 3rem)); margin: auto; padding: 4rem 0; }
+.login-card { position: relative; width: min(470px,calc(100% - 3rem)); margin: auto; padding: 4rem 0; }
+.language-switcher { display: inline-flex; gap: 2px; padding: 3px; background: rgba(255,255,255,.72); border: 1px solid var(--line); border-radius: 999px; }
+.language-switcher button { min-width: 34px; padding: .3rem .48rem; color: var(--muted); background: transparent; border: 0; border-radius: 999px; font-size: .64rem; font-weight: 850; letter-spacing: .04em; }
+.language-switcher button.active { color: #fff; background: var(--ink); }
+.login-language { position: absolute; top: 4rem; right: 0; }
 .login-brand,.brand-mark { display: grid; place-items: center; color: #fff; background: var(--ink); font-family: Georgia,serif; font-weight: 700; }
 .login-brand { width: 52px; height: 52px; margin-bottom: 2rem; border-radius: 17px; }
 .login-card h1 { margin: 0; font-family: Georgia,serif; font-size: clamp(3.2rem,6vw,5.7rem); font-weight: 500; line-height: .9; letter-spacing: -.055em; }
@@ -51,7 +55,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .login-topics span { padding: .45rem .7rem; color: rgba(255,255,255,.76); border: 1px solid rgba(255,255,255,.18); border-radius: 999px; font-size: .7rem; }
 
 /* Header */
-.app-header { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 220px 1fr 390px; align-items: center; height: 68px; padding: 0 clamp(.8rem,3vw,2.2rem); background: rgba(255,255,255,.93); border-bottom: 1px solid var(--line); backdrop-filter: blur(16px); }
+.app-header { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 220px minmax(320px,1fr) auto; align-items: center; height: 68px; padding: 0 clamp(.8rem,3vw,2.2rem); background: rgba(255,255,255,.93); border-bottom: 1px solid var(--line); backdrop-filter: blur(16px); }
 .brand { display: inline-flex; gap: .7rem; align-items: center; color: inherit; text-decoration: none; }
 .brand-mark { width: 38px; height: 38px; border-radius: 12px; font-size: .85rem; }
 .brand-copy strong,.brand-copy small { display: block; }
@@ -244,17 +248,19 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
   .app-header { grid-template-columns: 190px 1fr auto; }
   .header-progress { display: none; }
   .sync-status>span { display: none; }
+  .header-language button { min-width: 28px; padding-inline: .35rem; }
   .book-grid { grid-template-columns: repeat(3,1fr); }
 }
 @media (max-width: 760px) {
   .login-view { display: block; }
   .login-aside { display: none; }
   .login-card { width: min(460px,calc(100% - 2rem)); padding: 2.5rem 0; }
+  .login-language { top: 2.5rem; }
   .app-header { grid-template-columns: auto 1fr auto; height: 62px; padding: 0 .7rem; }
   .brand-copy { display: none; }
   .main-nav { justify-content: flex-start; overflow-x: auto; }
   .main-nav button { padding-inline: .55rem; white-space: nowrap; }
-  .search-button>span:nth-child(2),.search-button kbd,.lock-button { display: none; }
+  .search-button>span:nth-child(2),.search-button kbd,.lock-button,.sync-status { display: none; }
   .search-button { width: 38px; justify-content: center; padding: 0; }
   .view { padding: 2rem .85rem 4rem; }
   .dashboard-hero { grid-template-columns: 1fr; }

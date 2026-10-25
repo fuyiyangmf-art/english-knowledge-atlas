@@ -2,7 +2,7 @@
   const config = window.EKA_CLOUD_CONFIG;
   let session = null;
 
-  const available = () => Boolean(config?.apiKey && config?.projectId && config?.authEmail);
+  const available = () => Boolean(config?.apiKey && config?.projectId && Object.keys(config?.accounts || {}).length);
 
   async function request(url, options = {}) {
     const response = await fetch(url, options);
@@ -51,11 +51,12 @@
 
   async function signIn(username, password) {
     if (!available()) return {enabled: false, progress: null};
-    if (config.username && username !== config.username) throw new Error("INVALID_LOGIN_CREDENTIALS");
+    const account = config.accounts?.[username.trim().toLowerCase()];
+    if (!account?.authEmail) throw new Error("INVALID_LOGIN_CREDENTIALS");
     const auth = await request(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${encodeURIComponent(config.apiKey)}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({email: config.authEmail, password, returnSecureToken: true}),
+      body: JSON.stringify({email: account.authEmail, password, returnSecureToken: true}),
     });
     session = {
       uid: auth.localId,

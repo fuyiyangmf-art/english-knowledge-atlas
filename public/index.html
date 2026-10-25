@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,55 +8,61 @@
   <title>English Knowledge Atlas</title>
   <meta name="description" content="A private, encrypted English learning website.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2318201e'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='24' font-weight='700' fill='white'%3EEA%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css?v=20261025-3">
+  <link rel="stylesheet" href="./styles.css?v=20261025-5">
 </head>
 <body>
-  <a class="skip-link" href="#mainContent">跳到主要内容</a>
+  <a class="skip-link" href="#mainContent" data-i18n="skipLink">Skip to main content</a>
 
   <main class="login-view" id="loginView">
     <section class="login-card" aria-labelledby="loginTitle">
       <div class="login-brand" aria-hidden="true">EA</div>
-      <p class="eyebrow">Encrypted learning space</p>
+      <div class="language-switcher login-language" aria-label="Language" data-i18n-aria="language">
+        <button type="button" data-language="en">EN</button>
+        <button type="button" data-language="tr">TR</button>
+        <button type="button" data-language="zh">中文</button>
+      </div>
+      <p class="eyebrow" data-i18n="encryptedSpace">Encrypted learning space</p>
       <h1 id="loginTitle">English<br>Knowledge Atlas</h1>
-      <p class="login-intro">把十三本参考书变成一条可以真正学完的路径。</p>
+      <p class="login-intro" data-i18n="loginIntro">Turn thirteen reference books into a learning path you can actually finish.</p>
       <form id="loginForm" class="login-form">
-        <label><span>用户名</span><input id="usernameInput" name="username" type="text" autocomplete="username" autocapitalize="none" required></label>
+        <label><span data-i18n="username">Username</span><input id="usernameInput" name="username" type="text" autocomplete="username" autocapitalize="none" required></label>
         <label>
-          <span>密码</span>
+          <span data-i18n="password">Password</span>
           <span class="password-field">
             <input id="passwordInput" name="password" type="password" autocomplete="current-password" required>
-            <button id="togglePassword" type="button" aria-label="显示密码">显示</button>
+            <button id="togglePassword" type="button" aria-label="Show password" data-i18n="show">Show</button>
           </span>
         </label>
-        <button class="primary-button login-button" id="loginButton" type="submit"><span>进入学习空间</span><span aria-hidden="true">→</span></button>
+        <button class="primary-button login-button" id="loginButton" type="submit"><span data-i18n="enter">Enter learning space</span><span aria-hidden="true">→</span></button>
         <p class="login-error" id="loginError" role="alert" hidden></p>
       </form>
-      <p class="security-note" id="securityNote"><span aria-hidden="true">◆</span> 教材内容只在浏览器内解密；学习进度可安全同步到你的账号。</p>
+      <p class="security-note" id="securityNote"><span aria-hidden="true">◆</span> <span id="securityNoteText" data-i18n="securityCloud">Book content is decrypted only in your browser; progress is securely synced to your account.</span></p>
     </section>
     <aside class="login-aside" aria-hidden="true">
-      <span class="edition">Personal curriculum · 01</span>
-      <blockquote>Learn in order.<br>Recall actively.<br>Use it naturally.</blockquote>
-      <div class="login-topics"><span>Grammar</span><span>Vocabulary</span><span>Collocations</span><span>Idioms</span><span>Phrasal verbs</span></div>
+      <span class="edition" data-i18n="edition">Personal curriculum · 01</span>
+      <blockquote data-i18n-lines="loginQuote">Learn in order.<br>Recall actively.<br>Use it naturally.</blockquote>
+      <div class="login-topics"><span data-category-label="Grammar">Grammar</span><span data-category-label="Vocabulary">Vocabulary</span><span data-category-label="Collocations">Collocations</span><span data-category-label="Idioms">Idioms</span><span data-category-label="Phrasal Verbs">Phrasal verbs</span></div>
     </aside>
   </main>
 
   <div class="app-shell" id="appShell" hidden>
     <header class="app-header">
-      <a class="brand" href="#home" data-nav="dashboard" aria-label="返回学习主页">
+      <a class="brand" href="#home" data-nav="dashboard" aria-label="Return to learning home" data-i18n-aria="returnHome">
         <span class="brand-mark">EA</span>
-        <span class="brand-copy"><strong>English Atlas</strong><small>Learning edition</small></span>
+        <span class="brand-copy"><strong>English Atlas</strong><small data-i18n="learningEdition">Learning edition</small></span>
       </a>
-      <nav class="main-nav" aria-label="主导航">
-        <button class="active" data-nav="dashboard" type="button">学习主页</button>
-        <button data-nav="paths" type="button">学习路径</button>
-        <button data-nav="library" type="button">完整书库</button>
-        <button data-nav="review" type="button">复习</button>
+      <nav class="main-nav" aria-label="Primary navigation" data-i18n-aria="primaryNavigation">
+        <button class="active" data-nav="dashboard" type="button" data-i18n="navHome">Home</button>
+        <button data-nav="paths" type="button" data-i18n="navPaths">Learning paths</button>
+        <button data-nav="library" type="button" data-i18n="navLibrary">Complete library</button>
+        <button data-nav="review" type="button" data-i18n="navReview">Review</button>
       </nav>
       <div class="header-actions">
-        <span class="sync-status" id="syncStatus" data-state="local"><i></i><span>本机保存</span></span>
-        <button class="search-button" id="openSearch" type="button" aria-label="搜索知识点"><span aria-hidden="true">⌕</span><span>搜索</span><kbd>/</kbd></button>
-        <div class="header-progress" title="总体完成度"><span id="headerProgressText">0%</span><i><b id="headerProgressBar"></b></i></div>
-        <button class="lock-button" id="logoutButton" type="button">锁定</button>
+        <div class="language-switcher header-language" aria-label="Language" data-i18n-aria="language"><button type="button" data-language="en">EN</button><button type="button" data-language="tr">TR</button><button type="button" data-language="zh">中</button></div>
+        <span class="sync-status" id="syncStatus" data-state="local"><i></i><span data-i18n="syncLocal">Saved locally</span></span>
+        <button class="search-button" id="openSearch" type="button" aria-label="Search knowledge points"><span aria-hidden="true">⌕</span><span data-i18n="search">Search</span><kbd>/</kbd></button>
+        <div class="header-progress" title="Overall progress"><span id="headerProgressText">0%</span><i><b id="headerProgressBar"></b></i></div>
+        <button class="lock-button" id="logoutButton" type="button" data-i18n="lock">Lock</button>
       </div>
     </header>
 
@@ -64,8 +70,8 @@
       <section class="view dashboard-view" id="dashboardView">
         <div class="dashboard-hero">
           <div>
-            <p class="eyebrow" id="todayLabel">今天</p>
-            <h1>继续积累，<br><em>一次学透一个知识点。</em></h1>
+            <p class="eyebrow" id="todayLabel">Today</p>
+            <h1><span data-i18n="heroContinue">Keep building.</span><br><em data-i18n="heroOneThing">Master one idea at a time.</em></h1>
           </div>
           <article class="continue-card" id="continueCard"></article>
         </div>
@@ -74,8 +80,8 @@
 
         <section class="section-block" aria-labelledby="pathsTitle">
           <div class="section-heading">
-            <div><p class="eyebrow">Structured curriculum</p><h2 id="pathsTitle">选择一条学习路径</h2></div>
-            <p>领域 → 主题 → 难度 → 单元</p>
+            <div><p class="eyebrow" data-i18n="structuredCurriculum">Structured curriculum</p><h2 id="pathsTitle" data-i18n="choosePath">Choose a learning path</h2></div>
+            <p data-i18n="pathOrder">Area → Topic → Level → Unit</p>
           </div>
           <div class="path-grid" id="pathGrid"></div>
         </section>
@@ -83,24 +89,24 @@
         <section class="dashboard-bottom">
           <article class="review-callout" id="reviewCallout"></article>
           <article class="method-card">
-            <p class="eyebrow">学习方式</p>
-            <h2>理解 → 回忆 → 完成</h2>
-            <ol><li><b>读懂</b><span>完整阅读知识讲解</span></li><li><b>回忆</b><span>隐藏正文，主动复述</span></li><li><b>巩固</b><span>加入复习队列，之后再测</span></li></ol>
+            <p class="eyebrow" data-i18n="studyMethod">Study method</p>
+            <h2 data-i18n="methodTitle">Understand → Recall → Complete</h2>
+            <ol><li><b data-i18n="methodRead">Understand</b><span data-i18n="methodReadDesc">Read the complete explanation</span></li><li><b data-i18n="methodRecall">Recall</b><span data-i18n="methodRecallDesc">Hide the text and retrieve it actively</span></li><li><b data-i18n="methodReinforce">Reinforce</b><span data-i18n="methodReinforceDesc">Add it to review and test it later</span></li></ol>
           </article>
         </section>
       </section>
 
       <section class="view path-view" id="pathView" hidden>
         <div class="path-hero" id="pathHero"></div>
-        <div class="level-tabs" id="levelTabs" aria-label="选择难度"></div>
+        <div class="level-tabs" id="levelTabs" aria-label="Choose level"></div>
         <section class="topic-section">
-          <div class="section-heading compact"><div><p class="eyebrow">Step 1</p><h2>选择学习主题</h2></div><p id="topicSummary"></p></div>
+          <div class="section-heading compact"><div><p class="eyebrow" data-i18n="step1">Step 1</p><h2 data-i18n="chooseTopic">Choose a topic</h2></div><p id="topicSummary"></p></div>
           <div class="topic-grid" id="topicGrid"></div>
         </section>
         <section class="curriculum-section" id="curriculumSection">
-          <div class="section-heading compact"><div><p class="eyebrow">Step 2</p><h2 id="curriculumTitle">课程单元</h2></div><p id="curriculumCount"></p></div>
+          <div class="section-heading compact"><div><p class="eyebrow" data-i18n="step2">Step 2</p><h2 id="curriculumTitle">Lessons</h2></div><p id="curriculumCount"></p></div>
           <div class="lesson-grid" id="lessonGrid"></div>
-          <button class="more-button" id="showMoreLessons" type="button" hidden>显示更多课程</button>
+          <button class="more-button" id="showMoreLessons" type="button" hidden data-i18n="showMoreLessons">Show more lessons</button>
         </section>
       </section>
 
@@ -113,24 +119,24 @@
 
       <section class="view library-view" id="libraryView" hidden>
         <div class="library-hero">
-          <div><p class="eyebrow">Complete source library</p><h1>完整书库</h1><p>按原书、原级别与原单元顺序浏览。主题路径负责重组知识，这里负责保证每一个知识单元都有明确入口。</p></div>
-          <div class="coverage-seal" id="coverageSeal"><strong>100%</strong><span>覆盖审计</span></div>
+          <div><p class="eyebrow" data-i18n="completeSourceLibrary">Complete source library</p><h1 data-i18n="libraryTitle">Complete library</h1><p data-i18n="libraryIntro">Browse by source book, level, and original unit order. Learning paths reorganize the material; this view keeps every knowledge unit traceable.</p></div>
+          <div class="coverage-seal" id="coverageSeal"><strong>100%</strong><span data-i18n="coverageAudit">Coverage audit</span></div>
         </div>
         <div class="coverage-strip" id="coverageStrip"></div>
         <section class="book-section">
-          <div class="section-heading compact"><div><p class="eyebrow">13 source books</p><h2>选择原书</h2></div><p>练习与答案已排除，知识讲解完整保留</p></div>
+          <div class="section-heading compact"><div><p class="eyebrow" data-i18n="sourceBooks13">13 source books</p><h2 data-i18n="chooseBook">Choose a source book</h2></div><p data-i18n="knowledgeOnly">Exercises and answer keys are excluded; explanations are preserved.</p></div>
           <div class="book-grid" id="bookGrid"></div>
         </section>
         <section class="book-curriculum" id="bookCurriculum">
-          <div class="section-heading compact"><div><p class="eyebrow" id="bookDetailMeta">Book curriculum</p><h2 id="bookDetailTitle">原书目录</h2></div><p id="bookDetailCount"></p></div>
+          <div class="section-heading compact"><div><p class="eyebrow" id="bookDetailMeta" data-i18n="bookCurriculum">Book curriculum</p><h2 id="bookDetailTitle" data-i18n="originalContents">Original contents</h2></div><p id="bookDetailCount"></p></div>
           <div class="lesson-grid" id="bookLessonGrid"></div>
-          <button class="more-button" id="showMoreBookLessons" type="button" hidden>显示更多单元</button>
+          <button class="more-button" id="showMoreBookLessons" type="button" hidden data-i18n="showMoreUnits">Show more units</button>
         </section>
       </section>
 
       <section class="view review-view" id="reviewView" hidden>
         <div class="review-heading">
-          <div><p class="eyebrow">Active recall</p><h1>复习队列</h1><p>不要先看答案。试着说出规则、意义和一个自己的例句。</p></div>
+          <div><p class="eyebrow" data-i18n="activeRecall">Active recall</p><h1 data-i18n="reviewTitle">Review queue</h1><p data-i18n="reviewIntro">Do not reveal the answer first. State the rule, meaning, and one example of your own.</p></div>
           <div class="review-count" id="reviewCount"></div>
         </div>
         <div id="reviewStage"></div>
@@ -140,15 +146,15 @@
 
   <dialog class="search-dialog" id="searchDialog">
     <div class="search-dialog-head">
-      <label for="searchInput"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" autocomplete="off" placeholder="搜索知识点、短语或例句……"></label>
-      <button id="closeSearch" type="button" aria-label="关闭搜索">×</button>
+      <label for="searchInput"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" autocomplete="off" placeholder="Search knowledge points, phrases, or examples…"></label>
+      <button id="closeSearch" type="button" aria-label="Close search">×</button>
     </div>
-    <div class="search-results" id="searchResults"><p class="search-hint">输入关键词开始搜索。搜索只是辅助入口，学习顺序请从“学习路径”进入。</p></div>
+    <div class="search-results" id="searchResults"><p class="search-hint" data-i18n="searchHint">Enter a keyword to search. Use Learning paths for a structured sequence.</p></div>
   </dialog>
 
   <div class="toast" id="toast" role="status" hidden></div>
-  <script src="./cloud-config.js?v=20261025-3" defer></script>
-  <script src="./cloud-sync.js?v=20261025-3" defer></script>
-  <script src="./app.js?v=20261025-3" defer></script>
+  <script src="./cloud-config.js?v=20261025-5" defer></script>
+  <script src="./cloud-sync.js?v=20261025-5" defer></script>
+  <script src="./app.js?v=20261025-5" defer></script>
 </body>
 </html>
