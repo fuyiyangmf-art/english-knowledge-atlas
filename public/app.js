@@ -1,337 +1,329 @@
+const CATEGORY_META = {
+  Grammar: {zh:"语法体系", letter:"G", index:"01", accent:"#245f50", tint:"#e1eee8", description:"从时态、句法到高级结构，建立完整的英语语法框架。"},
+  Vocabulary: {zh:"主题词汇", letter:"V", index:"02", accent:"#c66644", tint:"#f4e6df", description:"按照真实生活主题扩展词义、用法和表达范围。"},
+  Collocations: {zh:"自然搭配", letter:"C", index:"03", accent:"#a87a27", tint:"#f3ecd9", description:"学习母语者习惯组合在一起使用的词语。"},
+  Idioms: {zh:"习语表达", letter:"I", index:"04", accent:"#795477", tint:"#eee5ed", description:"理解常用习语的意义、语境和表达效果。"},
+  "Phrasal Verbs": {zh:"短语动词", letter:"P", index:"05", accent:"#4f6f9e", tint:"#e4eaf2", description:"按意义和使用场景掌握高频短语动词。"},
+};
+
+const TOPICS = {
+  Grammar: [
+    ["tenses","时态与时间","Tenses & time",/present|past|future|tense|perfect|continuous|time\b|used to/i],
+    ["modals","情态动词","Modal verbs",/modal|\bcan\b|could|may\b|might|must|should|would|need(?:n't| to)|ought|have to/i],
+    ["conditionals","条件、愿望与假设","Conditionals & wishes",/condition|\bif\b|wish|would rather|hypothetical/i],
+    ["passive","被动与使役","Passive & causative",/passive|causative|have something done|be done|being done/i],
+    ["reported","转述与间接引语","Reported speech",/reported|reporting|indirect speech|said|told/i],
+    ["questions","问句、否定与强调","Questions & emphasis",/question|negative|auxiliary|emphasis|do you|tag question|short answer/i],
+    ["verb-patterns","动词形式与句型","Verb patterns",/infinitive|gerund|verb \+|doing|to do|participle|verb pattern/i],
+    ["nouns","名词、冠词与限定词","Nouns & determiners",/noun|article|\ba\/an\b|\bthe\b|determiner|countable|uncountable|some|any|much|many|few|little/i],
+    ["clauses","从句、关系词与连接","Clauses & linking",/clause|relative|who|which|that|conjunction|linking|although|because|despite/i],
+    ["description","形容词、副词与比较","Description & comparison",/adjective|adverb|compar|superlative|too|enough|so |such /i],
+    ["prepositions","介词与语序","Prepositions & word order",/preposition|word order|position|in at on|at in on/i],
+    ["structures","其他核心结构","Other structures",/.*/i],
+  ],
+  Vocabulary: [
+    ["people","人物、关系与性格","People & relationships",/people|person|family|relationship|friend|character|personality|appearance|feelings|emotion|love/i],
+    ["work","工作、学习与商业","Work, study & business",/work|job|career|business|money|office|study|education|school|university|academic|employment/i],
+    ["daily-life","日常生活与居家","Daily life & home",/home|house|daily|food|clothes|shopping|cooking|sleep|routine|leisure|hobby/i],
+    ["travel","旅行、交通与地点","Travel & places",/travel|transport|journey|holiday|hotel|city|country|place|road|car|train|flight/i],
+    ["health","身体、健康与医疗","Health & body",/health|body|illness|medicine|medical|doctor|hospital|sport|fitness/i],
+    ["nature","自然、环境与动物","Nature & environment",/nature|environment|weather|animal|plant|earth|climate|sea|land/i],
+    ["technology","科技、媒体与交流","Technology & media",/technology|computer|internet|media|phone|communication|news|film|television|music/i],
+    ["society","社会、法律与文化","Society & culture",/society|law|crime|politic|government|culture|war|religion|community/i],
+    ["concepts","抽象概念与语言","Ideas & language",/idea|thought|knowledge|language|word|meaning|change|cause|effect|problem|success/i],
+    ["general","综合词汇","General vocabulary",/.*/i],
+  ],
+  Collocations: [
+    ["concepts","概念、变化与程度","Concepts & change",/change|cause|effect|difference|degree|amount|quantity|quality|success|failure|problem|solution/i],
+    ["people","人物、情绪与关系","People & feelings",/people|person|relationship|family|friend|emotion|feeling|behaviour|character/i],
+    ["work","工作、学习与社会","Work & society",/work|job|business|study|education|money|law|crime|society|politic/i],
+    ["daily","日常活动与生活","Everyday life",/home|food|travel|weather|health|sport|time|day|life|conversation/i],
+    ["language","语言模式与固定组合","Language patterns",/verb|noun|adjective|adverb|preposition|collocation|word|expression/i],
+    ["general","综合搭配","General collocations",/.*/i],
+  ],
+  Idioms: [
+    ["feelings","情绪与态度","Feelings & attitudes",/feeling|emotion|happy|sad|angry|fear|attitude|mood/i],
+    ["people","人物与关系","People & relationships",/people|person|relationship|family|friend|character|body/i],
+    ["work","工作、成功与金钱","Work, success & money",/work|business|success|failure|money|job|career/i],
+    ["communication","沟通、思考与观点","Communication & ideas",/communication|speaking|talk|think|idea|opinion|knowledge|understand/i],
+    ["situations","行动、处境与变化","Actions & situations",/action|situation|problem|change|decision|effort|difficulty/i],
+    ["time","时间、数量与程度","Time & degree",/time|number|amount|degree|speed|frequency/i],
+    ["general","综合习语","General idioms",/.*/i],
+  ],
+  "Phrasal Verbs": [
+    ["movement","移动、旅行与位置","Movement & travel",/move|travel|journey|come|go|get|take|bring|turn|place|position/i],
+    ["communication","沟通、信息与思考","Communication & thinking",/communicat|talk|speak|write|read|think|find out|point out|information/i],
+    ["work","工作、学习与事务","Work & study",/work|business|study|job|task|plan|deal|carry out|set up/i],
+    ["people","人物、关系与情绪","People & relationships",/people|relationship|family|friend|feeling|emotion|social/i],
+    ["change","变化、问题与解决","Change & problems",/change|problem|solution|break|fix|improve|reduce|increase|end|start/i],
+    ["daily","日常行为","Everyday actions",/home|food|clothes|daily|clean|sleep|wake|eat|buy|use/i],
+    ["patterns","助词规律与语法","Particles & patterns",/particle|grammar|noun|verb|adverb|meaning|register|formal|informal/i],
+    ["general","综合短语动词","General phrasal verbs",/.*/i],
+  ],
+};
+
+const LEVELS = ["All","Elementary","Pre-intermediate & Intermediate","Intermediate","Upper-intermediate","Advanced"];
 const state = {
-  data: null,
-  filtered: [],
-  query: "",
-  category: "All",
-  level: "All",
-  book: "all",
-  includeReferences: true,
-  visible: 40,
-  selected: null,
-  mode: "all",
-  bookmarks: new Set(JSON.parse(localStorage.getItem("eka-bookmarks") || "[]")),
-  studied: new Set(JSON.parse(localStorage.getItem("eka-studied") || "[]")),
+  data:null, records:[], view:"dashboard", category:"Grammar", topic:null, level:"All", lessonLimit:12,
+  currentLesson:null, recall:false, reviewIndex:0, reviewRevealed:false,
+  completed:new Set(JSON.parse(localStorage.getItem("eka-v2-completed") || localStorage.getItem("eka-studied") || "[]")),
+  review:new Set(JSON.parse(localStorage.getItem("eka-v2-review") || localStorage.getItem("eka-bookmarks") || "[]")),
+  history:JSON.parse(localStorage.getItem("eka-v2-history") || "[]"),
+  last:localStorage.getItem("eka-v2-last") || null,
 };
 
 const $ = selector => document.querySelector(selector);
-const elements = {
-  loginView: $("#loginView"), appShell: $("#appShell"), loginForm: $("#loginForm"),
-  username: $("#usernameInput"), password: $("#passwordInput"), loginButton: $("#loginButton"),
-  loginError: $("#loginError"), togglePassword: $("#togglePassword"), logout: $("#logoutButton"),
-  search: $("#searchInput"), categoryFilters: $("#categoryFilters"), levelFilter: $("#levelFilter"),
-  bookFilter: $("#bookFilter"), referenceToggle: $("#referenceToggle"), reset: $("#resetButton"),
-  list: $("#recordList"), count: $("#resultCount"), title: $("#resultTitle"), eyebrow: $("#resultEyebrow"),
-  activeFilters: $("#activeFilters"), loadMore: $("#loadMoreButton"), empty: $("#emptyState"),
-  reader: $("#reader"), readerEmpty: $("#readerEmpty"), readerArticle: $("#readerArticle"),
-  readerMeta: $("#readerMeta"), readerTitle: $("#readerTitle"), readerSource: $("#readerSource"),
-  readerContent: $("#readerContent"), ocrNote: $("#ocrNote"), markStudied: $("#markStudied"),
-  bookmarkRecord: $("#bookmarkRecord"), closeReader: $("#closeReader"),
-  bookmarksButton: $("#bookmarksButton"), studiedButton: $("#studiedButton"),
-  bookmarkCount: $("#bookmarkCount"), studiedCount: $("#studiedCount"),
-  sidebar: $("#sidebar"), sidebarScrim: $("#sidebarScrim"), mobileFilter: $("#mobileFilterButton"),
-  closeFilters: $("#closeFilters"), unitStat: $("#unitStat"),
+const els = {
+  loginView:$("#loginView"), appShell:$("#appShell"), loginForm:$("#loginForm"), username:$("#usernameInput"), password:$("#passwordInput"),
+  togglePassword:$("#togglePassword"), loginButton:$("#loginButton"), loginError:$("#loginError"), logout:$("#logoutButton"),
+  dashboard:$("#dashboardView"), path:$("#pathView"), lesson:$("#lessonView"), review:$("#reviewView"),
+  today:$("#todayLabel"), continueCard:$("#continueCard"), progressStrip:$("#progressStrip"), pathGrid:$("#pathGrid"), reviewCallout:$("#reviewCallout"),
+  pathHero:$("#pathHero"), levelTabs:$("#levelTabs"), topicGrid:$("#topicGrid"), topicSummary:$("#topicSummary"),
+  curriculumTitle:$("#curriculumTitle"), curriculumCount:$("#curriculumCount"), lessonGrid:$("#lessonGrid"), showMore:$("#showMoreLessons"),
+  lessonOutline:$("#lessonOutline"), lessonPage:$("#lessonPage"), reviewCount:$("#reviewCount"), reviewStage:$("#reviewStage"),
+  openSearch:$("#openSearch"), searchDialog:$("#searchDialog"), closeSearch:$("#closeSearch"), searchInput:$("#searchInput"), searchResults:$("#searchResults"),
+  progressText:$("#headerProgressText"), progressBar:$("#headerProgressBar"), toast:$("#toast"),
 };
 
-const categoryOrder = ["Grammar", "Vocabulary", "Collocations", "Idioms", "Phrasal Verbs"];
-const levelOrder = ["Elementary", "Pre-intermediate & Intermediate", "Intermediate", "Upper-intermediate", "Advanced"];
-
-function escapeHTML(value = "") {
-  return String(value).replace(/[&<>'"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));
+function escapeHTML(value="") { return String(value).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c])); }
+function normalize(value="") { return String(value).toLocaleLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,""); }
+function decodeBase64(value) { return Uint8Array.from(atob(value),c=>c.charCodeAt(0)); }
+function unitRecords() { return state.records.filter(r=>r.kind === "unit"); }
+function topicDefinition(category,id) { return TOPICS[category].find(t=>t[0]===id) || TOPICS[category].at(-1); }
+function topicFor(record) {
+  if (record.kind === "reference") return ["reference","参考资料","Reference material",/.*/];
+  const topics = TOPICS[record.category];
+  const specific = topics.slice(0,-1);
+  const titleMatch = specific.find(topic=>topic[3].test(record.title));
+  return titleMatch || topics.at(-1);
 }
+function percent(done,total) { return total ? Math.round(done/total*100) : 0; }
+function dateKey(date=new Date()) { return new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Berlin",year:"numeric",month:"2-digit",day:"2-digit"}).format(date); }
 
-function normalize(value = "") {
-  return String(value).toLocaleLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
-}
-
-function decodeBase64(value) {
-  return Uint8Array.from(atob(value), character => character.charCodeAt(0));
-}
-
-async function decryptLibrary(username, password) {
-  const configResponse = await fetch("./data/auth.json", {cache: "no-store"});
-  if (!configResponse.ok) throw new Error("The encrypted library is unavailable.");
-  const config = await configResponse.json();
-  const encryptedResponse = await fetch(`./data/${config.file}`);
-  if (!encryptedResponse.ok) throw new Error("The encrypted library is unavailable.");
-
-  const material = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(`${username}\u0000${password}`),
-    "PBKDF2",
-    false,
-    ["deriveKey"]
-  );
-  const key = await crypto.subtle.deriveKey(
-    {name: "PBKDF2", salt: decodeBase64(config.salt), iterations: config.iterations, hash: "SHA-256"},
-    material,
-    {name: "AES-GCM", length: 256},
-    false,
-    ["decrypt"]
-  );
-  const decrypted = await crypto.subtle.decrypt(
-    {name: "AES-GCM", iv: decodeBase64(config.iv), additionalData: new TextEncoder().encode(config.aad)},
-    key,
-    await encryptedResponse.arrayBuffer()
-  );
-  if (config.compression !== "gzip" || !("DecompressionStream" in window)) {
-    throw new Error("This browser cannot open the compressed library.");
-  }
+async function decryptLibrary(username,password) {
+  const config = await (await fetch("./data/auth.json",{cache:"no-store"})).json();
+  const encrypted = await (await fetch(`./data/${config.file}`)).arrayBuffer();
+  const material = await crypto.subtle.importKey("raw",new TextEncoder().encode(`${username}\u0000${password}`),"PBKDF2",false,["deriveKey"]);
+  const key = await crypto.subtle.deriveKey({name:"PBKDF2",salt:decodeBase64(config.salt),iterations:config.iterations,hash:"SHA-256"},material,{name:"AES-GCM",length:256},false,["decrypt"]);
+  const decrypted = await crypto.subtle.decrypt({name:"AES-GCM",iv:decodeBase64(config.iv),additionalData:new TextEncoder().encode(config.aad)},key,encrypted);
   const stream = new Blob([decrypted]).stream().pipeThrough(new DecompressionStream("gzip"));
   return JSON.parse(await new Response(stream).text());
 }
 
-function compactSnippet(record) {
-  const plain = record.content.replace(/\s+/g, " ").trim();
-  if (!state.query) return plain.slice(0, 165);
-  const at = normalize(plain).indexOf(normalize(state.query));
-  const start = Math.max(0, at > -1 ? at - 55 : 0);
-  return `${start ? "…" : ""}${plain.slice(start, start + 180)}${plain.length > start + 180 ? "…" : ""}`;
-}
-
 function persist() {
-  localStorage.setItem("eka-bookmarks", JSON.stringify([...state.bookmarks]));
-  localStorage.setItem("eka-studied", JSON.stringify([...state.studied]));
-  elements.bookmarkCount.textContent = state.bookmarks.size;
-  elements.studiedCount.textContent = state.studied.size;
-  elements.bookmarksButton.classList.toggle("active", state.mode === "bookmarks");
-  elements.studiedButton.classList.toggle("active", state.mode === "studied");
+  localStorage.setItem("eka-v2-completed",JSON.stringify([...state.completed]));
+  localStorage.setItem("eka-v2-review",JSON.stringify([...state.review]));
+  localStorage.setItem("eka-v2-history",JSON.stringify([...new Set(state.history)].slice(-120)));
+  if (state.last) localStorage.setItem("eka-v2-last",state.last);
+  renderHeaderProgress();
 }
 
-function setupFilters() {
-  const counts = state.data.meta.categories;
-  const total = state.data.meta.unitCount;
-  elements.categoryFilters.innerHTML = ["All", ...categoryOrder].map(category => `
-    <button class="category-button ${category === state.category ? "active" : ""}" type="button" data-category="${escapeHTML(category)}">
-      <span class="category-dot"></span>
-      <span>${category === "All" ? "All knowledge" : escapeHTML(category)}</span>
-      <small>${category === "All" ? total : counts[category]}</small>
-    </button>`).join("");
-
-  elements.levelFilter.innerHTML = ["All", ...levelOrder].map(level =>
-    `<option value="${escapeHTML(level)}">${level === "All" ? "All levels" : escapeHTML(level)}</option>`
-  ).join("");
-  elements.levelFilter.value = state.level;
-
-  const books = [...state.data.books].sort((a, b) => `${a.category}${a.level}`.localeCompare(`${b.category}${b.level}`));
-  elements.bookFilter.innerHTML = `<option value="all">All 13 books</option>` + books.map(book =>
-    `<option value="${book.id}">${escapeHTML(book.category)} · ${escapeHTML(book.level)}</option>`
-  ).join("");
-  elements.bookFilter.value = state.book;
+function renderHeaderProgress() {
+  const units = unitRecords();
+  const done = units.filter(r=>state.completed.has(r.id)).length;
+  const value = percent(done,units.length);
+  els.progressText.textContent = `${value}%`;
+  els.progressBar.style.width = `${value}%`;
 }
 
-function renderActiveFilters() {
-  const filters = [];
-  if (state.query) filters.push(`Search: ${state.query}`);
-  if (state.category !== "All") filters.push(state.category);
-  if (state.level !== "All") filters.push(state.level);
-  if (state.book !== "all") filters.push("Selected source");
-  if (!state.includeReferences) filters.push("Units only");
-  if (state.mode === "bookmarks") filters.push("Bookmarks");
-  if (state.mode === "studied") filters.push("Studied");
-  elements.activeFilters.hidden = filters.length === 0;
-  elements.activeFilters.innerHTML = filters.map(filter => `<span class="active-filter">${escapeHTML(filter)}</span>`).join("");
+function studyStreak() {
+  const dates = new Set(state.history);
+  let streak=0;
+  const cursor=new Date();
+  if (!dates.has(dateKey(cursor))) cursor.setDate(cursor.getDate()-1);
+  while (dates.has(dateKey(cursor))) { streak++; cursor.setDate(cursor.getDate()-1); }
+  return streak;
 }
 
-function applyFilters({resetVisible = true} = {}) {
-  if (!state.data) return;
-  if (resetVisible) state.visible = 40;
-  const query = normalize(state.query.trim());
-  state.filtered = state.data.records.filter(record => {
-    if (state.mode === "bookmarks" && !state.bookmarks.has(record.id)) return false;
-    if (state.mode === "studied" && !state.studied.has(record.id)) return false;
-    if (state.category !== "All" && record.category !== state.category) return false;
-    if (state.level !== "All" && record.level !== state.level) return false;
-    if (state.book !== "all" && record.bookId !== state.book) return false;
-    if (!state.includeReferences && record.kind === "reference") return false;
-    return !query || record._search.includes(query);
-  });
-
-  const heading = state.mode === "bookmarks" ? "Bookmarks" : state.mode === "studied" ? "Studied" : state.category === "All" ? "Browse the library" : state.category;
-  elements.title.textContent = heading;
-  elements.eyebrow.textContent = state.query ? `Results for “${state.query}”` : state.level !== "All" ? state.level : "All knowledge";
-  elements.count.textContent = `${state.filtered.length.toLocaleString()} result${state.filtered.length === 1 ? "" : "s"}`;
-  setupFilters();
-  renderActiveFilters();
-  renderRecords();
-  persist();
+function showToast(message) {
+  els.toast.textContent=message; els.toast.hidden=false;
+  clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>els.toast.hidden=true,1800);
 }
 
-function renderRecords() {
-  const records = state.filtered.slice(0, state.visible);
-  elements.list.innerHTML = records.map(record => {
-    const isStudied = state.studied.has(record.id);
-    const number = record.kind === "unit" ? record.unit : "Ref";
-    return `<button class="record-card ${state.selected?.id === record.id ? "active" : ""}" type="button" data-record-id="${record.id}" data-category="${escapeHTML(record.category)}">
-      <span class="unit-number">${number}</span>
-      <span>
-        <h2>${escapeHTML(record.title)}</h2>
-        <p>${escapeHTML(compactSnippet(record))}</p>
-        <span class="record-meta"><span>${escapeHTML(record.level)}</span><span>·</span><span>${escapeHTML(record.category)}</span>${record.ocr ? "<span>· OCR</span>" : ""}</span>
-      </span>
-      <span class="record-state" aria-label="${isStudied ? "Studied" : state.bookmarks.has(record.id) ? "Bookmarked" : ""}">${isStudied ? "✓" : state.bookmarks.has(record.id) ? "★" : ""}</span>
-    </button>`;
-  }).join("");
-  elements.loadMore.hidden = state.visible >= state.filtered.length;
-  elements.empty.hidden = state.filtered.length !== 0;
+function setView(view) {
+  state.view=view;
+  [els.dashboard,els.path,els.lesson,els.review].forEach(section=>section.hidden=true);
+  ({dashboard:els.dashboard,path:els.path,lesson:els.lesson,review:els.review}[view]).hidden=false;
+  document.querySelectorAll("[data-nav]").forEach(button=>button.classList.toggle("active",button.dataset.nav === (view==="lesson"||view==="path"?"paths":view)));
+  window.scrollTo(0,0);
 }
 
-function renderReader(record) {
-  state.selected = record;
-  elements.readerEmpty.hidden = true;
-  elements.readerArticle.hidden = false;
-  elements.reader.classList.add("open");
-  elements.reader.setAttribute("aria-hidden", "false");
-  elements.readerMeta.textContent = `${record.category} · ${record.level} · ${record.kind === "unit" ? `Unit ${record.unit}` : "Reference"}`;
-  elements.readerTitle.textContent = record.title;
-  elements.readerSource.textContent = `${record.bookTitle} · PDF page ${record.sourcePage}`;
-  elements.readerContent.textContent = record.content;
-  elements.ocrNote.hidden = !record.ocr;
-  elements.markStudied.classList.toggle("active", state.studied.has(record.id));
-  elements.markStudied.textContent = state.studied.has(record.id) ? "Studied ✓" : "Mark studied";
-  elements.bookmarkRecord.classList.toggle("active", state.bookmarks.has(record.id));
-  elements.bookmarkRecord.textContent = state.bookmarks.has(record.id) ? "Bookmarked ★" : "Bookmark";
-  history.replaceState(null, "", `#${encodeURIComponent(record.id)}`);
-  renderRecords();
-  elements.readerArticle.scrollTop = 0;
-}
-
-function closeReader() {
-  state.selected = null;
-  elements.reader.classList.remove("open");
-  elements.reader.setAttribute("aria-hidden", "true");
-  elements.readerArticle.hidden = true;
-  elements.readerEmpty.hidden = false;
-  history.replaceState(null, "", location.pathname + location.search);
-  renderRecords();
-}
-
-function resetAll() {
-  state.query = "";
-  state.category = "All";
-  state.level = "All";
-  state.book = "all";
-  state.includeReferences = true;
-  state.mode = "all";
-  elements.search.value = "";
-  elements.referenceToggle.checked = true;
-  applyFilters();
-}
-
-function toggleSidebar(open) {
-  elements.sidebar.classList.toggle("open", open);
-  elements.sidebarScrim.hidden = !open;
-}
-
-function initializeLibrary(data) {
-  state.data = data;
-  state.data.records.forEach(record => {
-    record._search = normalize(`${record.title} ${record.bookTitle} ${record.category} ${record.level} ${record.content}`);
-  });
-  elements.unitStat.textContent = state.data.meta.unitCount.toLocaleString();
-  elements.loginView.hidden = true;
-  elements.appShell.hidden = false;
-  window.scrollTo(0, 0);
-  setupFilters();
-  persist();
-  applyFilters();
-  const requested = decodeURIComponent(location.hash.slice(1));
-  if (requested) {
-    const record = state.data.records.find(item => item.id === requested);
-    if (record) renderReader(record);
+function nextLesson() {
+  const units=unitRecords();
+  if (state.last) {
+    const lastIndex=units.findIndex(r=>r.id===state.last);
+    if (lastIndex>=0 && !state.completed.has(units[lastIndex].id)) return units[lastIndex];
+    for(let offset=1;offset<=units.length;offset++) { const candidate=units[(lastIndex+offset)%units.length]; if(!state.completed.has(candidate.id)) return candidate; }
   }
-  requestAnimationFrame(() => elements.search.focus());
+  return units.find(r=>!state.completed.has(r.id)) || units[0];
+}
+
+function renderDashboard() {
+  setView("dashboard");
+  history.replaceState(null,"","#home");
+  const now=new Date();
+  els.today.textContent=new Intl.DateTimeFormat("zh-CN",{timeZone:"Europe/Berlin",month:"long",day:"numeric",weekday:"long"}).format(now);
+  const next=nextLesson();
+  const topic=topicFor(next);
+  els.continueCard.innerHTML=`<p class="eyebrow">继续学习 · ${escapeHTML(CATEGORY_META[next.category].zh)}</p><h2>${escapeHTML(next.title)}</h2><p>${escapeHTML(topic[1])} · ${escapeHTML(next.level)} · Unit ${escapeHTML(next.unit)}</p><button type="button" data-open-lesson="${next.id}">继续这一课 →</button>`;
+  const units=unitRecords(), done=units.filter(r=>state.completed.has(r.id)).length;
+  els.progressStrip.innerHTML=`
+    <div class="stat-cell"><strong>${percent(done,units.length)}%</strong><span>总体完成度</span></div>
+    <div class="stat-cell"><strong>${done}</strong><span>已完成课程</span></div>
+    <div class="stat-cell"><strong>${state.review.size}</strong><span>等待复习</span></div>
+    <div class="stat-cell"><strong>${studyStreak()}</strong><span>连续学习天数</span></div>`;
+  els.pathGrid.innerHTML=Object.entries(CATEGORY_META).map(([category,meta])=>{
+    const lessons=units.filter(r=>r.category===category), completed=lessons.filter(r=>state.completed.has(r.id)).length, value=percent(completed,lessons.length);
+    return `<button class="path-card" type="button" data-open-path="${category}" data-letter="${meta.letter}" style="--accent:${meta.accent};--tint:${meta.tint}"><span class="path-index">${meta.index} · ${category}</span><h3>${meta.zh}</h3><p>${meta.description}</p><footer><span>${completed}/${lessons.length} 课</span><i class="mini-progress"><b style="width:${value}%"></b></i></footer></button>`;
+  }).join("");
+  const reviewCount=state.review.size;
+  els.reviewCallout.innerHTML=`<p class="eyebrow">Review queue</p><h2>${reviewCount?`${reviewCount} 个知识点等你复习`:"复习队列还是空的"}</h2><p>${reviewCount?"先主动回忆，再查看完整讲解。答对的知识点会标记为完成。":"学习课程时点击“加入复习”，这里就会生成回忆卡片。"}</p><button type="button" data-nav="review">${reviewCount?"开始复习 →":"了解复习模式 →"}</button>`;
+  persist();
+}
+
+function categoryRecords(category,{unitsOnly=false}={}) { return state.records.filter(r=>r.category===category && (!unitsOnly||r.kind==="unit")); }
+function topicStats(category,level) {
+  const source=categoryRecords(category).filter(r=>level==="All"||r.level===level);
+  const map=new Map();
+  source.forEach(record=>{ const topic=topicFor(record); if(!map.has(topic[0])) map.set(topic[0],{topic,records:[]}); map.get(topic[0]).records.push(record); });
+  return [...map.values()];
+}
+
+function renderPath() {
+  setView("path");
+  history.replaceState(null,"",`#path=${encodeURIComponent(state.category)}&level=${encodeURIComponent(state.level)}`);
+  const meta=CATEGORY_META[state.category];
+  const categoryUnits=categoryRecords(state.category,{unitsOnly:true});
+  const complete=categoryUnits.filter(r=>state.completed.has(r.id)).length;
+  els.pathHero.style.cssText=`--accent:${meta.accent};--tint:${meta.tint}`;
+  els.pathHero.innerHTML=`<div><button class="back-button" type="button" data-nav="dashboard">← 返回学习主页</button><p class="eyebrow">${state.category} learning path</p><h1>${meta.zh}</h1><p>${meta.description} 已按主题和难度重新组织，不再按照搜索结果堆成长列表。</p></div><div class="path-progress"><span>路径完成度</span><strong>${percent(complete,categoryUnits.length)}%</strong><i><b style="width:${percent(complete,categoryUnits.length)}%"></b></i></div>`;
+  els.levelTabs.innerHTML=LEVELS.map(level=>`<button type="button" class="${level===state.level?"active":""}" data-level="${escapeHTML(level)}">${level==="All"?"全部难度":escapeHTML(level)}</button>`).join("");
+  const stats=topicStats(state.category,state.level);
+  if (!state.topic || !stats.some(s=>s.topic[0]===state.topic)) state.topic=stats[0]?.topic[0] || null;
+  els.topicSummary.textContent=`${stats.length} 个主题`;
+  els.topicGrid.style.cssText=`--category-accent:${meta.accent};--category-tint:${meta.tint}`;
+  els.topicGrid.innerHTML=stats.map(({topic,records})=>{
+    const lessons=records.filter(r=>r.kind==="unit"), done=lessons.filter(r=>state.completed.has(r.id)).length;
+    return `<button class="topic-card ${state.topic===topic[0]?"active":""}" type="button" data-topic="${topic[0]}"><span>${topic[2]}</span><h3>${topic[1]}</h3><p>${lessons.length} 课${done?` · 已完成 ${done}`:""}${records.some(r=>r.kind==="reference")?` · 含参考资料`:""}</p></button>`;
+  }).join("");
+  renderCurriculum();
+}
+
+function renderCurriculum() {
+  const meta=CATEGORY_META[state.category];
+  const records=categoryRecords(state.category).filter(r=>(state.level==="All"||r.level===state.level) && topicFor(r)[0]===state.topic);
+  const topic=records[0]?topicFor(records[0]):["","课程单元","Lessons"];
+  els.curriculumTitle.textContent=topic[1];
+  els.curriculumCount.textContent=`${records.length} 个知识单元`;
+  els.lessonGrid.style.cssText=`--category-accent:${meta.accent}`;
+  els.lessonGrid.innerHTML=records.slice(0,state.lessonLimit).map(record=>`<button class="lesson-card ${state.completed.has(record.id)?"complete":""}" type="button" data-open-lesson="${record.id}"><span class="lesson-number">${record.kind==="unit"?`Unit ${escapeHTML(record.unit)}`:"Reference"}</span>${state.completed.has(record.id)?'<span class="lesson-check">✓</span>':""}<h3>${escapeHTML(record.title)}</h3><p>${escapeHTML(record.level)} · ${escapeHTML(record.bookTitle)}</p></button>`).join("");
+  els.showMore.hidden=state.lessonLimit>=records.length;
+}
+
+function relatedLessons(record) {
+  const topicId=topicFor(record)[0];
+  return state.records.filter(r=>r.category===record.category && topicFor(r)[0]===topicId && r.level===record.level);
+}
+
+function openLesson(id) {
+  const record=state.records.find(r=>r.id===id); if(!record) return;
+  state.currentLesson=record; state.last=id; state.recall=false;
+  persist(); setView("lesson"); renderLesson();
+  history.replaceState(null,"",`#lesson=${encodeURIComponent(id)}`);
+}
+
+function renderLesson() {
+  const record=state.currentLesson, meta=CATEGORY_META[record.category], topic=topicFor(record), related=relatedLessons(record), index=related.findIndex(r=>r.id===record.id);
+  const nearby=related.slice(Math.max(0,index-3),Math.min(related.length,index+5));
+  els.lessonOutline.innerHTML=`<button class="back-button" type="button" data-back-path>← ${escapeHTML(meta.zh)}</button><p class="outline-label">${escapeHTML(topic[1])}</p>${nearby.map(r=>`<button class="outline-item ${r.id===record.id?"active":""}" type="button" data-open-lesson="${r.id}"><span class="${state.completed.has(r.id)?"done":""}">${state.completed.has(r.id)?"✓":r.kind==="unit"?escapeHTML(r.unit):"·"}</span><span>${escapeHTML(r.title)}</span></button>`).join("")}`;
+  const body=state.recall?`<div class="recall-panel"><span>Active recall</span><h2>不看讲解，你能说出“${escapeHTML(record.title)}”的核心规则和一个例句吗？</h2><p>先在脑中或大声复述，再揭晓完整内容。</p><button type="button" data-reveal-lesson>查看完整讲解</button></div>`:`<div class="lesson-content">${escapeHTML(record.content)}</div>`;
+  const previous=related[index-1], next=related[index+1];
+  els.lessonPage.innerHTML=`<div class="lesson-actions"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?"退出回忆":"回忆模式"}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?"已加入复习":"加入复习"}</button><button class="${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?"已完成 ✓":"标记完成"}</button></div><p class="lesson-breadcrumb">${escapeHTML(record.category)} · ${escapeHTML(topic[1])} · ${escapeHTML(record.level)}</p><h1>${escapeHTML(record.title)}</h1><p class="lesson-source">${escapeHTML(record.bookTitle)} · PDF page ${record.sourcePage}${record.ocr?" · OCR": ""}</p>${body}<nav class="lesson-nav">${previous?`<button type="button" data-open-lesson="${previous.id}"><small>← 上一课</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>下一课 →</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
+}
+
+function completeCurrent() {
+  const id=state.currentLesson.id;
+  if(state.completed.has(id)) { state.completed.delete(id); showToast("已取消完成标记"); }
+  else { state.completed.add(id); state.history.push(dateKey()); showToast("课程已完成"); }
+  persist(); renderLesson();
+}
+function toggleCurrentReview() {
+  const id=state.currentLesson.id;
+  if(state.review.has(id)) { state.review.delete(id); showToast("已移出复习队列"); }
+  else { state.review.add(id); showToast("已加入复习队列"); }
+  persist(); renderLesson();
+}
+
+function reviewQueue() { return [...state.review].map(id=>state.records.find(r=>r.id===id)).filter(Boolean); }
+function renderReview() {
+  setView("review");
+  history.replaceState(null,"","#review");
+  const queue=reviewQueue();
+  els.reviewCount.textContent=`${queue.length} 张卡片`;
+  if(!queue.length) { els.reviewStage.innerHTML=`<div class="empty-review"><h2>复习队列还是空的</h2><p>进入任意课程，点击“加入复习”。之后你可以在这里逐张回忆。</p><button type="button" data-nav="paths">去选择学习路径</button></div>`; return; }
+  if(state.reviewIndex>=queue.length) state.reviewIndex=0;
+  const record=queue[state.reviewIndex],topic=topicFor(record);
+  els.reviewStage.innerHTML=`<article class="review-card"><p class="review-meta">${escapeHTML(record.category)} · ${escapeHTML(topic[1])} · ${state.reviewIndex+1}/${queue.length}</p><h2>${escapeHTML(record.title)}</h2>${state.reviewRevealed?`<div class="review-answer">${escapeHTML(record.content)}</div><div class="review-controls"><button class="again-button" type="button" data-review-again>还不熟，再来一次</button><button class="known-button" type="button" data-review-known>记住了 ✓</button></div>`:`<div class="review-prompt">请先复述：它是什么意思？什么时候使用？你能不能自己造一个例句？</div><div class="review-controls"><button class="reveal-button" type="button" data-review-reveal>揭晓答案</button></div>`}</article>`;
+}
+
+function openSearch() { els.searchDialog.showModal(); els.searchInput.value=""; els.searchResults.innerHTML='<p class="search-hint">输入关键词开始搜索。搜索只是辅助入口，学习顺序请从“学习路径”进入。</p>'; requestAnimationFrame(()=>els.searchInput.focus()); }
+function renderSearch(query) {
+  const normalized=normalize(query.trim());
+  if(!normalized) { els.searchResults.innerHTML='<p class="search-hint">输入关键词开始搜索。搜索只是辅助入口，学习顺序请从“学习路径”进入。</p>'; return; }
+  const matches=state.records.filter(r=>r._search.includes(normalized)).slice(0,20);
+  els.searchResults.innerHTML=matches.length?matches.map(record=>`<button class="search-result" type="button" data-search-lesson="${record.id}"><span><strong>${escapeHTML(record.title)}</strong><small>${escapeHTML(CATEGORY_META[record.category].zh)} · ${escapeHTML(topicFor(record)[1])} · ${escapeHTML(record.level)}</small></span><span>→</span></button>`).join(""):'<p class="search-hint">没有找到匹配内容，试试更短的关键词。</p>';
+}
+
+function initialize(data) {
+  state.data=data; state.records=data.records;
+  state.records.forEach(record=>record._search=normalize(`${record.title} ${record.bookTitle} ${record.category} ${record.level} ${record.content}`));
+  els.loginView.hidden=true; els.appShell.hidden=false; window.scrollTo(0,0);
+  const lessonHash=location.hash.match(/^#lesson=(.+)$/);
+  const route=new URLSearchParams(location.hash.replace(/^#/,""));
+  const routeCategory=route.get("path"), routeLevel=route.get("level");
+  if(lessonHash && state.records.some(r=>r.id===decodeURIComponent(lessonHash[1]))) openLesson(decodeURIComponent(lessonHash[1]));
+  else if(location.hash==="#review") renderReview();
+  else if(routeCategory && CATEGORY_META[routeCategory]) { state.category=routeCategory; state.level=LEVELS.includes(routeLevel)?routeLevel:"All"; state.topic=null; renderPath(); }
+  else renderDashboard();
 }
 
 function lockLibrary() {
-  state.data = null;
-  state.filtered = [];
-  state.selected = null;
-  elements.list.innerHTML = "";
-  elements.readerContent.textContent = "";
-  elements.password.value = "";
-  elements.appShell.hidden = true;
-  elements.loginView.hidden = false;
-  window.scrollTo(0, 0);
-  history.replaceState(null, "", location.pathname + location.search);
-  requestAnimationFrame(() => elements.username.focus());
+  state.data=null; state.records=[]; state.currentLesson=null;
+  els.password.value=""; els.appShell.hidden=true; els.loginView.hidden=false;
+  history.replaceState(null,"",location.pathname); window.scrollTo(0,0); requestAnimationFrame(()=>els.username.focus());
 }
 
 function bindEvents() {
-  elements.loginForm.addEventListener("submit", async event => {
-    event.preventDefault();
-    elements.loginError.hidden = true;
-    elements.loginButton.disabled = true;
-    elements.loginButton.firstElementChild.textContent = "Decrypting…";
-    try {
-      const data = await decryptLibrary(elements.username.value.trim(), elements.password.value);
-      elements.password.value = "";
-      initializeLibrary(data);
-    } catch (error) {
-      console.warn("Library unlock failed", error.name);
-      elements.loginError.textContent = error.message.includes("browser") || error.message.includes("unavailable")
-        ? error.message
-        : "The username or password is incorrect.";
-      elements.loginError.hidden = false;
-      elements.password.select();
-    } finally {
-      elements.loginButton.disabled = false;
-      elements.loginButton.firstElementChild.textContent = "Unlock library";
-    }
+  els.loginForm.addEventListener("submit",async event=>{
+    event.preventDefault(); els.loginError.hidden=true; els.loginButton.disabled=true; els.loginButton.firstElementChild.textContent="正在解密……";
+    try { initialize(await decryptLibrary(els.username.value.trim(),els.password.value)); els.password.value=""; }
+    catch(error) { els.loginError.textContent="用户名或密码不正确。"; els.loginError.hidden=false; els.password.select(); }
+    finally { els.loginButton.disabled=false; els.loginButton.firstElementChild.textContent="进入学习空间"; }
   });
-  elements.togglePassword.addEventListener("click", () => {
-    const visible = elements.password.type === "text";
-    elements.password.type = visible ? "password" : "text";
-    elements.togglePassword.textContent = visible ? "Show" : "Hide";
-    elements.togglePassword.setAttribute("aria-label", visible ? "Show password" : "Hide password");
+  els.togglePassword.addEventListener("click",()=>{ const shown=els.password.type==="text"; els.password.type=shown?"password":"text"; els.togglePassword.textContent=shown?"显示":"隐藏"; });
+  els.logout.addEventListener("click",lockLibrary);
+  document.addEventListener("click",event=>{
+    const nav=event.target.closest("[data-nav]");
+    if(nav) { const target=nav.dataset.nav; if(target==="dashboard") renderDashboard(); if(target==="paths") { state.category="Grammar"; state.topic=null; state.level="All"; state.lessonLimit=12; renderPath(); } if(target==="review") { state.reviewRevealed=false; renderReview(); } return; }
+    const path=event.target.closest("[data-open-path]"); if(path) { state.category=path.dataset.openPath; state.topic=null; state.level="All"; state.lessonLimit=12; renderPath(); return; }
+    const lesson=event.target.closest("[data-open-lesson]"); if(lesson) { openLesson(lesson.dataset.openLesson); return; }
+    const level=event.target.closest("[data-level]"); if(level) { state.level=level.dataset.level; state.topic=null; state.lessonLimit=12; renderPath(); return; }
+    const topic=event.target.closest("[data-topic]"); if(topic) { state.topic=topic.dataset.topic; state.lessonLimit=12; renderPath(); requestAnimationFrame(()=>$("#curriculumSection").scrollIntoView({behavior:"smooth",block:"start"})); return; }
+    if(event.target.closest("[data-back-path]")) { state.category=state.currentLesson.category; state.topic=topicFor(state.currentLesson)[0]; state.level=state.currentLesson.level; state.lessonLimit=12; renderPath(); return; }
+    if(event.target.closest("[data-toggle-recall]")) { state.recall=!state.recall; renderLesson(); return; }
+    if(event.target.closest("[data-reveal-lesson]")) { state.recall=false; renderLesson(); return; }
+    if(event.target.closest("[data-complete-lesson]")) { completeCurrent(); return; }
+    if(event.target.closest("[data-toggle-review]")) { toggleCurrentReview(); return; }
+    if(event.target.closest("[data-review-reveal]")) { state.reviewRevealed=true; renderReview(); return; }
+    if(event.target.closest("[data-review-known]")) { const queue=reviewQueue(); const record=queue[state.reviewIndex]; if(record){ state.completed.add(record.id); state.review.delete(record.id); state.history.push(dateKey()); persist(); } state.reviewRevealed=false; renderReview(); return; }
+    if(event.target.closest("[data-review-again]")) { state.reviewIndex=(state.reviewIndex+1)%reviewQueue().length; state.reviewRevealed=false; renderReview(); return; }
+    const searchLesson=event.target.closest("[data-search-lesson]"); if(searchLesson) { els.searchDialog.close(); openLesson(searchLesson.dataset.searchLesson); }
   });
-  elements.logout.addEventListener("click", lockLibrary);
-
-  let searchTimer;
-  elements.search.addEventListener("input", event => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => { state.query = event.target.value; state.mode = "all"; applyFilters(); }, 110);
-  });
-  elements.categoryFilters.addEventListener("click", event => {
-    const button = event.target.closest("[data-category]");
-    if (!button) return;
-    state.category = button.dataset.category;
-    state.mode = "all";
-    applyFilters();
-    toggleSidebar(false);
-  });
-  elements.levelFilter.addEventListener("change", event => { state.level = event.target.value; state.mode = "all"; applyFilters(); });
-  elements.bookFilter.addEventListener("change", event => { state.book = event.target.value; state.mode = "all"; applyFilters(); });
-  elements.referenceToggle.addEventListener("change", event => { state.includeReferences = event.target.checked; applyFilters(); });
-  elements.reset.addEventListener("click", resetAll);
-  elements.loadMore.addEventListener("click", () => { state.visible += 40; renderRecords(); });
-  elements.list.addEventListener("click", event => {
-    const button = event.target.closest("[data-record-id]");
-    if (!button) return;
-    const record = state.data.records.find(item => item.id === button.dataset.recordId);
-    if (record) renderReader(record);
-  });
-  elements.closeReader.addEventListener("click", closeReader);
-  elements.markStudied.addEventListener("click", () => {
-    if (!state.selected) return;
-    state.studied.has(state.selected.id) ? state.studied.delete(state.selected.id) : state.studied.add(state.selected.id);
-    persist(); renderReader(state.selected);
-  });
-  elements.bookmarkRecord.addEventListener("click", () => {
-    if (!state.selected) return;
-    state.bookmarks.has(state.selected.id) ? state.bookmarks.delete(state.selected.id) : state.bookmarks.add(state.selected.id);
-    persist(); renderReader(state.selected);
-  });
-  elements.bookmarksButton.addEventListener("click", () => { state.mode = state.mode === "bookmarks" ? "all" : "bookmarks"; applyFilters(); });
-  elements.studiedButton.addEventListener("click", () => { state.mode = state.mode === "studied" ? "all" : "studied"; applyFilters(); });
-  elements.mobileFilter.addEventListener("click", () => toggleSidebar(true));
-  elements.closeFilters.addEventListener("click", () => toggleSidebar(false));
-  elements.sidebarScrim.addEventListener("click", () => toggleSidebar(false));
-  document.addEventListener("keydown", event => {
-    if (!state.data) return;
-    if (event.key === "/" && document.activeElement !== elements.search) { event.preventDefault(); elements.search.focus(); }
-    if (event.key === "Escape") { if (state.selected) closeReader(); else toggleSidebar(false); }
-  });
+  els.showMore.addEventListener("click",()=>{ state.lessonLimit+=12; renderCurriculum(); });
+  els.openSearch.addEventListener("click",openSearch); els.closeSearch.addEventListener("click",()=>els.searchDialog.close());
+  els.searchInput.addEventListener("input",event=>renderSearch(event.target.value));
+  els.searchDialog.addEventListener("click",event=>{ if(event.target===els.searchDialog) els.searchDialog.close(); });
+  document.addEventListener("keydown",event=>{ if(!state.data)return; if(event.key==="/"&&!els.searchDialog.open){event.preventDefault();openSearch();} if(event.key==="Escape"&&els.searchDialog.open)els.searchDialog.close(); });
 }
 
-bindEvents();
-elements.username.focus();
+bindEvents(); els.username.focus();

@@ -1,154 +1,133 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <meta name="theme-color" content="#f7f8f5">
+  <meta name="theme-color" content="#f4f5f0">
   <title>English Knowledge Atlas</title>
-  <meta name="description" content="A private, encrypted English reference library.">
+  <meta name="description" content="A private, encrypted English learning website.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2318201e'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='24' font-weight='700' fill='white'%3EEA%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#recordList">Skip to the library</a>
+  <a class="skip-link" href="#mainContent">跳到主要内容</a>
 
   <main class="login-view" id="loginView">
     <section class="login-card" aria-labelledby="loginTitle">
       <div class="login-brand" aria-hidden="true">EA</div>
-      <p class="eyebrow">Encrypted personal library</p>
+      <p class="eyebrow">Encrypted learning space</p>
       <h1 id="loginTitle">English<br>Knowledge Atlas</h1>
-      <p class="login-intro">A focused reference for grammar, vocabulary, collocations, idioms, and phrasal verbs.</p>
-
+      <p class="login-intro">把十三本参考书变成一条可以真正学完的路径。</p>
       <form id="loginForm" class="login-form">
+        <label><span>用户名</span><input id="usernameInput" name="username" type="text" autocomplete="username" autocapitalize="none" required></label>
         <label>
-          <span>Username</span>
-          <input id="usernameInput" name="username" type="text" autocomplete="username" autocapitalize="none" required>
-        </label>
-        <label>
-          <span>Password</span>
+          <span>密码</span>
           <span class="password-field">
             <input id="passwordInput" name="password" type="password" autocomplete="current-password" required>
-            <button id="togglePassword" type="button" aria-label="Show password">Show</button>
+            <button id="togglePassword" type="button" aria-label="显示密码">显示</button>
           </span>
         </label>
-        <button class="login-button" id="loginButton" type="submit">
-          <span>Unlock library</span>
-          <span aria-hidden="true">→</span>
-        </button>
+        <button class="primary-button login-button" id="loginButton" type="submit"><span>进入学习空间</span><span aria-hidden="true">→</span></button>
         <p class="login-error" id="loginError" role="alert" hidden></p>
       </form>
-
-      <p class="security-note"><span aria-hidden="true">◆</span> The library is decrypted only inside this browser. Credentials are never sent to a server.</p>
+      <p class="security-note"><span aria-hidden="true">◆</span> 内容只在本机浏览器内解密，账号密码不会发送到服务器。</p>
     </section>
     <aside class="login-aside" aria-hidden="true">
-      <span class="edition">01 / Personal edition</span>
-      <blockquote>Learn the pattern.<br>Find the phrase.<br>Use it naturally.</blockquote>
-      <div class="login-topics">
-        <span>Grammar</span><span>Vocabulary</span><span>Collocations</span><span>Idioms</span><span>Phrasal verbs</span>
-      </div>
+      <span class="edition">Personal curriculum · 01</span>
+      <blockquote>Learn in order.<br>Recall actively.<br>Use it naturally.</blockquote>
+      <div class="login-topics"><span>Grammar</span><span>Vocabulary</span><span>Collocations</span><span>Idioms</span><span>Phrasal verbs</span></div>
     </aside>
   </main>
 
   <div class="app-shell" id="appShell" hidden>
     <header class="app-header">
-      <a class="brand" href="#" aria-label="English Knowledge Atlas home">
+      <a class="brand" href="#home" data-nav="dashboard" aria-label="返回学习主页">
         <span class="brand-mark">EA</span>
-        <span class="brand-copy"><strong>English Knowledge Atlas</strong><small>Personal reference</small></span>
+        <span class="brand-copy"><strong>English Atlas</strong><small>Learning edition</small></span>
       </a>
-
-      <label class="global-search" for="searchInput">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
-        <input id="searchInput" type="search" autocomplete="off" placeholder="Search the library…">
-        <kbd>/</kbd>
-      </label>
-
+      <nav class="main-nav" aria-label="主导航">
+        <button class="active" data-nav="dashboard" type="button">学习主页</button>
+        <button data-nav="paths" type="button">学习路径</button>
+        <button data-nav="review" type="button">复习</button>
+      </nav>
       <div class="header-actions">
-        <button class="mobile-filter-button" id="mobileFilterButton" type="button" aria-label="Open filters">Filters</button>
-        <button class="icon-action" id="bookmarksButton" type="button" title="Bookmarks" aria-label="Show bookmarks">
-          <span aria-hidden="true">☆</span><b id="bookmarkCount">0</b>
-        </button>
-        <button class="icon-action" id="studiedButton" type="button" title="Studied" aria-label="Show studied items">
-          <span aria-hidden="true">✓</span><b id="studiedCount">0</b>
-        </button>
-        <button class="logout-button" id="logoutButton" type="button">Lock</button>
+        <button class="search-button" id="openSearch" type="button" aria-label="搜索知识点"><span aria-hidden="true">⌕</span><span>搜索</span><kbd>/</kbd></button>
+        <div class="header-progress" title="总体完成度"><span id="headerProgressText">0%</span><i><b id="headerProgressBar"></b></i></div>
+        <button class="lock-button" id="logoutButton" type="button">锁定</button>
       </div>
     </header>
 
-    <main class="workspace">
-      <aside class="sidebar" id="sidebar" aria-label="Library filters">
-        <div class="sidebar-heading">
+    <main id="mainContent">
+      <section class="view dashboard-view" id="dashboardView">
+        <div class="dashboard-hero">
           <div>
-            <p>Library</p>
-            <strong><span id="unitStat">1,094</span> units</strong>
+            <p class="eyebrow" id="todayLabel">今天</p>
+            <h1>继续积累，<br><em>一次学透一个知识点。</em></h1>
           </div>
-          <button id="closeFilters" type="button" aria-label="Close filters">×</button>
+          <article class="continue-card" id="continueCard"></article>
         </div>
 
-        <nav class="category-nav" id="categoryFilters" aria-label="Knowledge areas"></nav>
+        <div class="progress-strip" id="progressStrip"></div>
 
-        <div class="sidebar-controls">
-          <label>
-            <span>Level</span>
-            <select id="levelFilter"></select>
-          </label>
-          <label>
-            <span>Source book</span>
-            <select id="bookFilter"></select>
-          </label>
-          <label class="reference-row">
-            <input id="referenceToggle" type="checkbox" checked>
-            <span>Include reference pages</span>
-          </label>
-        </div>
-
-        <button class="reset-button" id="resetButton" type="button">Clear all filters</button>
-        <p class="sidebar-foot">13 books · exercise-free<br>Encrypted on GitHub Pages</p>
-      </aside>
-
-      <section class="results-panel" aria-live="polite">
-        <div class="results-toolbar">
-          <div>
-            <p class="eyebrow" id="resultEyebrow">All knowledge</p>
-            <h1 id="resultTitle">Browse the library</h1>
+        <section class="section-block" aria-labelledby="pathsTitle">
+          <div class="section-heading">
+            <div><p class="eyebrow">Structured curriculum</p><h2 id="pathsTitle">选择一条学习路径</h2></div>
+            <p>领域 → 主题 → 难度 → 单元</p>
           </div>
-          <p id="resultCount">Loading…</p>
-        </div>
-        <div class="active-filters" id="activeFilters" hidden></div>
-        <div class="record-list" id="recordList" aria-label="Knowledge units"></div>
-        <button class="load-more" id="loadMoreButton" type="button" hidden>Show more</button>
-        <div class="empty-state" id="emptyState" hidden>
-          <span aria-hidden="true">⌕</span>
-          <h2>No match found</h2>
-          <p>Try a broader search or clear the active filters.</p>
+          <div class="path-grid" id="pathGrid"></div>
+        </section>
+
+        <section class="dashboard-bottom">
+          <article class="review-callout" id="reviewCallout"></article>
+          <article class="method-card">
+            <p class="eyebrow">学习方式</p>
+            <h2>理解 → 回忆 → 完成</h2>
+            <ol><li><b>读懂</b><span>完整阅读知识讲解</span></li><li><b>回忆</b><span>隐藏正文，主动复述</span></li><li><b>巩固</b><span>加入复习队列，之后再测</span></li></ol>
+          </article>
+        </section>
+      </section>
+
+      <section class="view path-view" id="pathView" hidden>
+        <div class="path-hero" id="pathHero"></div>
+        <div class="level-tabs" id="levelTabs" aria-label="选择难度"></div>
+        <section class="topic-section">
+          <div class="section-heading compact"><div><p class="eyebrow">Step 1</p><h2>选择学习主题</h2></div><p id="topicSummary"></p></div>
+          <div class="topic-grid" id="topicGrid"></div>
+        </section>
+        <section class="curriculum-section" id="curriculumSection">
+          <div class="section-heading compact"><div><p class="eyebrow">Step 2</p><h2 id="curriculumTitle">课程单元</h2></div><p id="curriculumCount"></p></div>
+          <div class="lesson-grid" id="lessonGrid"></div>
+          <button class="more-button" id="showMoreLessons" type="button" hidden>显示更多课程</button>
+        </section>
+      </section>
+
+      <section class="view lesson-view" id="lessonView" hidden>
+        <div class="lesson-layout">
+          <aside class="lesson-outline" id="lessonOutline"></aside>
+          <article class="lesson-page" id="lessonPage"></article>
         </div>
       </section>
 
-      <aside class="reader" id="reader" aria-label="Reading pane" aria-hidden="true">
-        <div class="reader-empty" id="readerEmpty">
-          <span>Aa</span>
-          <h2>Choose a topic</h2>
-          <p>Select any result to read the complete explanation.</p>
+      <section class="view review-view" id="reviewView" hidden>
+        <div class="review-heading">
+          <div><p class="eyebrow">Active recall</p><h1>复习队列</h1><p>不要先看答案。试着说出规则、意义和一个自己的例句。</p></div>
+          <div class="review-count" id="reviewCount"></div>
         </div>
-        <article id="readerArticle" hidden>
-          <div class="reader-topbar">
-            <button class="reader-close" id="closeReader" type="button" aria-label="Close reading pane">×</button>
-            <div>
-              <button id="markStudied" type="button">Mark studied</button>
-              <button id="bookmarkRecord" type="button">Bookmark</button>
-            </div>
-          </div>
-          <p class="reader-meta" id="readerMeta"></p>
-          <h2 id="readerTitle"></h2>
-          <p class="reader-source" id="readerSource"></p>
-          <div class="reader-content" id="readerContent"></div>
-          <p class="ocr-note" id="ocrNote" hidden>Reconstructed locally from a scanned page. Minor OCR errors may remain.</p>
-        </article>
-      </aside>
-      <button class="sidebar-scrim" id="sidebarScrim" type="button" aria-label="Close filters" hidden></button>
+        <div id="reviewStage"></div>
+      </section>
     </main>
   </div>
 
+  <dialog class="search-dialog" id="searchDialog">
+    <div class="search-dialog-head">
+      <label for="searchInput"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" autocomplete="off" placeholder="搜索知识点、短语或例句……"></label>
+      <button id="closeSearch" type="button" aria-label="关闭搜索">×</button>
+    </div>
+    <div class="search-results" id="searchResults"><p class="search-hint">输入关键词开始搜索。搜索只是辅助入口，学习顺序请从“学习路径”进入。</p></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
   <script src="./app.js" defer></script>
 </body>
 </html>
