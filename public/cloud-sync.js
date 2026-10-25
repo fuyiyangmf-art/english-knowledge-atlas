@@ -105,13 +105,6 @@
     return {enabled: true, progress, contentKey, user: getUser()};
   }
 
-  async function signUp(displayName, email, password) {
-    if (!available()) throw new Error("CLOUD_UNAVAILABLE");
-    const created = await authRequest("signUp", {email: email.trim(), password, returnSecureToken: true});
-    const updated = await authRequest("update", {idToken: created.idToken, displayName: displayName.trim(), returnSecureToken: true});
-    return finishAuthentication(updated, {email: email.trim(), displayName: displayName.trim()}, true);
-  }
-
   async function signIn(email, password) {
     if (!available()) throw new Error("CLOUD_UNAVAILABLE");
     const auth = await authRequest("signInWithPassword", {email: email.trim(), password, returnSecureToken: true});
@@ -156,5 +149,5 @@
   function signOut() { session = null; }
   function isAuthenticated() { return Boolean(session); }
 
-  window.EKACloud = {available, signUp, signIn, saveProgress, changePassword, requestPasswordReset, getUser, signOut, isAuthenticated};
+  window.EKACloud = {available, signIn, saveProgress, changePassword, requestPasswordReset, getUser, signOut, isAuthenticated};
 })();
