@@ -200,6 +200,13 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .lesson-actions button { padding: .58rem .75rem; color: var(--muted); background: rgba(255,255,255,.94); border: 1px solid var(--line); border-radius: 9px; box-shadow: 0 5px 20px rgba(23,32,29,.06); pointer-events: auto; font-size: .72rem; font-weight: 750; }
 .lesson-actions button.active { color: #fff; background: var(--green); border-color: var(--green); }
 .lesson-content { white-space: pre-wrap; font-family: Georgia,"Times New Roman",serif; font-size: 1.08rem; line-height: 1.82; }
+.lesson-content-sectioned { white-space: normal; }
+.lesson-section { display: grid; grid-template-columns: 42px minmax(0,1fr); gap: 1rem; padding: 1.7rem 0; border-bottom: 1px solid var(--line); }
+.lesson-section:first-child { padding-top: .25rem; }
+.lesson-section:last-child { border-bottom: 0; }
+.lesson-section-label { display: grid; place-items: center; width: 36px; height: 36px; margin-top: .1rem; color: #fff; background: var(--green); border-radius: 50%; font-family: system-ui,sans-serif; font-size: .72rem; font-weight: 850; line-height: 1; }
+.lesson-section-copy h2 { margin: 0 0 .75rem; font-family: Georgia,"Times New Roman",serif; font-size: clamp(1.55rem,3vw,2.25rem); font-weight: 550; line-height: 1.1; letter-spacing: -.025em; }
+.lesson-section-copy>div { white-space: pre-wrap; }
 .recall-panel { display: grid; place-items: center; min-height: 420px; padding: 3rem; text-align: center; background: #ebe7dc; border-radius: 18px; }
 .recall-panel span { color: var(--orange); font-size: .7rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; }
 .recall-panel h2 { max-width: 620px; margin: 1rem 0; font-family: Georgia,serif; font-size: clamp(2rem,4vw,3.5rem); font-weight: 550; }

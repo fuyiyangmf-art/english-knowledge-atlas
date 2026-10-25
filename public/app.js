@@ -140,6 +140,46 @@ const els = {
 };
 
 function escapeHTML(value="") { return String(value).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c])); }
+
+const LESSON_SECTION_LAYOUTS = {
+  "collocations-intermediate-unit-1": [
+    {label:"A", heading:"What is a collocation?", marker:"What is a collocation?1"},
+    {label:"B", heading:"Compounds and idioms", marker:"Compounds and idioms"},
+    {label:"C", heading:"Why learn collocations?", marker:"Why learn collocations?"},
+  ],
+};
+
+function withoutDetachedSectionLabels(content="") {
+  const lines=String(content).replace(/\r\n?/g,"\n").split("\n");
+  const detached=new Set();
+  for(let start=0;start<lines.length;start+=1) {
+    if(!/^[A-F]$/.test(lines[start].trim())) continue;
+    let end=start+1;
+    while(end<lines.length && /^[A-F]$/.test(lines[end].trim())) end+=1;
+    if(end-start>=2) for(let index=start;index<end;index+=1) detached.add(index);
+    start=end-1;
+  }
+  return lines.filter((_,index)=>!detached.has(index)).join("\n").trim();
+}
+
+function lessonContentHTML(record) {
+  const content=withoutDetachedSectionLabels(record.content);
+  const layout=LESSON_SECTION_LAYOUTS[record.id];
+  if(!layout) return `<div class="lesson-content">${escapeHTML(content)}</div>`;
+
+  const starts=layout.map(section=>content.indexOf(section.marker));
+  const valid=starts.every((start,index)=>start>=0 && (index===0 || start>starts[index-1]));
+  if(!valid) return `<div class="lesson-content">${escapeHTML(content)}</div>`;
+
+  const sections=layout.map((section,index)=>{
+    const bodyStart=starts[index]+section.marker.length;
+    const bodyEnd=index+1<layout.length?starts[index+1]:content.length;
+    const body=content.slice(bodyStart,bodyEnd).trim();
+    const headingId=`lesson-section-${record.id}-${section.label.toLowerCase()}`;
+    return `<section class="lesson-section" aria-labelledby="${headingId}"><span class="lesson-section-label" aria-hidden="true">${section.label}</span><div class="lesson-section-copy"><h2 id="${headingId}">${escapeHTML(section.heading)}</h2><div>${escapeHTML(body)}</div></div></section>`;
+  }).join("");
+  return `<div class="lesson-content lesson-content-sectioned">${sections}</div>`;
+}
 function normalize(value="") { return String(value).toLocaleLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,""); }
 function repairWrappedTitle(record) {
   if (record.category!=="Vocabulary" || !/\b(?:and|or)$/i.test(record.title)) return record.title;
@@ -415,7 +455,7 @@ function renderLesson() {
   const nearby=related.slice(Math.max(0,index-3),Math.min(related.length,index+5));
   const back=state.lessonOrigin==="library"?`<button class="back-button" type="button" data-back-library>← ${escapeHTML(record.bookTitle)}</button>`:state.lessonOrigin==="bookmarks"?`<button class="back-button" type="button" data-back-bookmarks>← ${t("bookmarksTitle")}</button>`:`<button class="back-button" type="button" data-back-path>← ${escapeHTML(categoryName(record.category))}</button>`;
   els.lessonOutline.innerHTML=`${back}<p class="outline-label">${state.lessonOrigin==="library"?t("originalOrder"):state.lessonOrigin==="bookmarks"?t("savedLessons"):escapeHTML(topicName(topic,record.category))}</p>${nearby.map(r=>`<button class="outline-item ${r.id===record.id?"active":""}" type="button" data-open-lesson="${r.id}"><span class="${state.completed.has(r.id)?"done":""}">${state.completed.has(r.id)?"✓":r.kind==="unit"?escapeHTML(r.unit):"·"}</span><span>${escapeHTML(r.title)}</span></button>`).join("")}`;
-  const body=state.recall?`<div class="recall-panel"><span>${t("activeRecall")}</span><h2>${t("recallQuestion",{title:escapeHTML(record.title)})}</h2><p>${t("recallInstruction")}</p><button type="button" data-reveal-lesson>${t("revealFull")}</button></div>`:`<div class="lesson-content">${escapeHTML(record.content)}</div>`;
+  const body=state.recall?`<div class="recall-panel"><span>${t("activeRecall")}</span><h2>${t("recallQuestion",{title:escapeHTML(record.title)})}</h2><p>${t("recallInstruction")}</p><button type="button" data-reveal-lesson>${t("revealFull")}</button></div>`:lessonContentHTML(record);
   const previous=related[index-1], next=related[index+1];
   els.lessonPage.innerHTML=`<div class="lesson-actions"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?t("exitRecall"):t("recallMode")}</button><button class="${state.bookmarks.has(record.id)?"active":""}" type="button" data-toggle-bookmark>${state.bookmarks.has(record.id)?t("bookmarked"):t("addBookmark")}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?t("inReview"):t("addReview")}</button><button class="${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?t("completed"):t("markComplete")}</button></div><p class="lesson-breadcrumb">${escapeHTML(categoryName(record.category))} · ${escapeHTML(topicName(topic,record.category))} · ${escapeHTML(levelName(record.level))}</p><h1>${escapeHTML(record.title)}</h1><p class="lesson-source">${escapeHTML(record.bookTitle)} · ${t("pdfPage")} ${record.sourcePage}${record.ocr?" · OCR": ""}</p>${body}<nav class="lesson-nav">${previous?`<button type="button" data-open-lesson="${previous.id}"><small>${t("previousLesson")}</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>${t("nextLesson")}</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
 }
