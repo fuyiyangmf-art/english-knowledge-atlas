@@ -8,7 +8,7 @@
   <title>English Knowledge Atlas</title>
   <meta name="description" content="A private, encrypted English learning website.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2318201e'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='24' font-weight='700' fill='white'%3EEA%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css?v=20261025-5">
+  <link rel="stylesheet" href="./styles.css?v=20261025-6">
 </head>
 <body>
   <a class="skip-link" href="#mainContent" data-i18n="skipLink">Skip to main content</a>
@@ -24,8 +24,13 @@
       <p class="eyebrow" data-i18n="encryptedSpace">Encrypted learning space</p>
       <h1 id="loginTitle">English<br>Knowledge Atlas</h1>
       <p class="login-intro" data-i18n="loginIntro">Turn thirteen reference books into a learning path you can actually finish.</p>
+      <div class="auth-tabs" role="tablist" aria-label="Account access" data-i18n-aria="accountAccess">
+        <button class="active" type="button" role="tab" aria-selected="true" data-auth-mode="login" data-i18n="signIn">Sign in</button>
+        <button type="button" role="tab" aria-selected="false" data-auth-mode="register" data-i18n="register">Create account</button>
+      </div>
       <form id="loginForm" class="login-form">
-        <label><span data-i18n="username">Username</span><input id="usernameInput" name="username" type="text" autocomplete="username" autocapitalize="none" required></label>
+        <label id="displayNameGroup" hidden><span data-i18n="displayName">Display name</span><input id="displayNameInput" name="displayName" type="text" autocomplete="name" minlength="2" maxlength="40"></label>
+        <label><span data-i18n="email">Email</span><input id="emailInput" name="email" type="email" autocomplete="email" autocapitalize="none" required></label>
         <label>
           <span data-i18n="password">Password</span>
           <span class="password-field">
@@ -33,8 +38,18 @@
             <button id="togglePassword" type="button" aria-label="Show password" data-i18n="show">Show</button>
           </span>
         </label>
+        <label id="confirmPasswordGroup" hidden><span data-i18n="confirmPassword">Confirm password</span><input id="confirmPasswordInput" name="confirmPassword" type="password" autocomplete="new-password"></label>
+        <p class="password-requirements" id="passwordRequirements" hidden data-i18n="passwordRequirements">Use at least 10 characters, including uppercase, lowercase, and a number.</p>
         <button class="primary-button login-button" id="loginButton" type="submit"><span data-i18n="enter">Enter learning space</span><span aria-hidden="true">→</span></button>
+        <button class="text-button" id="forgotPasswordButton" type="button" data-i18n="forgotPassword">Forgot password?</button>
         <p class="login-error" id="loginError" role="alert" hidden></p>
+      </form>
+      <form id="resetForm" class="login-form" hidden>
+        <p class="reset-intro" data-i18n="resetIntro">Enter your email and we will send a password-reset link.</p>
+        <label><span data-i18n="email">Email</span><input id="resetEmailInput" name="resetEmail" type="email" autocomplete="email" required></label>
+        <button class="primary-button login-button" id="resetButton" type="submit"><span data-i18n="sendReset">Send reset link</span><span aria-hidden="true">→</span></button>
+        <button class="text-button" id="backToLoginButton" type="button" data-i18n="backToSignIn">Back to sign in</button>
+        <p class="login-error" id="resetFeedback" role="status" hidden></p>
       </form>
       <p class="security-note" id="securityNote"><span aria-hidden="true">◆</span> <span id="securityNoteText" data-i18n="securityCloud">Book content is decrypted only in your browser; progress is securely synced to your account.</span></p>
     </section>
@@ -55,6 +70,7 @@
         <button class="active" data-nav="dashboard" type="button" data-i18n="navHome">Home</button>
         <button data-nav="paths" type="button" data-i18n="navPaths">Learning paths</button>
         <button data-nav="library" type="button" data-i18n="navLibrary">Complete library</button>
+        <button data-nav="bookmarks" type="button" data-i18n="navBookmarks">Bookmarks</button>
         <button data-nav="review" type="button" data-i18n="navReview">Review</button>
       </nav>
       <div class="header-actions">
@@ -62,7 +78,7 @@
         <span class="sync-status" id="syncStatus" data-state="local"><i></i><span data-i18n="syncLocal">Saved locally</span></span>
         <button class="search-button" id="openSearch" type="button" aria-label="Search knowledge points"><span aria-hidden="true">⌕</span><span data-i18n="search">Search</span><kbd>/</kbd></button>
         <div class="header-progress" title="Overall progress"><span id="headerProgressText">0%</span><i><b id="headerProgressBar"></b></i></div>
-        <button class="lock-button" id="logoutButton" type="button" data-i18n="lock">Lock</button>
+        <button class="lock-button" id="accountButton" type="button" data-i18n="account">Account</button>
       </div>
     </header>
 
@@ -141,6 +157,14 @@
         </div>
         <div id="reviewStage"></div>
       </section>
+
+      <section class="view bookmarks-view" id="bookmarksView" hidden>
+        <div class="review-heading">
+          <div><p class="eyebrow" data-i18n="savedLessons">Saved lessons</p><h1 data-i18n="bookmarksTitle">Bookmarks</h1><p data-i18n="bookmarksIntro">Keep important explanations close without adding them to active recall.</p></div>
+          <div class="review-count" id="bookmarkCount"></div>
+        </div>
+        <div class="bookmark-grid" id="bookmarkGrid"></div>
+      </section>
     </main>
   </div>
 
@@ -152,9 +176,30 @@
     <div class="search-results" id="searchResults"><p class="search-hint" data-i18n="searchHint">Enter a keyword to search. Use Learning paths for a structured sequence.</p></div>
   </dialog>
 
+  <dialog class="account-dialog" id="accountDialog">
+    <div class="account-dialog-head">
+      <div><p class="eyebrow" data-i18n="learnerAccount">Learner account</p><h2 data-i18n="accountSettings">Account settings</h2></div>
+      <button id="closeAccount" type="button" aria-label="Close">×</button>
+    </div>
+    <div class="account-profile">
+      <span class="account-avatar" id="accountAvatar">A</span>
+      <div><strong id="accountName"></strong><small id="accountEmail"></small></div>
+      <span class="role-badge" data-i18n="learnerRole">Learner</span>
+    </div>
+    <form id="passwordForm" class="account-form">
+      <h3 data-i18n="changePassword">Change password</h3>
+      <label><span data-i18n="currentPassword">Current password</span><input id="currentPasswordInput" type="password" autocomplete="current-password" required></label>
+      <label><span data-i18n="newPassword">New password</span><input id="newPasswordInput" type="password" autocomplete="new-password" minlength="10" required></label>
+      <label><span data-i18n="confirmNewPassword">Confirm new password</span><input id="confirmNewPasswordInput" type="password" autocomplete="new-password" required></label>
+      <p class="account-feedback" id="accountFeedback" role="status" hidden></p>
+      <button class="primary-button account-submit" id="changePasswordButton" type="submit" data-i18n="saveNewPassword">Save new password</button>
+    </form>
+    <div class="account-footer"><button class="danger-text-button" id="logoutButton" type="button" data-i18n="signOut">Sign out</button></div>
+  </dialog>
+
   <div class="toast" id="toast" role="status" hidden></div>
-  <script src="./cloud-config.js?v=20261025-5" defer></script>
-  <script src="./cloud-sync.js?v=20261025-5" defer></script>
-  <script src="./app.js?v=20261025-5" defer></script>
+  <script src="./cloud-config.js?v=20261025-6" defer></script>
+  <script src="./cloud-sync.js?v=20261025-6" defer></script>
+  <script src="./app.js?v=20261025-6" defer></script>
 </body>
 </html>
