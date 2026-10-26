@@ -183,6 +183,22 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .book-card footer i { height: 4px; overflow: hidden; background: rgba(23,32,29,.1); border-radius: 99px; }
 .book-card footer em { display: block; height: 100%; background: var(--green); }
 .book-curriculum { margin-top: 4.5rem; scroll-margin-top: 90px; }
+.reference-shelf { grid-column: 1 / -1; margin-top: .5rem; overflow: hidden; background: #f8f7f2; border: 1px solid var(--line); border-radius: 14px; }
+.reference-shelf>summary { display: flex; gap: 1rem; align-items: center; justify-content: space-between; padding: 1rem 1.1rem; cursor: pointer; list-style: none; }
+.reference-shelf>summary::-webkit-details-marker { display: none; }
+.reference-shelf>summary span { display: grid; gap: .2rem; }
+.reference-shelf>summary strong { font-family: Georgia,serif; font-size: 1.05rem; }
+.reference-shelf>summary small,.reference-shelf>summary b,.reference-group header span { color: var(--muted); font-size: .68rem; font-weight: 650; }
+.reference-shelf>summary b { white-space: nowrap; }
+.reference-shelf[open]>summary { border-bottom: 1px solid var(--line); }
+.reference-groups { display: grid; gap: 1rem; padding: 1rem; }
+.reference-group { padding: .85rem; background: #fff; border: 1px solid var(--line); border-radius: 11px; }
+.reference-group header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: .65rem; }
+.reference-group h3 { margin: 0; font-family: Georgia,serif; font-size: 1rem; }
+.reference-pages { display: flex; flex-wrap: wrap; gap: .4rem; }
+.reference-pages button { display: flex; gap: .4rem; align-items: center; padding: .45rem .6rem; color: var(--ink); background: #fafafa; border: 1px solid var(--line); border-radius: 8px; font-size: .68rem; }
+.reference-pages button:hover { border-color: var(--category-accent); }
+.reference-pages button small { color: var(--muted); font-size: .55rem; }
 
 /* Lesson */
 .lesson-view { max-width: 1500px; padding-top: 0; padding-bottom: 0; }
