@@ -128,7 +128,7 @@ const els = {
   passwordForm:$("#passwordForm"), currentPassword:$("#currentPasswordInput"), newPassword:$("#newPasswordInput"), confirmNewPassword:$("#confirmNewPasswordInput"), changePasswordButton:$("#changePasswordButton"), accountFeedback:$("#accountFeedback"),
   dashboard:$("#dashboardView"), path:$("#pathView"), lesson:$("#lessonView"), library:$("#libraryView"), bookmarks:$("#bookmarksView"), review:$("#reviewView"),
   bookmarkCount:$("#bookmarkCount"), bookmarkGrid:$("#bookmarkGrid"),
-  bookGrid:$("#bookGrid"), bookLessonGrid:$("#bookLessonGrid"), bookCurriculum:$("#bookCurriculum"),
+  bookGrid:$("#bookGrid"), bookLessonGrid:$("#bookLessonGrid"), bookReferenceShelf:$("#bookReferenceShelf"), bookCurriculum:$("#bookCurriculum"),
   bookDetailMeta:$("#bookDetailMeta"), bookDetailTitle:$("#bookDetailTitle"), bookDetailCount:$("#bookDetailCount"), showMoreBook:$("#showMoreBookLessons"),
   coverageSeal:$("#coverageSeal"), coverageStrip:$("#coverageStrip"), syncStatus:$("#syncStatus"), securityNote:$("#securityNote"),
   today:$("#todayLabel"), continueCard:$("#continueCard"), progressStrip:$("#progressStrip"), pathGrid:$("#pathGrid"), reviewCallout:$("#reviewCallout"),
@@ -400,8 +400,9 @@ function renderBookCurriculum() {
     referenceGroups.get(key).push(record);
   });
   const referenceMarkup=references.length?`<details class="reference-shelf"><summary><span><strong>${t("referenceShelf")}</strong><small>${t("referenceShelfHint")}</small></span><b>${t("referencePages",{count:references.length})}</b></summary><div class="reference-groups">${[...referenceGroups].map(([name,pages])=>`<section class="reference-group"><header><h3>${escapeHTML(REFERENCE_GROUP_LABELS[state.lang]?.[name] || name)}</h3><span>${t("referencePages",{count:pages.length})}</span></header><div class="reference-pages">${pages.map(record=>`<button type="button" data-open-lesson="${record.id}" aria-label="${escapeHTML(record.title)}"><span>${t("pdfPage")} ${record.sourcePage}</span>${record.ocr?"<small>OCR</small>":""}</button>`).join("")}</div></section>`).join("")}</div></details>`:"";
-  els.bookLessonGrid.innerHTML=lessons.slice(0,state.bookLimit).map(record=>`<button class="lesson-card ${state.completed.has(record.id)?"complete":""}" type="button" data-open-lesson="${record.id}"><span class="lesson-number">Unit ${escapeHTML(record.unit)}</span>${state.completed.has(record.id)?'<span class="lesson-check">✓</span>':""}<h3>${escapeHTML(record.title)}</h3><p>${t("pdfPage")} ${record.sourcePage}${record.ocr?" · OCR":""}</p></button>`).join("")+referenceMarkup;
+  els.bookLessonGrid.innerHTML=lessons.slice(0,state.bookLimit).map(record=>`<button class="lesson-card ${state.completed.has(record.id)?"complete":""}" type="button" data-open-lesson="${record.id}"><span class="lesson-number">Unit ${escapeHTML(record.unit)}</span>${state.completed.has(record.id)?'<span class="lesson-check">✓</span>':""}<h3>${escapeHTML(record.title)}</h3><p>${t("pdfPage")} ${record.sourcePage}${record.ocr?" · OCR":""}</p></button>`).join("");
   els.showMoreBook.hidden=state.bookLimit>=lessons.length;
+  els.bookReferenceShelf.innerHTML=referenceMarkup;
 }
 
 function categoryRecords(category,{unitsOnly=false}={}) { return state.records.filter(r=>r.category===category && (!unitsOnly||r.kind==="unit")); }

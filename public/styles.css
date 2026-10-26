@@ -183,7 +183,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .book-card footer i { height: 4px; overflow: hidden; background: rgba(23,32,29,.1); border-radius: 99px; }
 .book-card footer em { display: block; height: 100%; background: var(--green); }
 .book-curriculum { margin-top: 4.5rem; scroll-margin-top: 90px; }
-.reference-shelf { grid-column: 1 / -1; margin-top: .5rem; overflow: hidden; background: #f8f7f2; border: 1px solid var(--line); border-radius: 14px; }
+.reference-shelf { margin-top: .75rem; overflow: hidden; background: #f8f7f2; border: 1px solid var(--line); border-radius: 14px; }
 .reference-shelf>summary { display: flex; gap: 1rem; align-items: center; justify-content: space-between; padding: 1rem 1.1rem; cursor: pointer; list-style: none; }
 .reference-shelf>summary::-webkit-details-marker { display: none; }
 .reference-shelf>summary span { display: grid; gap: .2rem; }
