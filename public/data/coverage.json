@@ -3,12 +3,6 @@
   "actualTotalUnits": 1094,
   "referencePages": 98,
   "records": 1192,
-  "structureVersion": 2,
-  "sourceVerifiedRecords": 1192,
-  "labeledSections": 3252,
-  "tables": 233,
-  "exerciseWordsExcluded": 142,
-  "structureAuditPassed": true,
   "coverage": [
     {
       "bookId": "grammar-essential",
@@ -31,40 +25,40 @@
       "expectedUnits": 100,
       "extractedUnits": 100,
       "supplementPages": 27,
-      "minChars": 2434,
-      "medianChars": 2966
+      "minChars": 2512,
+      "medianChars": 3007
     },
     {
       "bookId": "vocabulary-elementary",
       "expectedUnits": 60,
       "extractedUnits": 60,
       "supplementPages": 0,
-      "minChars": 550,
-      "medianChars": 1208
+      "minChars": 462,
+      "medianChars": 1179
     },
     {
       "bookId": "vocabulary-pre-intermediate",
       "expectedUnits": 100,
       "extractedUnits": 100,
       "supplementPages": 0,
-      "minChars": 668,
-      "medianChars": 2130
+      "minChars": 635,
+      "medianChars": 2156
     },
     {
       "bookId": "vocabulary-upper-intermediate",
       "expectedUnits": 101,
       "extractedUnits": 101,
       "supplementPages": 0,
-      "minChars": 1089,
-      "medianChars": 2451
+      "minChars": 978,
+      "medianChars": 2460
     },
     {
       "bookId": "vocabulary-advanced",
       "expectedUnits": 101,
       "extractedUnits": 101,
       "supplementPages": 0,
-      "minChars": 1760,
-      "medianChars": 3134
+      "minChars": 1784,
+      "medianChars": 3141
     },
     {
       "bookId": "collocations-intermediate",
@@ -87,8 +81,8 @@
       "expectedUnits": 62,
       "extractedUnits": 62,
       "supplementPages": 0,
-      "minChars": 478,
-      "medianChars": 1927
+      "minChars": 917,
+      "medianChars": 2281
     },
     {
       "bookId": "idioms-advanced",
@@ -103,8 +97,8 @@
       "expectedUnits": 70,
       "extractedUnits": 70,
       "supplementPages": 24,
-      "minChars": 1579,
-      "medianChars": 2315
+      "minChars": 1093,
+      "medianChars": 2284
     },
     {
       "bookId": "phrasal-advanced",
@@ -115,5 +109,16 @@
       "medianChars": 2845
     }
   ],
-  "failures": []
+  "failures": [],
+  "structureVersion": 2,
+  "sourceVerifiedRecords": 1192,
+  "labeledSections": 3076,
+  "tables": 233,
+  "exerciseWordsExcluded": 142,
+  "structureAuditPassed": true,
+  "sourceFidelityAuditPassed": true,
+  "ocrVerifiedPages": 645,
+  "minimumOcrConfidence": 0.83,
+  "vocabularyRecordsRebuilt": 362,
+  "textRepairRecordsChanged": 897
 }
