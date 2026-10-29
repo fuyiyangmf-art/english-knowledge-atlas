@@ -8,7 +8,7 @@
   <title>English Knowledge Atlas</title>
   <meta name="description" content="A private, encrypted English learning website.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2318201e'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='24' font-weight='700' fill='white'%3EEA%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css?v=20261027-15">
+  <link rel="stylesheet" href="./styles.css?v=20261029-18">
 </head>
 <body>
   <a class="skip-link" href="#mainContent" data-i18n="skipLink">Skip to main content</a>
@@ -23,7 +23,7 @@
       </div>
       <p class="eyebrow" data-i18n="encryptedSpace">Encrypted learning space</p>
       <h1 id="loginTitle">English<br>Knowledge Atlas</h1>
-      <p class="login-intro" data-i18n="loginIntro">Turn thirteen reference books into a learning path you can actually finish.</p>
+      <p class="login-intro" data-i18n="loginIntro">Learn through thirteen independently written English courses.</p>
       <div class="auth-tabs" role="tablist" aria-label="Account access" data-i18n-aria="accountAccess">
         <button class="active" type="button" role="tab" aria-selected="true" data-auth-mode="login" data-i18n="signIn">Sign in</button>
       </div>
@@ -94,12 +94,28 @@
 
         <div class="progress-strip" id="progressStrip"></div>
 
+        <section class="learning-command" aria-labelledby="todayPlanTitle">
+          <div class="section-heading compact">
+            <div><p class="eyebrow" data-i18n="personalStudy">Personal study</p><h2 id="todayPlanTitle" data-i18n="todayPlan">Today's study plan</h2></div>
+            <p data-i18n="todayPlanIntro">A balanced session combining new input, active recall, and deeper review.</p>
+          </div>
+          <div class="learning-command-grid" id="learningCommandGrid"></div>
+        </section>
+
         <section class="section-block" aria-labelledby="pathsTitle">
           <div class="section-heading">
             <div><p class="eyebrow" data-i18n="structuredCurriculum">Structured curriculum</p><h2 id="pathsTitle" data-i18n="choosePath">Choose a learning path</h2></div>
             <p data-i18n="pathOrder">Area → Topic → Level → Unit</p>
           </div>
           <div class="path-grid" id="pathGrid"></div>
+        </section>
+
+        <section class="level-ladder" aria-labelledby="levelLadderTitle">
+          <div class="section-heading compact">
+            <div><p class="eyebrow" data-i18n="curriculumOverview">Curriculum overview</p><h2 id="levelLadderTitle" data-i18n="levelLadder">Level ladder</h2></div>
+            <p data-i18n="levelLadderIntro">See the full journey without creating empty levels.</p>
+          </div>
+          <div class="level-ladder-grid" id="levelLadderGrid"></div>
         </section>
 
         <section class="dashboard-bottom">
@@ -135,16 +151,23 @@
 
       <section class="view library-view" id="libraryView" hidden>
         <div class="library-hero">
-          <div><p class="eyebrow" data-i18n="completeSourceLibrary">Complete source library</p><h1 data-i18n="libraryTitle">Complete library</h1><p data-i18n="libraryIntro">Browse by source book, level, and original unit order. Learning paths reorganize the material; this view keeps every knowledge unit traceable.</p></div>
+          <div><p class="eyebrow" data-i18n="completeSourceLibrary">Original Atlas curriculum</p><h1 data-i18n="libraryTitle">Complete library</h1><p data-i18n="libraryIntro">Browse thirteen original courses by level and course order, or use Learning paths for a guided sequence.</p></div>
           <div class="coverage-seal" id="coverageSeal"><strong>100%</strong><span data-i18n="coverageAudit">Coverage audit</span></div>
         </div>
         <div class="coverage-strip" id="coverageStrip"></div>
+        <section class="curriculum-atlas" aria-labelledby="curriculumAtlasTitle">
+          <div class="section-heading compact">
+            <div><p class="eyebrow" data-i18n="coverageMap">Coverage map</p><h2 id="curriculumAtlasTitle" data-i18n="curriculumMatrix">Curriculum atlas</h2></div>
+            <p data-i18n="curriculumMatrixIntro">Only real course levels are shown; every unit remains available.</p>
+          </div>
+          <div class="curriculum-atlas-grid" id="curriculumAtlasGrid"></div>
+        </section>
         <section class="book-section">
-          <div class="section-heading compact"><div><p class="eyebrow" data-i18n="sourceBooks13">13 source books</p><h2 data-i18n="chooseBook">Choose a source book</h2></div><p data-i18n="knowledgeOnly">Exercises and answer keys are excluded; explanations are preserved.</p></div>
+          <div class="section-heading compact"><div><p class="eyebrow" data-i18n="sourceBooks13">13 original courses</p><h2 data-i18n="chooseBook">Choose a course</h2></div><p data-i18n="knowledgeOnly">Independent explanations, fresh examples, language facts, and active-recall tasks.</p></div>
           <div class="book-grid" id="bookGrid"></div>
         </section>
         <section class="book-curriculum" id="bookCurriculum">
-          <div class="section-heading compact"><div><p class="eyebrow" id="bookDetailMeta" data-i18n="bookCurriculum">Book curriculum</p><h2 id="bookDetailTitle" data-i18n="originalContents">Original contents</h2></div><p id="bookDetailCount"></p></div>
+          <div class="section-heading compact"><div><p class="eyebrow" id="bookDetailMeta" data-i18n="bookCurriculum">Course curriculum</p><h2 id="bookDetailTitle" data-i18n="originalContents">Course contents</h2></div><p id="bookDetailCount"></p></div>
           <div class="lesson-grid" id="bookLessonGrid"></div>
           <button class="more-button" id="showMoreBookLessons" type="button" hidden data-i18n="showMoreUnits">Show more units</button>
           <div id="bookReferenceShelf"></div>
@@ -200,7 +223,7 @@
 
   <div class="toast" id="toast" role="status" hidden></div>
   <script src="./cloud-config.js?v=20261026-14" defer></script>
-  <script src="./cloud-sync.js?v=20261027-15" defer></script>
-  <script src="./app.js?v=20261027-15" defer></script>
+  <script src="./cloud-sync.js?v=20261029-18" defer></script>
+  <script src="./app.js?v=20261029-18" defer></script>
 </body>
 </html>

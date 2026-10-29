@@ -112,13 +112,18 @@
   "failures": [],
   "structureVersion": 2,
   "sourceVerifiedRecords": 1192,
-  "labeledSections": 3076,
-  "tables": 233,
+  "labeledSections": 5960,
+  "tables": 4768,
   "exerciseWordsExcluded": 142,
   "structureAuditPassed": true,
   "sourceFidelityAuditPassed": true,
   "ocrVerifiedPages": 645,
   "minimumOcrConfidence": 0.83,
   "vocabularyRecordsRebuilt": 362,
-  "textRepairRecordsChanged": 897
+  "textRepairRecordsChanged": 897,
+  "contentVersion": "independent-atlas-curriculum-v3",
+  "independentlyAuthoredRecords": 1192,
+  "originalAuthoringAuditPassed": true,
+  "directSourceEightGramMatches": 0,
+  "sourceBrandLeaks": 0
 }
