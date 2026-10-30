@@ -121,7 +121,7 @@
   "minimumOcrConfidence": 0.83,
   "vocabularyRecordsRebuilt": 362,
   "textRepairRecordsChanged": 897,
-  "contentVersion": "independent-atlas-curriculum-v3",
+  "contentVersion": "independent-atlas-curriculum-v4",
   "independentlyAuthoredRecords": 1192,
   "originalAuthoringAuditPassed": true,
   "directSourceEightGramMatches": 0,

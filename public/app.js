@@ -20,7 +20,7 @@ const TRANSLATIONS = {
     recallMode:"Recall mode", exitRecall:"Exit recall", addReview:"Add to review", inReview:"In review", addBookmark:"Bookmark", bookmarked:"Bookmarked ★", markComplete:"Mark complete", completed:"Completed ✓", recallQuestion:"Without reading the explanation, can you state the core rule of “{title}” and give one example?", recallInstruction:"Recall it silently or say it aloud, then reveal the full content.", revealFull:"Reveal full explanation", previousLesson:"← Previous lesson", nextLesson:"Next lesson →", unmarked:"Completion removed", marked:"Lesson completed", removedReview:"Removed from review", addedReview:"Added to review", removedBookmark:"Bookmark removed", addedBookmark:"Lesson bookmarked",
     cards:"{count} cards", choosePathAction:"Choose a learning path", reviewEmptyLong:"Open any lesson and choose “Add to review”. Then recall the cards here one by one.", again:"Not yet — show me again", remembered:"I remembered ✓", reviewPrompt:"Recall first: what does it mean, when is it used, and can you create your own example?", revealAnswer:"Reveal answer", lessonsCount:"{count} lessons", bookMeta:"{category} · {level}",
     savedLessons:"Saved lessons", bookmarksTitle:"Bookmarks", bookmarksIntro:"Keep important explanations close without adding them to active recall.", bookmarksEmpty:"No bookmarks yet", bookmarksEmptyDesc:"Bookmark any lesson you want to return to quickly.", bookmarkItems:"{count} saved", levelAll:"All", levelElementary:"Elementary", levelPreIntermediate:"Pre-intermediate & Intermediate", levelIntermediate:"Intermediate", levelUpperIntermediate:"Upper-intermediate", levelAdvanced:"Advanced",
-    personalStudy:"Personal study", todayPlan:"Today's study plan", todayPlanIntro:"A balanced session combining new input, active recall, and deeper review.", planLearn:"Learn", planReview:"Recall", planDeepen:"Deepen", planMinutes:"{count} min", openLesson:"Open lesson →", reviewNow:"Review now →", exploreSaved:"Open bookmarks →", curriculumOverview:"Curriculum overview", levelLadder:"Level ladder", levelLadderIntro:"See the full journey without creating empty levels.", coverageMap:"Coverage map", curriculumMatrix:"Curriculum atlas", curriculumMatrixIntro:"Only real course levels are shown; every unit remains available.", courseLevels:"{count} real levels", lessonPosition:"{current} of {total}", estimatedTime:"{count} min", lessonSections:"{count} sections", coreFacts:"{count} core items", sectionMap:"On this page", practiceLab:"Practice lab", practiceIntro:"Turn the lesson's language facts into active recall before you leave.", practicePrompt:"Explain or use this item before revealing the study cue.", revealItem:"Reveal study cue", nextItem:"Next item →", showAllItems:"Show all {count} items", collapseItems:"Collapse table", allContentNote:"All {count} items are preserved in this lesson.", learningTable:"Learning table"
+    personalStudy:"Personal study", todayPlan:"Today's study plan", todayPlanIntro:"A balanced session combining new input, active recall, and deeper review.", planLearn:"Learn", planReview:"Recall", planDeepen:"Deepen", planMinutes:"{count} min", openLesson:"Open lesson →", reviewNow:"Review now →", exploreSaved:"Open bookmarks →", curriculumOverview:"Curriculum overview", levelLadder:"Level ladder", levelLadderIntro:"See the full journey without creating empty levels.", coverageMap:"Coverage map", curriculumMatrix:"Curriculum atlas", curriculumMatrixIntro:"Only real course levels are shown; every unit remains available.", courseLevels:"{count} real levels", lessonPosition:"{current} of {total}", estimatedTime:"{count} min", lessonSections:"{count} sections", coreFacts:"{count} core items", sectionMap:"On this page", practiceLab:"Practice lab", practiceIntro:"Turn the lesson's language facts into active recall before you leave.", practicePrompt:"Explain or use this item before revealing the study cue.", revealItem:"Reveal study cue", nextItem:"Next item →", showAllItems:"Show all {count} items", collapseItems:"Collapse cards", allContentNote:"All {count} items are preserved in this lesson.", learningTable:"Learning table", itemMastery:"{done}/{total} mastered", practiceAgain:"Again", practiceHard:"Still learning", practiceKnown:"Know it", practiceRated:"Saved to your learning progress", hearItem:"Hear pronunciation"
   },
   tr: {
     skipLink:"Ana içeriğe geç", loginIntro:"Bağımsız yazılmış on üç İngilizce kursuyla öğren.", registrationClosed:"Yeni kayıtlar geçici olarak kapalıdır.", email:"E-posta", displayName:"Görünen ad", password:"Parola", confirmPassword:"Parolayı doğrula", show:"Göster", hide:"Gizle", enter:"Öğrenme alanına gir", signIn:"Giriş yap", register:"Hesap oluştur", creatingAccount:"Hesabın oluşturuluyor…", verifying:"Doğrulanıyor ve içerik çözülüyor…", forgotPassword:"Parolanı mı unuttun?", resetIntro:"E-postanı gir; parola sıfırlama bağlantısı gönderelim.", sendReset:"Sıfırlama bağlantısı gönder", sendingReset:"Gönderiliyor…", backToSignIn:"Girişe dön", resetSent:"Bu e-postaya ait bir hesap varsa sıfırlama bağlantısı gönderildi.", passwordRequirements:"Büyük harf, küçük harf ve sayı içeren en az 10 karakter kullan.", passwordMismatch:"Parolalar eşleşmiyor.", weakPassword:"Tüm koşulları karşılayan daha güçlü bir parola seç.", emailExists:"Bu e-posta için zaten bir hesap var.", invalidEmail:"Geçerli bir e-posta adresi gir.", tooManyAttempts:"Çok fazla deneme yapıldı. Biraz bekleyip yeniden dene.", loginError:"E-posta veya parola yanlış ya da bulut eşitleme geçici olarak kullanılamıyor.", securityCloud:"Müfredat içeriği yalnızca tarayıcında çözülür; ilerlemen hesabınla güvenli biçimde eşitlenir.", securityLocal:"Müfredat içeriği yalnızca tarayıcında çözülür; bulut eşitleme açılana kadar ilerleme bu cihazda kalır.", accountAccess:"Hesap erişimi", account:"Hesap", learnerAccount:"Öğrenci hesabı", accountSettings:"Hesap ayarları", learnerRole:"Öğrenci", changePassword:"Parolayı değiştir", currentPassword:"Mevcut parola", newPassword:"Yeni parola", confirmNewPassword:"Yeni parolayı doğrula", saveNewPassword:"Yeni parolayı kaydet", savingPassword:"Kaydediliyor…", passwordChanged:"Parola başarıyla değiştirildi.", signOut:"Çıkış yap", close:"Kapat",
@@ -33,7 +33,7 @@ const TRANSLATIONS = {
     recallMode:"Hatırlama modu", exitRecall:"Hatırlamadan çık", addReview:"Tekrara ekle", inReview:"Tekrarda", addBookmark:"Yer imi ekle", bookmarked:"Yer iminde ★", markComplete:"Tamamlandı olarak işaretle", completed:"Tamamlandı ✓", recallQuestion:"Açıklamaya bakmadan “{title}” konusunun temel kuralını ve bir örneği söyleyebilir misin?", recallInstruction:"Zihninden ya da sesli olarak anlat, sonra tam içeriği aç.", revealFull:"Tam açıklamayı göster", previousLesson:"← Önceki ders", nextLesson:"Sonraki ders →", unmarked:"Tamamlandı işareti kaldırıldı", marked:"Ders tamamlandı", removedReview:"Tekrar kuyruğundan çıkarıldı", addedReview:"Tekrar kuyruğuna eklendi", removedBookmark:"Yer imi kaldırıldı", addedBookmark:"Ders yer imlerine eklendi",
     cards:"{count} kart", choosePathAction:"Bir öğrenme yolu seç", reviewEmptyLong:"Herhangi bir dersi açıp “Tekrara ekle”yi seç. Ardından kartları burada tek tek hatırla.", again:"Henüz değil — yeniden göster", remembered:"Hatırladım ✓", reviewPrompt:"Önce hatırla: anlamı nedir, ne zaman kullanılır ve kendi örneğini oluşturabilir misin?", revealAnswer:"Cevabı göster", lessonsCount:"{count} ders", bookMeta:"{category} · {level}",
     savedLessons:"Kaydedilen dersler", bookmarksTitle:"Yer imleri", bookmarksIntro:"Önemli açıklamaları etkin tekrar kuyruğuna eklemeden yakınında tut.", bookmarksEmpty:"Henüz yer imi yok", bookmarksEmptyDesc:"Hızla dönmek istediğin herhangi bir dersi yer imlerine ekle.", bookmarkItems:"{count} kayıt", levelAll:"Tümü", levelElementary:"Başlangıç", levelPreIntermediate:"Alt orta ve orta", levelIntermediate:"Orta", levelUpperIntermediate:"Üst orta", levelAdvanced:"İleri",
-    personalStudy:"Kişisel çalışma", todayPlan:"Bugünün çalışma planı", todayPlanIntro:"Yeni bilgi, etkin hatırlama ve derinleştirmeyi birleştiren dengeli bir oturum.", planLearn:"Öğren", planReview:"Hatırla", planDeepen:"Derinleştir", planMinutes:"{count} dk", openLesson:"Dersi aç →", reviewNow:"Şimdi tekrarla →", exploreSaved:"Yer imlerini aç →", curriculumOverview:"Müfredat özeti", levelLadder:"Seviye merdiveni", levelLadderIntro:"Boş seviyeler oluşturmadan tüm yolculuğu gör.", coverageMap:"Kapsam haritası", curriculumMatrix:"Müfredat atlası", curriculumMatrixIntro:"Yalnızca gerçek kurs seviyeleri gösterilir; her ünite kullanılabilir.", courseLevels:"{count} gerçek seviye", lessonPosition:"{current} / {total}", estimatedTime:"{count} dk", lessonSections:"{count} bölüm", coreFacts:"{count} temel öğe", sectionMap:"Bu sayfada", practiceLab:"Alıştırma laboratuvarı", practiceIntro:"Dersten ayrılmadan önce dil öğelerini etkin hatırlamaya dönüştür.", practicePrompt:"Çalışma ipucunu açmadan önce bu öğeyi açıkla veya kullan.", revealItem:"Çalışma ipucunu aç", nextItem:"Sonraki öğe →", showAllItems:"{count} öğenin tümünü göster", collapseItems:"Tabloyu daralt", allContentNote:"Bu derste {count} öğenin tamamı korunmuştur.", learningTable:"Öğrenme tablosu"
+    personalStudy:"Kişisel çalışma", todayPlan:"Bugünün çalışma planı", todayPlanIntro:"Yeni bilgi, etkin hatırlama ve derinleştirmeyi birleştiren dengeli bir oturum.", planLearn:"Öğren", planReview:"Hatırla", planDeepen:"Derinleştir", planMinutes:"{count} dk", openLesson:"Dersi aç →", reviewNow:"Şimdi tekrarla →", exploreSaved:"Yer imlerini aç →", curriculumOverview:"Müfredat özeti", levelLadder:"Seviye merdiveni", levelLadderIntro:"Boş seviyeler oluşturmadan tüm yolculuğu gör.", coverageMap:"Kapsam haritası", curriculumMatrix:"Müfredat atlası", curriculumMatrixIntro:"Yalnızca gerçek kurs seviyeleri gösterilir; her ünite kullanılabilir.", courseLevels:"{count} gerçek seviye", lessonPosition:"{current} / {total}", estimatedTime:"{count} dk", lessonSections:"{count} bölüm", coreFacts:"{count} temel öğe", sectionMap:"Bu sayfada", practiceLab:"Alıştırma laboratuvarı", practiceIntro:"Dersten ayrılmadan önce dil öğelerini etkin hatırlamaya dönüştür.", practicePrompt:"Çalışma ipucunu açmadan önce bu öğeyi açıkla veya kullan.", revealItem:"Çalışma ipucunu aç", nextItem:"Sonraki öğe →", showAllItems:"{count} öğenin tümünü göster", collapseItems:"Kartları daralt", allContentNote:"Bu derste {count} öğenin tamamı korunmuştur.", learningTable:"Öğrenme tablosu", itemMastery:"{done}/{total} öğrenildi", practiceAgain:"Tekrar", practiceHard:"Öğreniyorum", practiceKnown:"Biliyorum", practiceRated:"Öğrenme ilerlemene kaydedildi", hearItem:"Telaffuzu dinle"
   },
   zh: {
     skipLink:"跳到主要内容", loginIntro:"通过十三门独立编写的英语课程系统学习。", registrationClosed:"新账号注册暂时关闭。", email:"电子邮箱", displayName:"显示名称", password:"密码", confirmPassword:"确认密码", show:"显示", hide:"隐藏", enter:"进入学习空间", signIn:"登录", register:"创建账号", creatingAccount:"正在创建账号……", verifying:"正在验证并解密……", forgotPassword:"忘记密码？", resetIntro:"输入邮箱，我们会发送密码重置链接。", sendReset:"发送重置链接", sendingReset:"正在发送……", backToSignIn:"返回登录", resetSent:"如果该邮箱已注册，密码重置链接已经发送。", passwordRequirements:"至少 10 位，并包含大写字母、小写字母和数字。", passwordMismatch:"两次输入的密码不一致。", weakPassword:"请使用满足全部要求的更强密码。", emailExists:"该邮箱已经注册。", invalidEmail:"请输入有效的电子邮箱。", tooManyAttempts:"尝试次数过多，请稍后再试。", loginError:"邮箱或密码不正确，或暂时无法连接云端。", securityCloud:"课程内容只在浏览器内解密；学习进度安全同步并绑定账号。", securityLocal:"课程内容只在浏览器内解密；云同步启用前，进度保存在本机。", accountAccess:"账号入口", account:"账号", learnerAccount:"学习账号", accountSettings:"账号设置", learnerRole:"学习者", changePassword:"修改密码", currentPassword:"当前密码", newPassword:"新密码", confirmNewPassword:"确认新密码", saveNewPassword:"保存新密码", savingPassword:"正在保存……", passwordChanged:"密码修改成功。", signOut:"退出登录", close:"关闭",
@@ -46,7 +46,7 @@ const TRANSLATIONS = {
     recallMode:"回忆模式", exitRecall:"退出回忆", addReview:"加入复习", inReview:"已加入复习", addBookmark:"加入书签", bookmarked:"已收藏 ★", markComplete:"标记完成", completed:"已完成 ✓", recallQuestion:"不看讲解，你能说出“{title}”的核心规则和一个例句吗？", recallInstruction:"先在脑中或大声复述，再揭晓完整内容。", revealFull:"查看完整讲解", previousLesson:"← 上一课", nextLesson:"下一课 →", unmarked:"已取消完成标记", marked:"课程已完成", removedReview:"已移出复习队列", addedReview:"已加入复习队列", removedBookmark:"已移除书签", addedBookmark:"已加入书签",
     cards:"{count} 张卡片", choosePathAction:"去选择学习路径", reviewEmptyLong:"进入任意课程，点击“加入复习”。之后你可以在这里逐张回忆。", again:"还不熟，再来一次", remembered:"记住了 ✓", reviewPrompt:"请先复述：它是什么意思？什么时候使用？你能不能自己造一个例句？", revealAnswer:"揭晓答案", lessonsCount:"{count} 课", bookMeta:"{category} · {level}",
     savedLessons:"已保存课程", bookmarksTitle:"书签", bookmarksIntro:"把重要讲解单独收藏，不必加入主动复习队列。", bookmarksEmpty:"还没有书签", bookmarksEmptyDesc:"在任意课程中点击“加入书签”，以后可以快速返回。", bookmarkItems:"已收藏 {count} 项", levelAll:"全部", levelElementary:"初级", levelPreIntermediate:"初中级与中级", levelIntermediate:"中级", levelUpperIntermediate:"中高级", levelAdvanced:"高级",
-    personalStudy:"个人学习", todayPlan:"今日学习计划", todayPlanIntro:"把新知识、主动回忆和深入巩固组合成一次均衡学习。", planLearn:"学习", planReview:"回忆", planDeepen:"深化", planMinutes:"{count} 分钟", openLesson:"打开课程 →", reviewNow:"立即复习 →", exploreSaved:"打开书签 →", curriculumOverview:"课程全景", levelLadder:"等级阶梯", levelLadderIntro:"只呈现真实存在的等级，不再生成空板块。", coverageMap:"覆盖地图", curriculumMatrix:"课程知识地图", curriculumMatrixIntro:"只显示实际存在的课程等级；全部单元仍然完整保留。", courseLevels:"{count} 个真实等级", lessonPosition:"第 {current} / {total} 课", estimatedTime:"约 {count} 分钟", lessonSections:"{count} 个章节", coreFacts:"{count} 个核心知识项", sectionMap:"本页导航", practiceLab:"即时练习室", practiceIntro:"离开课程前，把本课语言知识转化为主动回忆。", practicePrompt:"揭晓学习提示前，先解释或使用这个知识项。", revealItem:"揭晓学习提示", nextItem:"下一个知识项 →", showAllItems:"显示全部 {count} 项", collapseItems:"收起表格", allContentNote:"本课全部 {count} 个知识项均已保留。", learningTable:"学习表格"
+    personalStudy:"个人学习", todayPlan:"今日学习计划", todayPlanIntro:"把新知识、主动回忆和深入巩固组合成一次均衡学习。", planLearn:"学习", planReview:"回忆", planDeepen:"深化", planMinutes:"{count} 分钟", openLesson:"打开课程 →", reviewNow:"立即复习 →", exploreSaved:"打开书签 →", curriculumOverview:"课程全景", levelLadder:"等级阶梯", levelLadderIntro:"只呈现真实存在的等级，不再生成空板块。", coverageMap:"覆盖地图", curriculumMatrix:"课程知识地图", curriculumMatrixIntro:"只显示实际存在的课程等级；全部单元仍然完整保留。", courseLevels:"{count} 个真实等级", lessonPosition:"第 {current} / {total} 课", estimatedTime:"约 {count} 分钟", lessonSections:"{count} 个章节", coreFacts:"{count} 个核心知识项", sectionMap:"本页导航", practiceLab:"即时练习室", practiceIntro:"离开课程前，把本课语言知识转化为主动回忆。", practicePrompt:"揭晓学习提示前，先解释或使用这个知识项。", revealItem:"揭晓学习提示", nextItem:"下一个知识项 →", showAllItems:"显示全部 {count} 项", collapseItems:"收起卡片", allContentNote:"本课全部 {count} 个知识项均已保留。", learningTable:"学习表格", itemMastery:"已掌握 {done}/{total}", practiceAgain:"再来一次", practiceHard:"还在学习", practiceKnown:"已经掌握", practiceRated:"已保存到你的学习进度", hearItem:"播放发音"
   }
 };
 
@@ -119,7 +119,7 @@ const state = {
   currentLesson:null, lessonOrigin:"path", recall:false, practiceIndex:0, practiceRevealed:false, reviewIndex:0, reviewRevealed:false,
   bookId:null, bookLimit:18, cloudEnabled:false, user:null, authMode:"login",
   lang:["en","tr","zh"].includes(localStorage.getItem("eka-language"))?localStorage.getItem("eka-language"):"en",
-  completed:new Set(), review:new Set(), bookmarks:new Set(), history:[], last:null,
+  completed:new Set(), review:new Set(), bookmarks:new Set(), mastery:{}, history:[], last:null,
 };
 
 const $ = selector => document.querySelector(selector);
@@ -143,6 +143,12 @@ const els = {
 };
 
 function escapeHTML(value="") { return String(value).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c])); }
+function speakEnglish(text="") {
+  if(!window.speechSynthesis || !text.trim()) return;
+  window.speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text.trim()); utterance.lang="en-GB"; utterance.rate=.88;
+  window.speechSynthesis.speak(utterance);
+}
 
 function withoutDetachedSectionLabels(content="") {
   const lines=String(content).replace(/\r\n?/g,"\n").split("\n");
@@ -161,11 +167,16 @@ function lessonBlockHTML(block={},context={}) {
   if(block.type==="table" && Array.isArray(block.rows)) {
     const rows=block.rows.filter(row=>Array.isArray(row) && row.some(cell=>String(cell||"").trim()));
     if(!rows.length) return "";
-    const columnCount=Math.max(...rows.map(row=>row.length));
-    const body=rows.map((row,rowIndex)=>`<tr class="${rowIndex===0?"learning-table-first-row":""}">${Array.from({length:columnCount},(_,index)=>`<td>${escapeHTML(row[index]||"")}</td>`).join("")}</tr>`).join("");
     const itemCount=Math.max(0,rows.length-1), dense=itemCount>12;
     const tableId=`learning-table-${context.recordId || "lesson"}-${context.sectionIndex || 0}-${context.blockIndex || 0}`;
-    return `<div class="lesson-table-shell ${dense?"is-collapsed":""}" data-learning-table><div class="lesson-table-scroll" role="region" aria-label="${escapeHTML(t("learningTable"))}" tabindex="0" id="${tableId}"><table class="lesson-table"><tbody>${body}</tbody></table></div>${dense?`<div class="table-completeness"><span>${t("allContentNote",{count:itemCount})}</span><button type="button" data-toggle-table aria-controls="${tableId}" aria-expanded="false">${t("showAllItems",{count:itemCount})}</button></div>`:""}</div>`;
+    if(String(context.sectionLabel||"").toUpperCase()==="C" && rows.length>1) {
+      const headings=rows[0];
+      const cards=rows.slice(1).map((row,index)=>`<article class="knowledge-card"><span>${String(index+1).padStart(2,"0")}</span><div class="knowledge-card-head"><h3>${escapeHTML(row[0]||"")}</h3><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div><dl>${row.slice(1).map((cell,cellIndex)=>`<div><dt>${escapeHTML(headings[cellIndex+1]||"")}</dt><dd>${escapeHTML(cell||"")}</dd></div>`).join("")}</dl></article>`).join("");
+      return `<div class="lesson-table-shell knowledge-card-shell ${dense?"is-collapsed":""}" data-learning-table data-item-count="${itemCount}"><div class="knowledge-card-grid" role="list" aria-label="${escapeHTML(t("learningTable"))}" id="${tableId}">${cards}</div>${dense?`<div class="table-completeness"><span>${t("allContentNote",{count:itemCount})}</span><button type="button" data-toggle-table aria-controls="${tableId}" aria-expanded="false">${t("showAllItems",{count:itemCount})}</button></div>`:""}</div>`;
+    }
+    const columnCount=Math.max(...rows.map(row=>row.length));
+    const body=rows.map((row,rowIndex)=>`<tr class="${rowIndex===0?"learning-table-first-row":""}">${Array.from({length:columnCount},(_,index)=>`<td>${escapeHTML(row[index]||"")}</td>`).join("")}</tr>`).join("");
+    return `<div class="lesson-table-shell ${dense?"is-collapsed":""}" data-learning-table data-item-count="${itemCount}"><div class="lesson-table-scroll" role="region" aria-label="${escapeHTML(t("learningTable"))}" tabindex="0" id="${tableId}"><table class="lesson-table"><tbody>${body}</tbody></table></div>${dense?`<div class="table-completeness"><span>${t("allContentNote",{count:itemCount})}</span><button type="button" data-toggle-table aria-controls="${tableId}" aria-expanded="false">${t("showAllItems",{count:itemCount})}</button></div>`:""}</div>`;
   }
   const text=String(block.text||"").trim();
   if(!text) return "";
@@ -179,7 +190,7 @@ function lessonContentHTML(record) {
     const label=String(section.label||"").trim();
     const title=String(section.title||"").trim();
     const headingId=`lesson-section-${record.id}-${index}`;
-    const blocks=(section.blocks||[]).map((block,blockIndex)=>lessonBlockHTML(block,{recordId:record.id,sectionIndex:index,blockIndex})).join("");
+    const blocks=(section.blocks||[]).map((block,blockIndex)=>lessonBlockHTML(block,{recordId:record.id,sectionIndex:index,sectionLabel:label,category:record.category,blockIndex})).join("");
     const heading=title && !(record.sections.length===1 && normalize(title)===normalize(record.title))?`<h2 id="${headingId}">${escapeHTML(title)}</h2>`:"";
     const labelledBy=heading?` aria-labelledby="${headingId}"`:"";
     return `<section class="lesson-section ${label?"":"lesson-section-unlabelled"}" data-section-index="${index}"${labelledBy}>${label?`<span class="lesson-section-label" aria-hidden="true">${escapeHTML(label)}</span>`:""}<div class="lesson-section-copy">${heading}${blocks}</div></section>`;
@@ -222,6 +233,7 @@ function loadLocalProgress() {
   state.completed=new Set(safeJSON(storageKey("completed"),[]));
   state.review=new Set(safeJSON(storageKey("review"),[]));
   state.bookmarks=new Set(safeJSON(storageKey("bookmarks"),[]));
+  state.mastery=safeJSON(storageKey("mastery"),{});
   state.history=safeJSON(storageKey("history"),[]);
   state.last=localStorage.getItem(storageKey("last"));
 }
@@ -269,10 +281,11 @@ function coreRows(record) {
 }
 function estimatedMinutes(record) { return Math.max(6,Math.min(24,5+Math.ceil(coreRows(record).length/5)+(record.sections?.length||0))); }
 function renderLearningCommand(next) {
-  const reviewCount=state.review.size, bookmarkCount=state.bookmarks.size;
+  const dueItems=dueMasteryItems(), reviewCount=state.review.size+dueItems.length, bookmarkCount=state.bookmarks.size;
+  const reviewAction=dueItems.length?`<button type="button" data-open-practice="${dueItems[0].recordId}" data-practice-index="${dueItems[0].index}">${t("reviewNow")}</button>`:`<button type="button" data-nav="review">${t("reviewNow")}</button>`;
   els.learningCommandGrid.innerHTML=`
     <article class="plan-card plan-card-primary"><span>${t("planLearn")}</span><h3>${escapeHTML(next.title)}</h3><p>${escapeHTML(categoryName(next.category))} · ${escapeHTML(levelName(next.level))}</p><footer><small>${t("planMinutes",{count:estimatedMinutes(next)})}</small><button type="button" data-open-lesson="${next.id}">${t("openLesson")}</button></footer></article>
-    <article class="plan-card"><span>${t("planReview")}</span><h3>${reviewCount?t("reviewItems",{count:reviewCount}):t("reviewEmpty")}</h3><p>${reviewCount?t("reviewReadyDesc"):t("reviewEmptyDesc")}</p><footer><small>${t("cards",{count:reviewCount})}</small><button type="button" data-nav="review">${t("reviewNow")}</button></footer></article>
+    <article class="plan-card"><span>${t("planReview")}</span><h3>${reviewCount?t("reviewItems",{count:reviewCount}):t("reviewEmpty")}</h3><p>${reviewCount?t("reviewReadyDesc"):t("reviewEmptyDesc")}</p><footer><small>${t("cards",{count:reviewCount})}</small>${reviewAction}</footer></article>
     <article class="plan-card"><span>${t("planDeepen")}</span><h3>${t("bookmarkItems",{count:bookmarkCount})}</h3><p>${t("bookmarksIntro")}</p><footer><small>${t("sourceBooks13")}</small><button type="button" data-nav="bookmarks">${t("exploreSaved")}</button></footer></article>`;
 }
 function renderLevelLadder() {
@@ -290,10 +303,29 @@ function renderCurriculumAtlas() {
     return `<article class="atlas-row" style="--accent:${meta.accent};--tint:${meta.tint}"><div class="atlas-category"><span>${meta.index}</span><div><h3>${escapeHTML(categoryName(category))}</h3><p>${t("courseLevels",{count:levels.length})}</p></div></div><div class="atlas-levels">${levels.map(level=>{ const lessons=units.filter(record=>record.level===level), done=lessons.filter(record=>state.completed.has(record.id)).length; return `<button type="button" data-open-level-path data-category="${escapeHTML(category)}" data-level="${escapeHTML(level)}"><span>${escapeHTML(levelName(level))}</span><b>${done}/${lessons.length}</b></button>`; }).join("")}</div></article>`;
   }).join("");
 }
+function masteryKey(record,index) { return `${record.id}::${index}`; }
+function dueMasteryItems(now=Date.now()) {
+  return Object.entries(state.mastery).map(([itemKey,value])=>{
+    const [recordId,indexRaw]=itemKey.split("::"), index=Number(indexRaw);
+    return {recordId,index,value,record:state.records.find(item=>item.id===recordId)};
+  }).filter(item=>item.record && Number.isInteger(item.index) && item.value?.dueAt && Date.parse(item.value.dueAt)<=now).sort((a,b)=>Date.parse(a.value.dueAt)-Date.parse(b.value.dueAt));
+}
+function masteredCount(record) {
+  return coreRows(record).filter((_,index)=>state.mastery[masteryKey(record,index)]?.level==="known").length;
+}
+function ratePractice(level) {
+  const record=state.currentLesson, rows=coreRows(record); if(!rows.length) return;
+  const index=((state.practiceIndex%rows.length)+rows.length)%rows.length, itemKey=masteryKey(record,index), previous=state.mastery[itemKey], previousInterval=Number(previous?.intervalDays||0);
+  const intervalDays=level==="known"?Math.min(60,Math.max(2,previousInterval*2||2)):level==="learning"?1:0;
+  state.mastery[itemKey]={level,intervalDays,dueAt:new Date(Date.now()+intervalDays*86400000).toISOString(),updatedAt:new Date().toISOString()};
+  persist(); showToast(t("practiceRated")); state.practiceIndex=(index+1)%rows.length; state.practiceRevealed=false; renderLesson();
+}
 function practiceLabHTML(record) {
   const rows=coreRows(record); if(!rows.length) return "";
   const index=((state.practiceIndex%rows.length)+rows.length)%rows.length, row=rows[index];
-  return `<section class="practice-lab" aria-labelledby="practiceLabTitle"><div class="practice-lab-heading"><div><p class="eyebrow">${t("activeRecall")}</p><h2 id="practiceLabTitle">${t("practiceLab")}</h2></div><span>${index+1}/${rows.length}</span></div><p>${t("practiceIntro")}</p><article class="practice-card"><small>${t("practicePrompt")}</small><strong>${escapeHTML(row[0]||"")}</strong>${state.practiceRevealed?`<div>${escapeHTML(row.slice(1).filter(Boolean).join(" · "))}</div>`:`<button type="button" data-practice-reveal>${t("revealItem")}</button>`}</article><button class="practice-next" type="button" data-practice-next>${t("nextItem")}</button></section>`;
+  const mastered=masteredCount(record), currentLevel=state.mastery[masteryKey(record,index)]?.level||"new";
+  const revealed=state.practiceRevealed?`<div class="practice-answer">${row.slice(1).filter(Boolean).map(cell=>`<p>${escapeHTML(cell)}</p>`).join("")}</div><div class="practice-rating" aria-label="${escapeHTML(t("itemMastery",{done:mastered,total:rows.length}))}"><button type="button" data-practice-rate="again">${t("practiceAgain")}</button><button type="button" data-practice-rate="learning">${t("practiceHard")}</button><button class="known" type="button" data-practice-rate="known">${t("practiceKnown")}</button></div>`:`<button type="button" data-practice-reveal>${t("revealItem")}</button>`;
+  return `<section class="practice-lab" aria-labelledby="practiceLabTitle"><div class="practice-lab-heading"><div><p class="eyebrow">${t("activeRecall")}</p><h2 id="practiceLabTitle">${t("practiceLab")}</h2></div><div class="practice-progress"><span>${index+1}/${rows.length}</span><small>${t("itemMastery",{done:mastered,total:rows.length})}</small></div></div><p>${t("practiceIntro")}</p><article class="practice-card" data-mastery-level="${currentLevel}"><small>${t("practicePrompt")}</small><div class="practice-item-heading"><strong>${escapeHTML(row[0]||"")}</strong><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div>${revealed}</article><button class="practice-next" type="button" data-practice-next>${t("nextItem")}</button></section>`;
 }
 function dateKey(date=new Date()) { return new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Berlin",year:"numeric",month:"2-digit",day:"2-digit"}).format(date); }
 
@@ -312,6 +344,7 @@ function persist() {
   localStorage.setItem(storageKey("completed"),JSON.stringify([...state.completed]));
   localStorage.setItem(storageKey("review"),JSON.stringify([...state.review]));
   localStorage.setItem(storageKey("bookmarks"),JSON.stringify([...state.bookmarks]));
+  localStorage.setItem(storageKey("mastery"),JSON.stringify(state.mastery));
   localStorage.setItem(storageKey("history"),JSON.stringify([...new Set(state.history)].slice(-120)));
   if (state.last) localStorage.setItem(storageKey("last"),state.last);
   renderHeaderProgress();
@@ -342,7 +375,7 @@ function showToast(message) {
 
 function progressSnapshot() {
   return {
-    completed:[...state.completed], review:[...state.review], bookmarks:[...state.bookmarks], history:[...new Set(state.history)].slice(-120),
+    completed:[...state.completed], review:[...state.review], bookmarks:[...state.bookmarks], mastery:state.mastery, history:[...new Set(state.history)].slice(-120),
     last:state.last, language:state.lang, updatedAt:new Date().toISOString(),
   };
 }
@@ -517,7 +550,7 @@ function renderLesson() {
   const body=state.recall?`<div class="recall-panel"><span>${t("activeRecall")}</span><h2>${t("recallQuestion",{title:escapeHTML(record.title)})}</h2><p>${t("recallInstruction")}</p><button type="button" data-reveal-lesson>${t("revealFull")}</button></div>`:`${lessonContentHTML(record)}${practiceLabHTML(record)}`;
   const previous=related[index-1], next=related[index+1];
   els.lessonPage.style.setProperty("--lesson-accent",meta.accent);
-  els.lessonPage.innerHTML=`<div class="lesson-actions"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?t("exitRecall"):t("recallMode")}</button><button class="${state.bookmarks.has(record.id)?"active":""}" type="button" data-toggle-bookmark>${state.bookmarks.has(record.id)?t("bookmarked"):t("addBookmark")}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?t("inReview"):t("addReview")}</button><button class="${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?t("completed"):t("markComplete")}</button></div><header class="lesson-identity"><p class="lesson-breadcrumb">${escapeHTML(categoryName(record.category))} · ${escapeHTML(topicName(topic,record.category))} · ${escapeHTML(levelName(record.level))}</p><h1>${escapeHTML(record.title)}</h1><p class="lesson-source">${escapeHTML(record.bookTitle)} · ${t("learningEdition")}</p><div class="lesson-metrics"><span>${t("estimatedTime",{count:estimatedMinutes(record)})}</span><span>${t("lessonSections",{count:record.sections?.length||0})}</span><span>${t("coreFacts",{count:coreRows(record).length})}</span><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span></div></header>${body}<nav class="lesson-nav">${previous?`<button type="button" data-open-lesson="${previous.id}"><small>${t("previousLesson")}</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>${t("nextLesson")}</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
+  els.lessonPage.innerHTML=`<header class="lesson-identity"><p class="lesson-breadcrumb">${escapeHTML(categoryName(record.category))} · ${escapeHTML(topicName(topic,record.category))} · ${escapeHTML(levelName(record.level))}</p><h1>${escapeHTML(record.title)}</h1><p class="lesson-source">${escapeHTML(record.bookTitle)} · ${t("learningEdition")}</p><div class="lesson-metrics"><span>${t("estimatedTime",{count:estimatedMinutes(record)})}</span><span>${t("lessonSections",{count:record.sections?.length||0})}</span><span>${t("coreFacts",{count:coreRows(record).length})}</span><span>${t("itemMastery",{done:masteredCount(record),total:coreRows(record).length})}</span><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span></div></header><div class="lesson-actions"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?t("exitRecall"):t("recallMode")}</button><button class="${state.bookmarks.has(record.id)?"active":""}" type="button" data-toggle-bookmark>${state.bookmarks.has(record.id)?t("bookmarked"):t("addBookmark")}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?t("inReview"):t("addReview")}</button><button class="${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?t("completed"):t("markComplete")}</button></div>${body}<nav class="lesson-nav">${previous?`<button type="button" data-open-lesson="${previous.id}"><small>${t("previousLesson")}</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>${t("nextLesson")}</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
 }
 
 function completeCurrent() {
@@ -575,6 +608,12 @@ function mergeCloudProgress(remote) {
   state.completed=new Set([...state.completed,...(remote.completed||[])].filter(id=>valid.has(id)));
   state.review=new Set([...state.review,...(remote.review||[])].filter(id=>valid.has(id)));
   state.bookmarks=new Set([...state.bookmarks,...(remote.bookmarks||[])].filter(id=>valid.has(id)));
+  const remoteMastery=remote.mastery && typeof remote.mastery==="object"?remote.mastery:{};
+  Object.entries(remoteMastery).forEach(([itemKey,value])=>{
+    const recordId=itemKey.split("::")[0]; if(!valid.has(recordId) || !value || typeof value!=="object") return;
+    const local=state.mastery[itemKey], remoteTime=Date.parse(value.updatedAt||0), localTime=Date.parse(local?.updatedAt||0);
+    if(!local || remoteTime>=localTime) state.mastery[itemKey]=value;
+  });
   state.history=[...new Set([...state.history,...(remote.history||[])])].slice(-120);
   state.last=remote.last && valid.has(remote.last)?remote.last:state.last;
   if (["en","tr","zh"].includes(remote.language)) state.lang=remote.language;
@@ -606,7 +645,7 @@ function initialize(data,cloud) {
 
 function lockLibrary() {
   clearTimeout(cloudSaveTimer); window.EKACloud?.signOut(); state.cloudEnabled=false; setSyncStatus("local",t("syncLocal"));
-  state.data=null; state.records=[]; state.currentLesson=null; state.user=null; state.completed=new Set(); state.review=new Set(); state.bookmarks=new Set(); state.history=[]; state.last=null;
+  state.data=null; state.records=[]; state.currentLesson=null; state.user=null; state.completed=new Set(); state.review=new Set(); state.bookmarks=new Set(); state.mastery={}; state.history=[]; state.last=null;
   els.password.value=""; els.confirmPassword.value=""; els.appShell.hidden=true; els.loginView.hidden=false;
   if (els.accountDialog.open) els.accountDialog.close();
   history.replaceState(null,"",location.pathname); window.scrollTo(0,0); requestAnimationFrame(()=>els.email.focus());
@@ -677,11 +716,13 @@ function bindEvents() {
   });
   els.logout.addEventListener("click",lockLibrary);
   document.addEventListener("click",event=>{
+    const speaker=event.target.closest("[data-speak]"); if(speaker) { speakEnglish(speaker.dataset.speak); return; }
     const nav=event.target.closest("[data-nav]");
     if(nav) { const target=nav.dataset.nav; if(target==="dashboard") renderDashboard(); if(target==="paths") { state.category="Grammar"; state.topic=null; state.level="All"; state.lessonLimit=12; renderPath(); } if(target==="library") { state.bookLimit=18; renderLibrary(); } if(target==="bookmarks") renderBookmarks(); if(target==="review") { state.reviewRevealed=false; renderReview(); } return; }
     const path=event.target.closest("[data-open-path]"); if(path) { state.category=path.dataset.openPath; state.topic=null; state.level="All"; state.lessonLimit=12; renderPath(); return; }
     const levelPath=event.target.closest("[data-open-level-path]"); if(levelPath) { state.category=levelPath.dataset.category; state.topic=null; state.level=levelPath.dataset.level; state.lessonLimit=12; renderPath(); return; }
     const book=event.target.closest("[data-open-book]"); if(book) { state.bookId=book.dataset.openBook; state.bookLimit=18; renderLibrary(); requestAnimationFrame(()=>els.bookCurriculum.scrollIntoView({behavior:"smooth",block:"start"})); return; }
+    const practiceItem=event.target.closest("[data-open-practice]"); if(practiceItem) { openLesson(practiceItem.dataset.openPractice); state.practiceIndex=Number(practiceItem.dataset.practiceIndex||0); state.practiceRevealed=false; renderLesson(); return; }
     const lesson=event.target.closest("[data-open-lesson]"); if(lesson) { openLesson(lesson.dataset.openLesson); return; }
     const level=event.target.closest("[data-level]"); if(level) { state.level=level.dataset.level; state.topic=null; state.lessonLimit=12; renderPath(); return; }
     const topic=event.target.closest("[data-topic]"); if(topic) { state.topic=topic.dataset.topic; state.lessonLimit=12; renderPath(); requestAnimationFrame(()=>$("#curriculumSection").scrollIntoView({behavior:"smooth",block:"start"})); return; }
@@ -691,8 +732,9 @@ function bindEvents() {
     if(event.target.closest("[data-toggle-recall]")) { state.recall=!state.recall; renderLesson(); return; }
     if(event.target.closest("[data-reveal-lesson]")) { state.recall=false; renderLesson(); return; }
     const sectionLink=event.target.closest("[data-scroll-section]"); if(sectionLink) { const section=els.lessonPage.querySelector(`[data-section-index="${sectionLink.dataset.scrollSection}"]`); section?.scrollIntoView({behavior:"smooth",block:"start"}); return; }
-    const tableToggle=event.target.closest("[data-toggle-table]"); if(tableToggle) { const shell=tableToggle.closest("[data-learning-table]"), collapsed=shell.classList.toggle("is-collapsed"); tableToggle.setAttribute("aria-expanded",String(!collapsed)); const count=shell.querySelectorAll("tbody tr").length-1; tableToggle.textContent=collapsed?t("showAllItems",{count}):t("collapseItems"); return; }
+    const tableToggle=event.target.closest("[data-toggle-table]"); if(tableToggle) { const shell=tableToggle.closest("[data-learning-table]"), collapsed=shell.classList.toggle("is-collapsed"); tableToggle.setAttribute("aria-expanded",String(!collapsed)); const count=Number(shell.dataset.itemCount||0); tableToggle.textContent=collapsed?t("showAllItems",{count}):t("collapseItems"); return; }
     if(event.target.closest("[data-practice-reveal]")) { state.practiceRevealed=true; renderLesson(); return; }
+    const practiceRate=event.target.closest("[data-practice-rate]"); if(practiceRate) { ratePractice(practiceRate.dataset.practiceRate); return; }
     if(event.target.closest("[data-practice-next]")) { const count=coreRows(state.currentLesson).length; state.practiceIndex=count?(state.practiceIndex+1)%count:0; state.practiceRevealed=false; renderLesson(); return; }
     if(event.target.closest("[data-complete-lesson]")) { completeCurrent(); return; }
     if(event.target.closest("[data-toggle-review]")) { toggleCurrentReview(); return; }
