@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "english-knowledge-atlas-erik"
-  }
+  },
+  "targets": {
+    "english-knowledge-atlas-erik": {
+      "hosting": {
+        "app": [
+          "english-knowledge-atlas"
+        ],
+        "legacy": [
+          "english-knowledge-atlas-erik"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

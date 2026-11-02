@@ -14,8 +14,8 @@ Password resets are sent through Firebase Authentication. Site administration re
 
 ## Deployment
 
-Firebase Hosting is the production-ready deployment target. `firebase.json` serves `public/`, applies security headers, and deploys the Firestore rules used by registration and cloud progress.
+Firebase Hosting is the production-ready deployment target at `https://english-knowledge-atlas.web.app`. `firebase.json` serves `public/`, applies security headers, and deploys the Firestore rules used by registration and cloud progress.
 
-Every push to `main` deploys a small redirect through the official GitHub Pages Actions workflow. The old `github.io` address forwards visitors to Firebase Hosting, so passwords and the future paid product are not served from GitHub Pages.
+Every push to `main` deploys a small redirect through the official GitHub Pages Actions workflow. Both the old `github.io` and `english-knowledge-atlas-erik.web.app` addresses forward visitors to the current Firebase Hosting site, so passwords and the future paid product are served only from the canonical host.
 
 The site uses relative asset URLs and is ready for a custom domain. Configure the chosen domain in Firebase Hosting, add its DNS records, and add the domain to Firebase Authentication's authorized domains. See `CUSTOM_DOMAIN.md`.

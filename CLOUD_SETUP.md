@@ -6,7 +6,7 @@ Required Firebase configuration:
 
 1. Enable Email/Password authentication. Public accounts are created by the site.
 2. Create the default Firestore database and deploy `firestore.rules`.
-3. Register `fuyiyangmf-art.github.io` and every future custom domain as authorized authentication domains.
+3. Register `english-knowledge-atlas.web.app`, `fuyiyangmf-art.github.io`, and every future custom domain as authorized authentication domains.
 4. Put the public web app values in `public/cloud-config.js`:
 
 ```js
