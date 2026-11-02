@@ -441,6 +441,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
   .view { padding: 2rem .85rem 4rem; }
   .dashboard-hero { grid-template-columns: 1fr; }
   .dashboard-hero h1 { font-size: clamp(3rem,15vw,5rem); }
+  html[lang="zh"] .dashboard-hero h1 { font-size: clamp(2.75rem,12vw,4.25rem); line-height: .98; letter-spacing: -.035em; }
   .progress-strip { grid-template-columns: 1fr 1fr; }
   .path-grid,.topic-grid,.lesson-grid { grid-template-columns: 1fr; }
   .bookmark-grid { grid-template-columns: 1fr; }

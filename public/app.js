@@ -50,6 +50,27 @@ const TRANSLATIONS = {
   }
 };
 
+// Edition promise: General American is the study default, while useful UK
+// forms remain visible as clearly labeled recognition notes.
+Object.assign(TRANSLATIONS.en, {
+  loginIntro:"Learn General American English through thirteen independently written courses; meaningful UK variants are clearly marked.",
+  knowledgeOnly:"Independent General American explanations, fresh examples, active recall, and clearly labeled UK variants.",
+  organized:"Organized by topic and real course level, with General American as the default and UK exceptions marked separately.",
+  learningEdition:"General American learning edition"
+});
+Object.assign(TRANSLATIONS.tr, {
+  loginIntro:"Bağımsız yazılmış on üç kursta Genel Amerikan İngilizcesi öğren; önemli Britanya kullanımları açıkça işaretlenir.",
+  knowledgeOnly:"Özgün Genel Amerikan İngilizcesi açıklamaları, yeni örnekler, etkin hatırlama ve açıkça belirtilen Britanya kullanımları.",
+  organized:"Konuya ve gerçek kurs seviyesine göre düzenlendi; Genel Amerikan İngilizcesi esastır, Britanya istisnaları ayrıca belirtilir.",
+  learningEdition:"Genel Amerikan İngilizcesi öğrenme sürümü"
+});
+Object.assign(TRANSLATIONS.zh, {
+  loginIntro:"通过十三门独立编写的课程学习通用美式英语；有实际意义的英式用法会单独标明。",
+  knowledgeOnly:"独立编写的通用美式英语讲解、全新例句、主动回忆任务，以及清楚标注的英式特例。",
+  organized:"按主题和真实课程等级组织；默认采用通用美式英语，英式特例另行标注。",
+  learningEdition:"通用美式英语学习版"
+});
+
 const TOPIC_TR = {
   Grammar:{tenses:"Zamanlar ve zaman",modality:"Kiplik, koşullar ve dilekler",voice:"Edilgen, ettirgen ve dolaylı anlatım",questions:"Sorular, olumsuzluk ve vurgu",verbs:"Fiil biçimleri ve kalıpları",nouns:"İsimler ve belirleyiciler",clauses:"Tümceler, bağlama ve sözcük dizimi",structures:"Niteleme ve diğer yapılar"},
   Vocabulary:{language:"Öğrenme, dil ve sözcük yapımı",people:"İnsanlar ve ilişkiler",daily:"Günlük yaşam ve ev",work:"İş, eğitim, para ve toplum",travel:"Seyahat, yerler ve kültür",health:"Sağlık, beden ve esenlik",world:"Doğa, bilim, teknoloji ve medya",concepts:"Fikirler, nitelikler ve değişim"},
@@ -146,7 +167,7 @@ function escapeHTML(value="") { return String(value).replace(/[&<>'"]/g,c=>({"&"
 function speakEnglish(text="") {
   if(!window.speechSynthesis || !text.trim()) return;
   window.speechSynthesis.cancel();
-  const utterance=new SpeechSynthesisUtterance(text.trim()); utterance.lang="en-GB"; utterance.rate=.88;
+  const utterance=new SpeechSynthesisUtterance(text.trim()); utterance.lang="en-US"; utterance.rate=.88;
   window.speechSynthesis.speak(utterance);
 }
 
