@@ -50,25 +50,25 @@ const TRANSLATIONS = {
   }
 };
 
-// Edition promise: General American is the study default, while useful UK
-// forms remain visible as clearly labeled recognition notes.
+// American English is the unmarked default. British differences are mentioned
+// only where they change spelling, meaning, grammar, or natural usage.
 Object.assign(TRANSLATIONS.en, {
-  loginIntro:"Learn General American English through thirteen independently written courses; meaningful UK variants are clearly marked.",
-  knowledgeOnly:"Independent General American explanations, fresh examples, active recall, and clearly labeled UK variants.",
-  organized:"Organized by topic and real course level, with General American as the default and UK exceptions marked separately.",
-  learningEdition:"General American learning edition"
+  loginIntro:"Learn through thirteen independently written courses. Current everyday U.S. usage is the default; meaningful British differences are clearly marked.",
+  knowledgeOnly:"Independent explanations, fresh examples, active recall, and British comparisons only where they are useful.",
+  organized:"Organized by topic and real course level; British differences appear only where they affect real usage.",
+  learningEdition:"Learning edition"
 });
 Object.assign(TRANSLATIONS.tr, {
-  loginIntro:"Bağımsız yazılmış on üç kursta Genel Amerikan İngilizcesi öğren; önemli Britanya kullanımları açıkça işaretlenir.",
-  knowledgeOnly:"Özgün Genel Amerikan İngilizcesi açıklamaları, yeni örnekler, etkin hatırlama ve açıkça belirtilen Britanya kullanımları.",
-  organized:"Konuya ve gerçek kurs seviyesine göre düzenlendi; Genel Amerikan İngilizcesi esastır, Britanya istisnaları ayrıca belirtilir.",
-  learningEdition:"Genel Amerikan İngilizcesi öğrenme sürümü"
+  loginIntro:"Bağımsız yazılmış on üç kursta öğren. Güncel gündelik ABD kullanımı varsayılandır; anlamlı Britanya farkları ayrıca belirtilir.",
+  knowledgeOnly:"Özgün açıklamalar, yeni örnekler, etkin hatırlama ve yalnızca yararlı olduğu yerde Britanya karşılaştırmaları.",
+  organized:"Konuya ve gerçek kurs seviyesine göre düzenlendi; Britanya farkları yalnızca gerçek kullanımı etkilediğinde gösterilir.",
+  learningEdition:"Öğrenme sürümü"
 });
 Object.assign(TRANSLATIONS.zh, {
-  loginIntro:"通过十三门独立编写的课程学习通用美式英语；有实际意义的英式用法会单独标明。",
-  knowledgeOnly:"独立编写的通用美式英语讲解、全新例句、主动回忆任务，以及清楚标注的英式特例。",
-  organized:"按主题和真实课程等级组织；默认采用通用美式英语，英式特例另行标注。",
-  learningEdition:"通用美式英语学习版"
+  loginIntro:"通过十三门独立编写的课程系统学习。全站默认采用当代日常美语；只有确有影响的英式差异才会单独说明。",
+  knowledgeOnly:"独立讲解、全新例句、主动回忆，以及只在真正有用时出现的英式对照。",
+  organized:"按主题和真实课程等级组织；英式差异仅在影响实际使用时出现。",
+  learningEdition:"学习版"
 });
 
 const TOPIC_TR = {
@@ -192,7 +192,7 @@ function lessonBlockHTML(block={},context={}) {
     const tableId=`learning-table-${context.recordId || "lesson"}-${context.sectionIndex || 0}-${context.blockIndex || 0}`;
     if(String(context.sectionLabel||"").toUpperCase()==="C" && rows.length>1) {
       const headings=rows[0];
-      const cards=rows.slice(1).map((row,index)=>`<article class="knowledge-card"><span>${String(index+1).padStart(2,"0")}</span><div class="knowledge-card-head"><h3>${escapeHTML(row[0]||"")}</h3><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div><dl>${row.slice(1).map((cell,cellIndex)=>`<div><dt>${escapeHTML(headings[cellIndex+1]||"")}</dt><dd>${escapeHTML(cell||"")}</dd></div>`).join("")}</dl></article>`).join("");
+      const cards=rows.slice(1).map((row,index)=>`<article class="knowledge-card"><span>${String(index+1).padStart(2,"0")}</span><div class="knowledge-card-head"><h3>${escapeHTML(row[0]||"")}</h3><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div><dl>${row.slice(1).map((cell,cellIndex)=>({cell,heading:headings[cellIndex+1]})).filter(item=>String(item.cell||"").trim()).map(item=>`<div><dt>${escapeHTML(item.heading||"")}</dt><dd>${escapeHTML(item.cell||"")}</dd></div>`).join("")}</dl></article>`).join("");
       return `<div class="lesson-table-shell knowledge-card-shell ${dense?"is-collapsed":""}" data-learning-table data-item-count="${itemCount}"><div class="knowledge-card-grid" role="list" aria-label="${escapeHTML(t("learningTable"))}" id="${tableId}">${cards}</div>${dense?`<div class="table-completeness"><span>${t("allContentNote",{count:itemCount})}</span><button type="button" data-toggle-table aria-controls="${tableId}" aria-expanded="false">${t("showAllItems",{count:itemCount})}</button></div>`:""}</div>`;
     }
     const columnCount=Math.max(...rows.map(row=>row.length));
