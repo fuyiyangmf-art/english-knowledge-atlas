@@ -2,19 +2,65 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isExistingLearner() {
-      return request.auth != null && request.auth.uid in [
-        "9fizd35wQsfXZE2P05cTecfFIPO2"
-      ];
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function profilePath(userId) {
+      return /databases/$(database)/documents/users/$(userId)/profile/state;
+    }
+
+    function isGrandfatheredLearner() {
+      return signedIn() && request.auth.uid == "9fizd35wQsfXZE2P05cTecfFIPO2";
+    }
+
+    function hasLearningAccess() {
+      return isGrandfatheredLearner() || (
+        signedIn()
+        && exists(profilePath(request.auth.uid))
+        && get(profilePath(request.auth.uid)).data.role == "learner"
+        && get(profilePath(request.auth.uid)).data.status == "active"
+        && get(profilePath(request.auth.uid)).data.plan in ["free", "premium", "lifetime"]
+      );
     }
 
     match /config/content {
-      allow read: if isExistingLearner();
+      allow read: if hasLearningAccess();
       allow write: if false;
     }
 
-    match /users/{userId}/{document=**} {
-      allow read, write: if isExistingLearner() && request.auth.uid == userId;
+    match /users/{userId}/profile/state {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId)
+        && request.resource.data.keys().hasOnly([
+          "displayName", "email", "role", "plan", "status", "createdAt", "updatedAt"
+        ])
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() >= 2
+        && request.resource.data.displayName.size() <= 40
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.role == "learner"
+        && request.resource.data.plan == "free"
+        && request.resource.data.status == "active"
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp;
+      allow update: if isOwner(userId)
+        && request.resource.data.keys().hasOnly([
+          "displayName", "email", "role", "plan", "status", "createdAt", "updatedAt"
+        ])
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["displayName", "updatedAt"])
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() >= 2
+        && request.resource.data.displayName.size() <= 40;
+      allow delete: if false;
+    }
+
+    match /users/{userId}/progress/state {
+      allow read, write: if isOwner(userId);
     }
 
     match /{document=**} {

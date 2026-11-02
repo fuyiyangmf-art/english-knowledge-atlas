@@ -86,6 +86,7 @@
   }
 
   async function saveProfile() {
+    const now = new Date().toISOString();
     await request(profileUrl(), {
       method: "PATCH",
       headers: {Authorization: `Bearer ${await token()}`, "Content-Type": "application/json"},
@@ -93,7 +94,10 @@
         displayName: {stringValue: session.displayName},
         email: {stringValue: session.email},
         role: {stringValue: "learner"},
-        updatedAt: {timestampValue: new Date().toISOString()},
+        plan: {stringValue: "free"},
+        status: {stringValue: "active"},
+        createdAt: {timestampValue: now},
+        updatedAt: {timestampValue: now},
       }}),
     });
   }
@@ -109,6 +113,22 @@
     if (!available()) throw new Error("CLOUD_UNAVAILABLE");
     const auth = await authRequest("signInWithPassword", {email: email.trim(), password, returnSecureToken: true});
     return finishAuthentication(auth);
+  }
+
+  async function register(email, password, displayName) {
+    if (!available()) throw new Error("CLOUD_UNAVAILABLE");
+    const profile = {email: email.trim(), displayName: displayName.trim()};
+    const auth = await authRequest("signUp", {email: profile.email, password, returnSecureToken: true});
+    setSession(auth, profile);
+    try {
+      await saveProfile();
+    } catch (error) {
+      try { await authRequest("delete", {idToken: session.idToken}); } catch (_) {}
+      session = null;
+      throw error;
+    }
+    const [progress, contentKey] = await Promise.all([loadProgress(), loadContentKey()]);
+    return {enabled: true, progress, contentKey, user: getUser()};
   }
 
   async function saveProgress(progress) {
@@ -149,5 +169,5 @@
   function signOut() { session = null; }
   function isAuthenticated() { return Boolean(session); }
 
-  window.EKACloud = {available, signIn, saveProgress, changePassword, requestPasswordReset, getUser, signOut, isAuthenticated};
+  window.EKACloud = {available, signIn, register, saveProgress, changePassword, requestPasswordReset, getUser, signOut, isAuthenticated};
 })();

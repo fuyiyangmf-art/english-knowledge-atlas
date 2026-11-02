@@ -3,12 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="robots" content="index,follow">
   <meta name="theme-color" content="#f4f5f0">
   <title>English Knowledge Atlas</title>
-  <meta name="description" content="A private, encrypted English learning website.">
+  <meta name="description" content="A structured American English learning platform with original courses, active recall, bookmarks, and cloud-synced progress.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="English Knowledge Atlas">
+  <meta property="og:description" content="Learn current American English through structured original courses and active recall.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2318201e'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='24' font-weight='700' fill='white'%3EEA%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css?v=20261102-25">
+  <link rel="stylesheet" href="./styles.css?v=20261102-26">
 </head>
 <body>
   <a class="skip-link" href="#mainContent" data-i18n="skipLink">Skip to main content</a>
@@ -26,8 +29,9 @@
       <p class="login-intro" data-i18n="loginIntro">Learn through thirteen independently written English courses.</p>
       <div class="auth-tabs" role="tablist" aria-label="Account access" data-i18n-aria="accountAccess">
         <button class="active" type="button" role="tab" aria-selected="true" data-auth-mode="login" data-i18n="signIn">Sign in</button>
+        <button type="button" role="tab" aria-selected="false" data-auth-mode="register" data-i18n="register">Create account</button>
       </div>
-      <p class="registration-closed" data-i18n="registrationClosed">New registrations are temporarily closed.</p>
+      <p class="registration-closed" data-i18n="registrationOpen">Create a free account. Your progress and bookmarks follow you across devices.</p>
       <form id="loginForm" class="login-form">
         <label id="displayNameGroup" hidden><span data-i18n="displayName">Display name</span><input id="displayNameInput" name="displayName" type="text" autocomplete="name" minlength="2" maxlength="40"></label>
         <label><span data-i18n="email">Email</span><input id="emailInput" name="email" type="email" autocomplete="email" autocapitalize="none" required></label>
@@ -223,7 +227,7 @@
 
   <div class="toast" id="toast" role="status" hidden></div>
   <script src="./cloud-config.js?v=20261026-14" defer></script>
-  <script src="./cloud-sync.js?v=20261102-25" defer></script>
-  <script src="./app.js?v=20261102-25" defer></script>
+  <script src="./cloud-sync.js?v=20261102-26" defer></script>
+  <script src="./app.js?v=20261102-26" defer></script>
 </body>
 </html>
