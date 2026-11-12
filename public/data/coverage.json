@@ -121,9 +121,13 @@
   "minimumOcrConfidence": 0.83,
   "vocabularyRecordsRebuilt": 362,
   "textRepairRecordsChanged": 897,
-  "contentVersion": "independent-atlas-curriculum-v4",
+  "contentVersion": "independent-atlas-american-curriculum-v7",
   "independentlyAuthoredRecords": 1192,
   "originalAuthoringAuditPassed": true,
   "directSourceEightGramMatches": 0,
-  "sourceBrandLeaks": 0
+  "sourceBrandLeaks": 0,
+  "storyModeVersion": "context-story-v1",
+  "storyModeRecords": 665,
+  "storyModeFocusItems": 2652,
+  "storyModeAuditPassed": true
 }
