@@ -56,19 +56,19 @@ Object.assign(TRANSLATIONS.en, {
   loginIntro:"Learn through thirteen independently written courses. Current everyday U.S. usage is the default; meaningful British differences are clearly marked.",
   knowledgeOnly:"Independent explanations, fresh examples, active recall, and British comparisons only where they are useful.",
   organized:"Organized by topic and real course level; British differences appear only where they affect real usage.",
-  learningEdition:"Learning edition", lessonJourney:"Guided lesson", stepStory:"Story", stepStart:"Start", stepUnderstand:"Understand", stepKnowledge:"Knowledge", stepPractice:"Practice", stepSummary:"Summary", viewFullLesson:"View full lesson", returnGuided:"Return to guided steps", previousStep:"Previous step", nextStep:"Next step", statusNew:"New", statusLearning:"Learning", statusDue:"Due", statusMastered:"Mastered", practiceThis:"Practice this item", lessonSummary:"Lesson summary", lessonSummaryIntro:"Review your item-level progress, strengthen anything unstable, then complete the lesson when you are ready.", weakItems:"{count} need attention", reviewWeak:"Review weak items", journeyComplete:"You have reached the final step. Completion is your choice; item progress remains available for later review."
+  learningEdition:"Learning edition", lessonJourney:"Guided lesson", stepStory:"Story", stepStart:"Start", stepUnderstand:"Understand", stepKnowledge:"Knowledge", stepPractice:"Practice", stepSummary:"Summary", viewFullLesson:"View full lesson", returnGuided:"Return to guided steps", previousStep:"Previous step", nextStep:"Next step", moreActions:"More", statusNew:"New", statusLearning:"Learning", statusDue:"Due", statusMastered:"Mastered", practiceThis:"Practice this item", lessonSummary:"Lesson summary", lessonSummaryIntro:"Review your item-level progress, strengthen anything unstable, then complete the lesson when you are ready.", weakItems:"{count} need attention", reviewWeak:"Review weak items", journeyComplete:"You have reached the final step. Completion is your choice; item progress remains available for later review."
 });
 Object.assign(TRANSLATIONS.tr, {
   loginIntro:"Bağımsız yazılmış on üç kursta öğren. Güncel gündelik ABD kullanımı varsayılandır; anlamlı Britanya farkları ayrıca belirtilir.",
   knowledgeOnly:"Özgün açıklamalar, yeni örnekler, etkin hatırlama ve yalnızca yararlı olduğu yerde Britanya karşılaştırmaları.",
   organized:"Konuya ve gerçek kurs seviyesine göre düzenlendi; Britanya farkları yalnızca gerçek kullanımı etkilediğinde gösterilir.",
-  learningEdition:"Öğrenme sürümü", lessonJourney:"Rehberli ders", stepStory:"Öykü", stepStart:"Başlangıç", stepUnderstand:"Anla", stepKnowledge:"Bilgi", stepPractice:"Alıştırma", stepSummary:"Özet", viewFullLesson:"Dersin tamamını gör", returnGuided:"Rehberli adımlara dön", previousStep:"Önceki adım", nextStep:"Sonraki adım", statusNew:"Yeni", statusLearning:"Öğreniliyor", statusDue:"Tekrar zamanı", statusMastered:"Öğrenildi", practiceThis:"Bu öğeyi çalış", lessonSummary:"Ders özeti", lessonSummaryIntro:"Öğe düzeyindeki ilerlemeni incele, kararsız bilgileri güçlendir ve hazır olduğunda dersi tamamla.", weakItems:"{count} öğe çalışılmalı", reviewWeak:"Zayıf öğeleri tekrarla", journeyComplete:"Son adıma ulaştın. Dersi tamamlama seçimi sana ait; öğe ilerlemen sonraki tekrarlar için saklanır."
+  learningEdition:"Öğrenme sürümü", lessonJourney:"Rehberli ders", stepStory:"Öykü", stepStart:"Başlangıç", stepUnderstand:"Anla", stepKnowledge:"Bilgi", stepPractice:"Alıştırma", stepSummary:"Özet", viewFullLesson:"Dersin tamamını gör", returnGuided:"Rehberli adımlara dön", previousStep:"Önceki adım", nextStep:"Sonraki adım", moreActions:"Diğer", statusNew:"Yeni", statusLearning:"Öğreniliyor", statusDue:"Tekrar zamanı", statusMastered:"Öğrenildi", practiceThis:"Bu öğeyi çalış", lessonSummary:"Ders özeti", lessonSummaryIntro:"Öğe düzeyindeki ilerlemeni incele, kararsız bilgileri güçlendir ve hazır olduğunda dersi tamamla.", weakItems:"{count} öğe çalışılmalı", reviewWeak:"Zayıf öğeleri tekrarla", journeyComplete:"Son adıma ulaştın. Dersi tamamlama seçimi sana ait; öğe ilerlemen sonraki tekrarlar için saklanır."
 });
 Object.assign(TRANSLATIONS.zh, {
   loginIntro:"通过十三门独立编写的课程系统学习。全站默认采用当代日常美语；只有确有影响的英式差异才会单独说明。",
   knowledgeOnly:"独立讲解、全新例句、主动回忆，以及只在真正有用时出现的英式对照。",
   organized:"按主题和真实课程等级组织；英式差异仅在影响实际使用时出现。",
-  learningEdition:"学习版", lessonJourney:"分步学习", stepStory:"情境", stepStart:"开始", stepUnderstand:"理解", stepKnowledge:"知识", stepPractice:"练习", stepSummary:"总结", viewFullLesson:"查看完整课程", returnGuided:"返回分步学习", previousStep:"上一步", nextStep:"下一步", statusNew:"未学习", statusLearning:"学习中", statusDue:"待复习", statusMastered:"已掌握", practiceThis:"练习这个知识点", lessonSummary:"本课总结", lessonSummaryIntro:"查看每个知识点的学习状态，继续巩固不稳定内容，准备好后再完成本课。", weakItems:"{count} 项需要巩固", reviewWeak:"复习薄弱知识", journeyComplete:"你已经到达最后一步。是否完成由你决定；每个知识点的进度都会保留，供以后复习。"
+  learningEdition:"学习版", lessonJourney:"分步学习", stepStory:"情境", stepStart:"开始", stepUnderstand:"理解", stepKnowledge:"知识", stepPractice:"练习", stepSummary:"总结", viewFullLesson:"查看完整课程", returnGuided:"返回分步学习", previousStep:"上一步", nextStep:"下一步", moreActions:"更多", statusNew:"未学习", statusLearning:"学习中", statusDue:"待复习", statusMastered:"已掌握", practiceThis:"练习这个知识点", lessonSummary:"本课总结", lessonSummaryIntro:"查看每个知识点的学习状态，继续巩固不稳定内容，准备好后再完成本课。", weakItems:"{count} 项需要巩固", reviewWeak:"复习薄弱知识", journeyComplete:"你已经到达最后一步。是否完成由你决定；每个知识点的进度都会保留，供以后复习。"
 });
 
 const TOPIC_TR = {
@@ -193,7 +193,7 @@ function lessonBlockHTML(block={},context={}) {
     if(String(context.sectionLabel||"").toUpperCase()==="C" && rows.length>1) {
       const headings=rows[0];
       const record=state.records.find(item=>item.id===context.recordId) || {id:context.recordId};
-      const cards=rows.slice(1).map((row,index)=>{ const status=masteryStatus(record,index); return `<article class="knowledge-card" data-mastery-status="${status}"><div class="knowledge-card-meta"><span>${String(index+1).padStart(2,"0")}</span><b>${t(`status${status[0].toUpperCase()}${status.slice(1)}`)}</b></div><div class="knowledge-card-head"><h3>${escapeHTML(row[0]||"")}</h3><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div><dl>${row.slice(1).map((cell,cellIndex)=>({cell,heading:headings[cellIndex+1]})).filter(item=>String(item.cell||"").trim()).map(item=>`<div><dt>${escapeHTML(item.heading||"")}</dt><dd>${escapeHTML(item.cell||"")}</dd></div>`).join("")}</dl><footer><button type="button" data-practice-item="${index}">${t("practiceThis")} →</button></footer></article>`; }).join("");
+      const cards=rows.slice(1).map((row,index)=>{ const status=masteryStatus(record,index); return `<article class="knowledge-card" role="listitem" data-mastery-status="${status}"><div class="knowledge-card-meta"><span>${String(index+1).padStart(2,"0")}</span><b>${t(`status${status[0].toUpperCase()}${status.slice(1)}`)}</b></div><div class="knowledge-card-head"><h3>${escapeHTML(row[0]||"")}</h3><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div><dl>${row.slice(1).map((cell,cellIndex)=>({cell,heading:headings[cellIndex+1]})).filter(item=>String(item.cell||"").trim()).map(item=>`<div><dt>${escapeHTML(item.heading||"")}</dt><dd>${escapeHTML(item.cell||"")}</dd></div>`).join("")}</dl><footer><button type="button" data-practice-item="${index}">${t("practiceThis")} →</button></footer></article>`; }).join("");
       return `<div class="lesson-table-shell knowledge-card-shell ${dense?"is-collapsed":""}" data-learning-table data-item-count="${itemCount}"><div class="knowledge-card-grid" role="list" aria-label="${escapeHTML(t("learningTable"))}" id="${tableId}">${cards}</div>${dense?`<div class="table-completeness"><span>${t("allContentNote",{count:itemCount})}</span><button type="button" data-toggle-table aria-controls="${tableId}" aria-expanded="false">${t("showAllItems",{count:itemCount})}</button></div>`:""}</div>`;
     }
     const columnCount=Math.max(...rows.map(row=>row.length));
@@ -304,7 +304,7 @@ function applyLanguage({render=true}={}) {
   document.querySelectorAll("[data-i18n-lines]").forEach(node=>{ node.innerHTML=t(node.dataset.i18nLines).split("\n").map(escapeHTML).join("<br>"); });
   document.querySelectorAll("[data-i18n-aria]").forEach(node=>node.setAttribute("aria-label",t(node.dataset.i18nAria)));
   document.querySelectorAll("[data-category-label]").forEach(node=>{ node.textContent=categoryName(node.dataset.categoryLabel); });
-  document.querySelectorAll("[data-language]").forEach(button=>button.classList.toggle("active",button.dataset.language===state.lang));
+  document.querySelectorAll("[data-language]").forEach(button=>{ const active=button.dataset.language===state.lang; button.classList.toggle("active",active); button.setAttribute("aria-pressed",String(active)); });
   els.searchInput.placeholder=t("searchPlaceholder");
   els.openSearch.setAttribute("aria-label",t("searchAria"));
   els.closeSearch.setAttribute("aria-label",t("closeSearch"));
@@ -315,7 +315,7 @@ function applyLanguage({render=true}={}) {
   els.securityNoteText.textContent=t(window.EKACloud?.available()?"securityCloud":"securityLocal");
   els.loginButton.firstElementChild.textContent=t(state.authMode==="register"?"register":"enter");
   const syncKey={local:"syncLocal",syncing:"syncSaving",synced:"syncDone",error:"syncWaiting"}[els.syncStatus.dataset.state] || "syncLocal";
-  els.syncStatus.lastElementChild.textContent=t(syncKey);
+  els.syncStatus.lastElementChild.textContent=t(syncKey); els.syncStatus.title=t(syncKey); els.syncStatus.setAttribute("aria-label",t(syncKey));
   localStorage.setItem("eka-language",state.lang);
   if (!render || !state.data) return;
   if (state.view==="dashboard") renderDashboard();
@@ -455,7 +455,7 @@ function progressSnapshot() {
 
 function setSyncStatus(status,label) {
   els.syncStatus.dataset.state=status;
-  els.syncStatus.lastElementChild.textContent=label;
+  els.syncStatus.lastElementChild.textContent=label; els.syncStatus.title=label; els.syncStatus.setAttribute("aria-label",label);
 }
 
 let cloudSaveTimer;
@@ -473,7 +473,7 @@ function setView(view) {
   [els.dashboard,els.path,els.lesson,els.library,els.bookmarks,els.review].forEach(section=>section.hidden=true);
   ({dashboard:els.dashboard,path:els.path,lesson:els.lesson,library:els.library,bookmarks:els.bookmarks,review:els.review}[view]).hidden=false;
   const activeNav=view==="lesson"?(state.lessonOrigin==="library"?"library":state.lessonOrigin==="bookmarks"?"bookmarks":"paths"):(view==="path"?"paths":view);
-  document.querySelectorAll("[data-nav]").forEach(button=>button.classList.toggle("active",button.dataset.nav===activeNav));
+  document.querySelectorAll(".main-nav [data-nav]").forEach(button=>{ const active=button.dataset.nav===activeNav; button.classList.toggle("active",active); if(active) button.setAttribute("aria-current","page"); else button.removeAttribute("aria-current"); });
   window.scrollTo(0,0);
 }
 
@@ -671,22 +671,22 @@ function lessonJourneyHTML(record) {
   const full=`${record.story?contextStoryHTML(record):""}${lessonContentHTML(record)}${practiceLabHTML(record)}${lessonSummaryHTML(record)}`;
   const body=state.lessonFull?full:lessonStepContentHTML(record,active);
   const previous=!state.lessonFull&&state.lessonStep>0, next=!state.lessonFull&&state.lessonStep<steps.length-1;
-  return `<section class="lesson-journey" data-lesson-journey><header><div><p class="eyebrow">${t("lessonJourney")}</p><strong>${state.lessonFull?t("viewFullLesson"):`${state.lessonStep+1}/${steps.length} · ${escapeHTML(active.label)}`}</strong></div><button type="button" data-toggle-lesson-full>${state.lessonFull?t("returnGuided"):t("viewFullLesson")}</button></header><nav class="lesson-stepper" aria-label="${escapeHTML(t("lessonJourney"))}">${rail}</nav><div class="lesson-phase" data-lesson-phase aria-live="polite">${body}</div>${state.lessonFull?"":`<footer class="lesson-step-controls">${previous?`<button type="button" data-lesson-previous>← ${t("previousStep")}</button>`:"<span></span>"}${next?`<button class="next" type="button" data-lesson-next>${t("nextStep")} →</button>`:"<span></span>"}</footer>`}</section>`;
+  return `<section class="lesson-journey" data-lesson-journey><header><div><p class="eyebrow">${t("lessonJourney")}</p><strong aria-live="polite">${state.lessonFull?t("viewFullLesson"):`${state.lessonStep+1}/${steps.length} · ${escapeHTML(active.label)}`}</strong></div><button type="button" data-toggle-lesson-full>${state.lessonFull?t("returnGuided"):t("viewFullLesson")}</button></header><nav class="lesson-stepper" aria-label="${escapeHTML(t("lessonJourney"))}">${rail}</nav><div class="lesson-phase" data-lesson-phase>${body}</div>${state.lessonFull?"":`<footer class="lesson-step-controls">${previous?`<button type="button" data-lesson-previous>← ${t("previousStep")}</button>`:"<span></span>"}${next?`<button class="next" type="button" data-lesson-next>${t("nextStep")} →</button>`:"<span></span>"}</footer>`}</section>`;
 }
 
 function alignActiveLessonStep() {
-  [els.lessonPage.querySelector(".lesson-stepper"),els.lessonOutline.querySelector(".section-map")].forEach(nav=>{
-    const active=nav?.querySelector('[aria-current="step"]');
-    if(!nav || !active || nav.scrollWidth<=nav.clientWidth) return;
-    nav.scrollLeft=Math.max(0,active.offsetLeft-(nav.clientWidth-active.offsetWidth)/2);
-  });
+  const nav=els.lessonPage.querySelector(".lesson-stepper");
+  const active=nav?.querySelector('[aria-current="step"]');
+  if(!nav || !active || nav.scrollWidth<=nav.clientWidth) return;
+  nav.scrollLeft=Math.max(0,active.offsetLeft-(nav.clientWidth-active.offsetWidth)/2);
 }
 
 function refreshLessonJourney(focusSelector="") {
   const current=els.lessonPage.querySelector("[data-lesson-journey]"); if(!current || !state.currentLesson) { renderLesson(); return; }
+  const scrollPosition=window.scrollY;
   current.outerHTML=lessonJourneyHTML(state.currentLesson);
-  els.lessonOutline.querySelectorAll("[data-lesson-step]").forEach(button=>{ const index=Number(button.dataset.lessonStep), active=!state.lessonFull&&index===state.lessonStep; button.classList.toggle("active",active); button.classList.toggle("visited",index<state.lessonStep); button.setAttribute("aria-current",active?"step":"false"); });
-  requestAnimationFrame(()=>{ alignActiveLessonStep(); if(focusSelector) els.lessonPage.querySelector(focusSelector)?.focus({preventScroll:true}); });
+  const lessonNav=els.lessonPage.querySelector(".lesson-nav"); if(lessonNav) lessonNav.hidden=!state.lessonFull && state.lessonStep<lessonSteps(state.currentLesson).length-1;
+  requestAnimationFrame(()=>{ window.scrollTo(0,scrollPosition); alignActiveLessonStep(); if(focusSelector) els.lessonPage.querySelector(focusSelector)?.focus({preventScroll:true}); });
 }
 
 function setLessonStep(index,focusSelector="") {
@@ -706,15 +706,16 @@ function renderLesson() {
   const record=state.currentLesson, meta=CATEGORY_META[record.category], topic=topicFor(record), related=relatedLessons(record), index=related.findIndex(r=>r.id===record.id);
   const nearby=related.slice(Math.max(0,index-3),Math.min(related.length,index+5));
   const back=state.lessonOrigin==="library"?`<button class="back-button" type="button" data-back-library>← ${escapeHTML(record.bookTitle)}</button>`:state.lessonOrigin==="bookmarks"?`<button class="back-button" type="button" data-back-bookmarks>← ${t("bookmarksTitle")}</button>`:`<button class="back-button" type="button" data-back-path>← ${escapeHTML(categoryName(record.category))}</button>`;
+  const mobileBack=back.replace('class="back-button"','class="lesson-mobile-back"');
   const courseUnits=bookRecords(record.bookId).filter(item=>item.kind==="unit"), courseIndex=courseUnits.findIndex(item=>item.id===record.id);
   const steps=lessonSteps(record); state.lessonStep=Math.max(0,Math.min(state.lessonStep,steps.length-1));
-  const sectionLinks=steps.map((step,stepIndex)=>`<button class="${!state.lessonFull&&stepIndex===state.lessonStep?"active":stepIndex<state.lessonStep?"visited":""}" type="button" data-lesson-step="${stepIndex}" aria-current="${!state.lessonFull&&stepIndex===state.lessonStep?"step":"false"}"><span>${stepIndex+1}</span>${escapeHTML(step.label)}</button>`).join("");
   const coursePercent=percent(Math.max(0,courseIndex+1),courseUnits.length);
-  els.lessonOutline.innerHTML=`${back}<div class="outline-progress"><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span><i><b style="width:${coursePercent}%"></b></i></div><p class="outline-label">${t("sectionMap")}</p><nav class="section-map">${sectionLinks}</nav><p class="outline-label">${state.lessonOrigin==="library"?t("originalOrder"):state.lessonOrigin==="bookmarks"?t("savedLessons"):escapeHTML(topicName(topic,record.category))}</p>${nearby.map(r=>`<button class="outline-item ${r.id===record.id?"active":""}" type="button" data-open-lesson="${r.id}"><span class="${state.completed.has(r.id)?"done":""}">${state.completed.has(r.id)?"✓":r.kind==="unit"?escapeHTML(r.unit):"·"}</span><span>${escapeHTML(r.title)}</span></button>`).join("")}`;
+  els.lessonOutline.innerHTML=`${back}<div class="outline-progress"><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span><i><b style="width:${coursePercent}%"></b></i></div><p class="outline-label">${state.lessonOrigin==="library"?t("originalOrder"):state.lessonOrigin==="bookmarks"?t("savedLessons"):escapeHTML(topicName(topic,record.category))}</p>${nearby.map(r=>`<button class="outline-item ${r.id===record.id?"active":""}" type="button" data-open-lesson="${r.id}"><span class="${state.completed.has(r.id)?"done":""}">${state.completed.has(r.id)?"✓":r.kind==="unit"?escapeHTML(r.unit):"·"}</span><span>${escapeHTML(r.title)}</span></button>`).join("")}`;
   const body=state.recall?`<div class="recall-panel"><span>${t("activeRecall")}</span><h2>${t("recallQuestion",{title:escapeHTML(record.title)})}</h2><p>${t("recallInstruction")}</p><button type="button" data-reveal-lesson>${t("revealFull")}</button></div>`:lessonJourneyHTML(record);
   const previous=related[index-1], next=related[index+1];
+  const showLessonNav=!state.recall && (state.lessonFull || state.lessonStep===steps.length-1);
   els.lessonPage.style.setProperty("--lesson-accent",meta.accent);
-  els.lessonPage.innerHTML=`<header class="lesson-identity"><p class="lesson-breadcrumb">${escapeHTML(categoryName(record.category))} · ${escapeHTML(topicName(topic,record.category))} · ${escapeHTML(levelName(record.level))}</p><h1>${escapeHTML(record.title)}</h1><p class="lesson-source">${escapeHTML(record.bookTitle)} · ${t("learningEdition")}</p><div class="lesson-metrics"><span>${t("estimatedTime",{count:estimatedMinutes(record)})}</span><span>${t("lessonSections",{count:(record.sections?.length||0)+(record.story?1:0)})}</span><span>${t("coreFacts",{count:coreRows(record).length})}</span><span id="lessonMasteryMetric">${t("itemMastery",{done:masteredCount(record),total:coreRows(record).length})}</span><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span></div></header><div class="lesson-actions"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?t("exitRecall"):t("recallMode")}</button><button class="${state.bookmarks.has(record.id)?"active":""}" type="button" data-toggle-bookmark>${state.bookmarks.has(record.id)?t("bookmarked"):t("addBookmark")}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?t("inReview"):t("addReview")}</button><button class="${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?t("completed"):t("markComplete")}</button></div>${body}<nav class="lesson-nav">${previous?`<button type="button" data-open-lesson="${previous.id}"><small>${t("previousLesson")}</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>${t("nextLesson")}</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
+  els.lessonPage.innerHTML=`<header class="lesson-identity">${mobileBack}<p class="lesson-breadcrumb">${escapeHTML(categoryName(record.category))} · ${escapeHTML(topicName(topic,record.category))} · ${escapeHTML(levelName(record.level))}</p><h1>${escapeHTML(record.title)}</h1><div class="lesson-meta-row"><p class="lesson-source">${escapeHTML(record.bookTitle)} · ${t("learningEdition")}</p><div class="lesson-metrics"><span>${t("estimatedTime",{count:estimatedMinutes(record)})}</span><span id="lessonMasteryMetric">${t("itemMastery",{done:masteredCount(record),total:coreRows(record).length})}</span><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span></div></div></header><div class="lesson-toolbar"><div class="lesson-actions"><details class="lesson-more"><summary>${t("moreActions")}</summary><div class="lesson-more-menu"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?t("exitRecall"):t("recallMode")}</button><button class="${state.bookmarks.has(record.id)?"active":""}" type="button" data-toggle-bookmark>${state.bookmarks.has(record.id)?t("bookmarked"):t("addBookmark")}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?t("inReview"):t("addReview")}</button></div></details><button class="lesson-complete-action ${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?t("completed"):t("markComplete")}</button></div></div>${body}<nav class="lesson-nav"${showLessonNav?"":" hidden"}>${previous?`<button type="button" data-open-lesson="${previous.id}"><small>${t("previousLesson")}</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>${t("nextLesson")}</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
   requestAnimationFrame(alignActiveLessonStep);
 }
 
@@ -737,7 +738,7 @@ function toggleCurrentReview() {
   else { state.review.add(id); showToast(t("addedReview")); }
   persist();
   const active=state.review.has(id), button=els.lessonPage.querySelector("[data-toggle-review]");
-  if(button) { button.classList.toggle("active",active); button.textContent=t(active?"inReview":"addReview"); }
+  if(button) { button.classList.toggle("active",active); button.textContent=t(active?"inReview":"addReview"); button.closest("details")?.removeAttribute("open"); }
 }
 
 function toggleCurrentBookmark() {
@@ -746,7 +747,7 @@ function toggleCurrentBookmark() {
   else { state.bookmarks.add(id); showToast(t("addedBookmark")); }
   persist();
   const active=state.bookmarks.has(id), button=els.lessonPage.querySelector("[data-toggle-bookmark]");
-  if(button) { button.classList.toggle("active",active); button.textContent=t(active?"bookmarked":"addBookmark"); }
+  if(button) { button.classList.toggle("active",active); button.textContent=t(active?"bookmarked":"addBookmark"); button.closest("details")?.removeAttribute("open"); }
 }
 
 function renderBookmarks() {

@@ -13,7 +13,7 @@
   <meta property="og:url" content="https://english-knowledge-atlas.web.app/">
   <link rel="canonical" href="https://english-knowledge-atlas.web.app/">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2318201e'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia' font-size='24' font-weight='700' fill='white'%3EEA%3C/text%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css?v=20261113-29">
+  <link rel="stylesheet" href="./styles.css?v=20261113-32">
 </head>
 <body>
   <a class="skip-link" href="#mainContent" data-i18n="skipLink">Skip to main content</a>
@@ -73,18 +73,18 @@
         <span class="brand-copy"><strong>English Atlas</strong><small data-i18n="learningEdition">Learning edition</small></span>
       </a>
       <nav class="main-nav" aria-label="Primary navigation" data-i18n-aria="primaryNavigation">
-        <button class="active" data-nav="dashboard" type="button" data-i18n="navHome">Home</button>
-        <button data-nav="paths" type="button" data-i18n="navPaths">Learning paths</button>
-        <button data-nav="library" type="button" data-i18n="navLibrary">Complete library</button>
-        <button data-nav="bookmarks" type="button" data-i18n="navBookmarks">Bookmarks</button>
-        <button data-nav="review" type="button" data-i18n="navReview">Review</button>
+        <button class="active" data-nav="dashboard" type="button"><span class="nav-icon" aria-hidden="true">⌂</span><span data-i18n="navHome">Home</span></button>
+        <button data-nav="paths" type="button"><span class="nav-icon" aria-hidden="true">◎</span><span data-i18n="navPaths">Learning paths</span></button>
+        <button data-nav="library" type="button"><span class="nav-icon" aria-hidden="true">▤</span><span data-i18n="navLibrary">Complete library</span></button>
+        <button data-nav="bookmarks" type="button"><span class="nav-icon" aria-hidden="true">☆</span><span data-i18n="navBookmarks">Bookmarks</span></button>
+        <button data-nav="review" type="button"><span class="nav-icon" aria-hidden="true">↻</span><span data-i18n="navReview">Review</span></button>
       </nav>
       <div class="header-actions">
         <div class="language-switcher header-language" aria-label="Language" data-i18n-aria="language"><button type="button" data-language="en">EN</button><button type="button" data-language="tr">TR</button><button type="button" data-language="zh">中</button></div>
-        <span class="sync-status" id="syncStatus" data-state="local"><i></i><span data-i18n="syncLocal">Saved locally</span></span>
+        <span class="sync-status" id="syncStatus" data-state="local" role="status" aria-live="polite" aria-atomic="true"><i></i><span data-i18n="syncLocal">Saved locally</span></span>
         <button class="search-button" id="openSearch" type="button" aria-label="Search knowledge points"><span aria-hidden="true">⌕</span><span data-i18n="search">Search</span><kbd>/</kbd></button>
         <div class="header-progress" title="Overall progress"><span id="headerProgressText">0%</span><i><b id="headerProgressBar"></b></i></div>
-        <button class="lock-button" id="accountButton" type="button" data-i18n="account">Account</button>
+        <button class="lock-button" id="accountButton" type="button" aria-label="Account" data-i18n-aria="account"><span class="account-icon" aria-hidden="true">○</span><span class="action-label" data-i18n="account">Account</span></button>
       </div>
     </header>
 
@@ -229,7 +229,7 @@
 
   <div class="toast" id="toast" role="status" hidden></div>
   <script src="./cloud-config.js?v=20261026-14" defer></script>
-  <script src="./cloud-sync.js?v=20261113-29" defer></script>
-  <script src="./app.js?v=20261113-29" defer></script>
+  <script src="./cloud-sync.js?v=20261113-32" defer></script>
+  <script src="./app.js?v=20261113-32" defer></script>
 </body>
 </html>
