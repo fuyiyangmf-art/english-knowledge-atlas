@@ -56,19 +56,19 @@ Object.assign(TRANSLATIONS.en, {
   loginIntro:"Learn through thirteen independently written courses. Current everyday U.S. usage is the default; meaningful British differences are clearly marked.",
   knowledgeOnly:"Independent explanations, fresh examples, active recall, and British comparisons only where they are useful.",
   organized:"Organized by topic and real course level; British differences appear only where they affect real usage.",
-  learningEdition:"Learning edition"
+  learningEdition:"Learning edition", lessonJourney:"Guided lesson", stepStory:"Story", stepStart:"Start", stepUnderstand:"Understand", stepKnowledge:"Knowledge", stepPractice:"Practice", stepSummary:"Summary", viewFullLesson:"View full lesson", returnGuided:"Return to guided steps", previousStep:"Previous step", nextStep:"Next step", statusNew:"New", statusLearning:"Learning", statusDue:"Due", statusMastered:"Mastered", practiceThis:"Practice this item", lessonSummary:"Lesson summary", lessonSummaryIntro:"Review your item-level progress, strengthen anything unstable, then complete the lesson when you are ready.", weakItems:"{count} need attention", reviewWeak:"Review weak items", journeyComplete:"You have reached the final step. Completion is your choice; item progress remains available for later review."
 });
 Object.assign(TRANSLATIONS.tr, {
   loginIntro:"Bağımsız yazılmış on üç kursta öğren. Güncel gündelik ABD kullanımı varsayılandır; anlamlı Britanya farkları ayrıca belirtilir.",
   knowledgeOnly:"Özgün açıklamalar, yeni örnekler, etkin hatırlama ve yalnızca yararlı olduğu yerde Britanya karşılaştırmaları.",
   organized:"Konuya ve gerçek kurs seviyesine göre düzenlendi; Britanya farkları yalnızca gerçek kullanımı etkilediğinde gösterilir.",
-  learningEdition:"Öğrenme sürümü"
+  learningEdition:"Öğrenme sürümü", lessonJourney:"Rehberli ders", stepStory:"Öykü", stepStart:"Başlangıç", stepUnderstand:"Anla", stepKnowledge:"Bilgi", stepPractice:"Alıştırma", stepSummary:"Özet", viewFullLesson:"Dersin tamamını gör", returnGuided:"Rehberli adımlara dön", previousStep:"Önceki adım", nextStep:"Sonraki adım", statusNew:"Yeni", statusLearning:"Öğreniliyor", statusDue:"Tekrar zamanı", statusMastered:"Öğrenildi", practiceThis:"Bu öğeyi çalış", lessonSummary:"Ders özeti", lessonSummaryIntro:"Öğe düzeyindeki ilerlemeni incele, kararsız bilgileri güçlendir ve hazır olduğunda dersi tamamla.", weakItems:"{count} öğe çalışılmalı", reviewWeak:"Zayıf öğeleri tekrarla", journeyComplete:"Son adıma ulaştın. Dersi tamamlama seçimi sana ait; öğe ilerlemen sonraki tekrarlar için saklanır."
 });
 Object.assign(TRANSLATIONS.zh, {
   loginIntro:"通过十三门独立编写的课程系统学习。全站默认采用当代日常美语；只有确有影响的英式差异才会单独说明。",
   knowledgeOnly:"独立讲解、全新例句、主动回忆，以及只在真正有用时出现的英式对照。",
   organized:"按主题和真实课程等级组织；英式差异仅在影响实际使用时出现。",
-  learningEdition:"学习版"
+  learningEdition:"学习版", lessonJourney:"分步学习", stepStory:"情境", stepStart:"开始", stepUnderstand:"理解", stepKnowledge:"知识", stepPractice:"练习", stepSummary:"总结", viewFullLesson:"查看完整课程", returnGuided:"返回分步学习", previousStep:"上一步", nextStep:"下一步", statusNew:"未学习", statusLearning:"学习中", statusDue:"待复习", statusMastered:"已掌握", practiceThis:"练习这个知识点", lessonSummary:"本课总结", lessonSummaryIntro:"查看每个知识点的学习状态，继续巩固不稳定内容，准备好后再完成本课。", weakItems:"{count} 项需要巩固", reviewWeak:"复习薄弱知识", journeyComplete:"你已经到达最后一步。是否完成由你决定；每个知识点的进度都会保留，供以后复习。"
 });
 
 const TOPIC_TR = {
@@ -137,7 +137,7 @@ const TOPICS = {
 const LEVELS = ["All","Elementary","Pre-intermediate & Intermediate","Intermediate","Upper-intermediate","Advanced"];
 const state = {
   data:null, records:[], view:"dashboard", category:"Grammar", topic:null, level:"All", lessonLimit:12,
-  currentLesson:null, lessonOrigin:"path", recall:false, storyFocus:null, practiceIndex:0, practiceRevealed:false, reviewIndex:0, reviewRevealed:false,
+  currentLesson:null, lessonOrigin:"path", recall:false, lessonStep:0, lessonFull:false, storyFocus:null, practiceIndex:0, practiceRevealed:false, reviewIndex:0, reviewRevealed:false,
   bookId:null, bookLimit:18, cloudEnabled:false, user:null, authMode:"login",
   lang:["en","tr","zh"].includes(localStorage.getItem("eka-language"))?localStorage.getItem("eka-language"):"en",
   completed:new Set(), review:new Set(), bookmarks:new Set(), mastery:{}, history:[], last:null,
@@ -192,7 +192,8 @@ function lessonBlockHTML(block={},context={}) {
     const tableId=`learning-table-${context.recordId || "lesson"}-${context.sectionIndex || 0}-${context.blockIndex || 0}`;
     if(String(context.sectionLabel||"").toUpperCase()==="C" && rows.length>1) {
       const headings=rows[0];
-      const cards=rows.slice(1).map((row,index)=>`<article class="knowledge-card"><span>${String(index+1).padStart(2,"0")}</span><div class="knowledge-card-head"><h3>${escapeHTML(row[0]||"")}</h3><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div><dl>${row.slice(1).map((cell,cellIndex)=>({cell,heading:headings[cellIndex+1]})).filter(item=>String(item.cell||"").trim()).map(item=>`<div><dt>${escapeHTML(item.heading||"")}</dt><dd>${escapeHTML(item.cell||"")}</dd></div>`).join("")}</dl></article>`).join("");
+      const record=state.records.find(item=>item.id===context.recordId) || {id:context.recordId};
+      const cards=rows.slice(1).map((row,index)=>{ const status=masteryStatus(record,index); return `<article class="knowledge-card" data-mastery-status="${status}"><div class="knowledge-card-meta"><span>${String(index+1).padStart(2,"0")}</span><b>${t(`status${status[0].toUpperCase()}${status.slice(1)}`)}</b></div><div class="knowledge-card-head"><h3>${escapeHTML(row[0]||"")}</h3><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div><dl>${row.slice(1).map((cell,cellIndex)=>({cell,heading:headings[cellIndex+1]})).filter(item=>String(item.cell||"").trim()).map(item=>`<div><dt>${escapeHTML(item.heading||"")}</dt><dd>${escapeHTML(item.cell||"")}</dd></div>`).join("")}</dl><footer><button type="button" data-practice-item="${index}">${t("practiceThis")} →</button></footer></article>`; }).join("");
       return `<div class="lesson-table-shell knowledge-card-shell ${dense?"is-collapsed":""}" data-learning-table data-item-count="${itemCount}"><div class="knowledge-card-grid" role="list" aria-label="${escapeHTML(t("learningTable"))}" id="${tableId}">${cards}</div>${dense?`<div class="table-completeness"><span>${t("allContentNote",{count:itemCount})}</span><button type="button" data-toggle-table aria-controls="${tableId}" aria-expanded="false">${t("showAllItems",{count:itemCount})}</button></div>`:""}</div>`;
     }
     const columnCount=Math.max(...rows.map(row=>row.length));
@@ -205,9 +206,10 @@ function lessonBlockHTML(block={},context={}) {
   return `<p class="${block.type==="text"?"lesson-textblock":"lesson-paragraph"}">${escapeHTML(text).replace(/\n/g,"<br>")}</p>`;
 }
 
-function lessonContentHTML(record) {
+function lessonContentHTML(record,sectionIndices=null) {
   if(!Array.isArray(record.sections) || !record.sections.length) return `<div class="lesson-content">${escapeHTML(withoutDetachedSectionLabels(record.content))}</div>`;
-  const sections=record.sections.map((section,index)=>{
+  const allowed=Array.isArray(sectionIndices)?new Set(sectionIndices):null;
+  const sections=record.sections.map((section,index)=>({section,index})).filter(({index})=>!allowed || allowed.has(index)).map(({section,index})=>{
     const label=String(section.label||"").trim();
     const title=String(section.title||"").trim();
     const headingId=`lesson-section-${record.id}-${index}`;
@@ -216,7 +218,7 @@ function lessonContentHTML(record) {
     const labelledBy=heading?` aria-labelledby="${headingId}"`:"";
     return `<section class="lesson-section ${label?"":"lesson-section-unlabelled"}" data-section-index="${index}"${labelledBy}>${label?`<span class="lesson-section-label" aria-hidden="true">${escapeHTML(label)}</span>`:""}<div class="lesson-section-copy">${heading}${blocks}</div></section>`;
   }).join("");
-  return `<div class="lesson-content lesson-content-sectioned">${sections}</div>`;
+  return sections?`<div class="lesson-content lesson-content-sectioned">${sections}</div>`:"";
 }
 
 function storyParagraphHTML(paragraph="",focus=[]) {
@@ -363,28 +365,40 @@ function renderCurriculumAtlas() {
   }).join("");
 }
 function masteryKey(record,index) { return `${record.id}::${index}`; }
+function masteryStatus(record,index,now=Date.now()) {
+  const value=state.mastery[masteryKey(record,index)];
+  if(!value) return "new";
+  const due=Date.parse(value.dueAt||"");
+  if(Number.isFinite(due) && due<=now) return "due";
+  return value.level==="known"?"mastered":"learning";
+}
+function masteryStats(record,now=Date.now()) {
+  const stats={new:0,learning:0,due:0,mastered:0,total:0};
+  coreRows(record).forEach((_,index)=>{ const status=masteryStatus(record,index,now); stats[status]+=1; stats.total+=1; });
+  return stats;
+}
 function dueMasteryItems(now=Date.now()) {
   return Object.entries(state.mastery).map(([itemKey,value])=>{
     const [recordId,indexRaw]=itemKey.split("::"), index=Number(indexRaw);
     return {recordId,index,value,record:state.records.find(item=>item.id===recordId)};
-  }).filter(item=>item.record && Number.isInteger(item.index) && item.value?.dueAt && Date.parse(item.value.dueAt)<=now).sort((a,b)=>Date.parse(a.value.dueAt)-Date.parse(b.value.dueAt));
+  }).filter(item=>item.record && Number.isInteger(item.index) && item.index>=0 && item.index<coreRows(item.record).length && item.value?.dueAt && Date.parse(item.value.dueAt)<=now).sort((a,b)=>Date.parse(a.value.dueAt)-Date.parse(b.value.dueAt));
 }
 function masteredCount(record) {
-  return coreRows(record).filter((_,index)=>state.mastery[masteryKey(record,index)]?.level==="known").length;
+  return masteryStats(record).mastered;
 }
 function ratePractice(level) {
   const record=state.currentLesson, rows=coreRows(record); if(!rows.length) return;
   const index=((state.practiceIndex%rows.length)+rows.length)%rows.length, itemKey=masteryKey(record,index), previous=state.mastery[itemKey], previousInterval=Number(previous?.intervalDays||0);
-  const intervalDays=level==="known"?Math.min(60,Math.max(2,previousInterval*2||2)):level==="learning"?1:0;
+  const intervalDays=level==="known"?Math.min(60,Math.max(2,previousInterval*2||2)):level==="learning"?1:10/1440;
   state.mastery[itemKey]={level,intervalDays,dueAt:new Date(Date.now()+intervalDays*86400000).toISOString(),updatedAt:new Date().toISOString()};
-  persist(); showToast(t("practiceRated")); state.practiceIndex=(index+1)%rows.length; state.practiceRevealed=false; renderLesson();
+  persist(); showToast(t("practiceRated")); state.practiceIndex=(index+1)%rows.length; state.practiceRevealed=false; refreshLessonPractice("[data-practice-reveal]");
 }
 function practiceLabHTML(record) {
   const rows=coreRows(record); if(!rows.length) return "";
   const index=((state.practiceIndex%rows.length)+rows.length)%rows.length, row=rows[index];
-  const mastered=masteredCount(record), currentLevel=state.mastery[masteryKey(record,index)]?.level||"new";
+  const mastered=masteredCount(record), currentLevel=masteryStatus(record,index);
   const revealed=state.practiceRevealed?`<div class="practice-answer">${row.slice(1).filter(Boolean).map(cell=>`<p>${escapeHTML(cell)}</p>`).join("")}</div><div class="practice-rating" aria-label="${escapeHTML(t("itemMastery",{done:mastered,total:rows.length}))}"><button type="button" data-practice-rate="again">${t("practiceAgain")}</button><button type="button" data-practice-rate="learning">${t("practiceHard")}</button><button class="known" type="button" data-practice-rate="known">${t("practiceKnown")}</button></div>`:`<button type="button" data-practice-reveal>${t("revealItem")}</button>`;
-  return `<section class="practice-lab" aria-labelledby="practiceLabTitle"><div class="practice-lab-heading"><div><p class="eyebrow">${t("activeRecall")}</p><h2 id="practiceLabTitle">${t("practiceLab")}</h2></div><div class="practice-progress"><span>${index+1}/${rows.length}</span><small>${t("itemMastery",{done:mastered,total:rows.length})}</small></div></div><p>${t("practiceIntro")}</p><article class="practice-card" data-mastery-level="${currentLevel}"><small>${t("practicePrompt")}</small><div class="practice-item-heading"><strong>${escapeHTML(row[0]||"")}</strong><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div>${revealed}</article><button class="practice-next" type="button" data-practice-next>${t("nextItem")}</button></section>`;
+  return `<section class="practice-lab" data-practice-lab aria-labelledby="practiceLabTitle"><div class="practice-lab-heading"><div><p class="eyebrow">${t("activeRecall")}</p><h2 id="practiceLabTitle">${t("practiceLab")}</h2></div><div class="practice-progress"><span>${index+1}/${rows.length}</span><small>${t("itemMastery",{done:mastered,total:rows.length})}</small></div></div><p>${t("practiceIntro")}</p><article class="practice-card" data-mastery-level="${currentLevel}"><small>${t("practicePrompt")}</small><div class="practice-item-heading"><strong>${escapeHTML(row[0]||"")}</strong><button type="button" data-speak="${escapeHTML(row[0]||"")}" aria-label="${escapeHTML(t("hearItem"))}" title="${escapeHTML(t("hearItem"))}">◉</button></div>${revealed}</article><button class="practice-next" type="button" data-practice-next>${t("nextItem")}</button></section>`;
 }
 function dateKey(date=new Date()) { return new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Berlin",year:"numeric",month:"2-digit",day:"2-digit"}).format(date); }
 
@@ -590,10 +604,100 @@ function relatedLessons(record) {
   return state.records.filter(r=>r.category===record.category && topicFor(r)[0]===topicId && r.level===record.level);
 }
 
+function lessonSteps(record) {
+  const labelIndex=label=>(record.sections||[]).findIndex(section=>String(section.label||"").toUpperCase()===label);
+  const at=label=>{ const index=labelIndex(label); return index>=0?[index]:[]; };
+  return record.story?[
+    {key:"story",label:t("stepStory"),indices:[]},
+    {key:"understand",label:t("stepUnderstand"),indices:[...at("A"),...at("B")]},
+    {key:"knowledge",label:t("stepKnowledge"),indices:at("C")},
+    {key:"practice",label:t("stepPractice"),indices:at("D")},
+    {key:"summary",label:t("stepSummary"),indices:at("E")},
+  ]:[
+    {key:"start",label:t("stepStart"),indices:at("A")},
+    {key:"understand",label:t("stepUnderstand"),indices:at("B")},
+    {key:"knowledge",label:t("stepKnowledge"),indices:at("C")},
+    {key:"practice",label:t("stepPractice"),indices:at("D")},
+    {key:"summary",label:t("stepSummary"),indices:at("E")},
+  ];
+}
+
+function lessonSummaryHTML(record) {
+  const stats=masteryStats(record), weak=stats.new+stats.learning+stats.due, value=percent(stats.mastered,stats.total);
+  return `<section class="lesson-summary-card" data-lesson-summary><header><div><p class="eyebrow">${t("stepSummary")}</p><h2>${t("lessonSummary")}</h2></div><strong>${value}%</strong></header><p>${t("lessonSummaryIntro")}</p><div class="mastery-overview"><article data-status="new"><span>${stats.new}</span><small>${t("statusNew")}</small></article><article data-status="learning"><span>${stats.learning}</span><small>${t("statusLearning")}</small></article><article data-status="due"><span>${stats.due}</span><small>${t("statusDue")}</small></article><article data-status="mastered"><span>${stats.mastered}</span><small>${t("statusMastered")}</small></article></div><div class="summary-actions">${weak?`<button type="button" data-review-weak>${t("reviewWeak")} · ${t("weakItems",{count:weak})}</button>`:""}<button class="summary-complete" type="button" data-complete-lesson>${state.completed.has(record.id)?t("completed"):t("markComplete")}</button></div><p class="summary-note">${t("journeyComplete")}</p></section>`;
+}
+
+function updateMasteryIndicators() {
+  const record=state.currentLesson; if(!record) return;
+  els.lessonPage.querySelectorAll("[data-practice-item]").forEach(button=>{
+    const index=Number(button.dataset.practiceItem), card=button.closest(".knowledge-card");
+    if(!card || !Number.isInteger(index) || index<0 || index>=coreRows(record).length) return;
+    const status=masteryStatus(record,index), label=card.querySelector(".knowledge-card-meta b");
+    card.dataset.masteryStatus=status;
+    if(label) label.textContent=t(`status${status[0].toUpperCase()}${status.slice(1)}`);
+  });
+  const metric=els.lessonPage.querySelector("#lessonMasteryMetric");
+  if(metric) metric.textContent=t("itemMastery",{done:masteredCount(record),total:coreRows(record).length});
+}
+
+function refreshLessonPractice(focusSelector="") {
+  const record=state.currentLesson; if(!record) return;
+  const scrollPosition=window.scrollY;
+  const practice=els.lessonPage.querySelector("[data-practice-lab]");
+  const practiceHeight=practice?.getBoundingClientRect().height || 0;
+  if(practice) {
+    practice.outerHTML=practiceLabHTML(record);
+    const replacement=els.lessonPage.querySelector("[data-practice-lab]");
+    if(replacement && practiceHeight) replacement.style.minHeight=`${Math.ceil(practiceHeight)}px`;
+  }
+  const summary=els.lessonPage.querySelector("[data-lesson-summary]");
+  if(summary) summary.outerHTML=lessonSummaryHTML(record);
+  updateMasteryIndicators();
+  requestAnimationFrame(()=>{ window.scrollTo(0,scrollPosition); if(focusSelector) els.lessonPage.querySelector(focusSelector)?.focus({preventScroll:true}); });
+}
+
+function lessonStepContentHTML(record,step) {
+  if(step.key==="story") return contextStoryHTML(record);
+  const sections=lessonContentHTML(record,step.indices);
+  if(step.key==="practice") return `${sections}${practiceLabHTML(record)}`;
+  if(step.key==="summary") return `${sections}${lessonSummaryHTML(record)}`;
+  return sections;
+}
+
+function lessonJourneyHTML(record) {
+  const steps=lessonSteps(record); state.lessonStep=Math.max(0,Math.min(state.lessonStep,steps.length-1));
+  const active=steps[state.lessonStep];
+  const rail=steps.map((step,index)=>`<button class="${!state.lessonFull&&index===state.lessonStep?"active":index<state.lessonStep?"visited":""}" type="button" data-lesson-step="${index}" aria-current="${!state.lessonFull&&index===state.lessonStep?"step":"false"}"><span>${String(index+1).padStart(2,"0")}</span><b>${escapeHTML(step.label)}</b></button>`).join("");
+  const full=`${record.story?contextStoryHTML(record):""}${lessonContentHTML(record)}${practiceLabHTML(record)}${lessonSummaryHTML(record)}`;
+  const body=state.lessonFull?full:lessonStepContentHTML(record,active);
+  const previous=!state.lessonFull&&state.lessonStep>0, next=!state.lessonFull&&state.lessonStep<steps.length-1;
+  return `<section class="lesson-journey" data-lesson-journey><header><div><p class="eyebrow">${t("lessonJourney")}</p><strong>${state.lessonFull?t("viewFullLesson"):`${state.lessonStep+1}/${steps.length} · ${escapeHTML(active.label)}`}</strong></div><button type="button" data-toggle-lesson-full>${state.lessonFull?t("returnGuided"):t("viewFullLesson")}</button></header><nav class="lesson-stepper" aria-label="${escapeHTML(t("lessonJourney"))}">${rail}</nav><div class="lesson-phase" data-lesson-phase aria-live="polite">${body}</div>${state.lessonFull?"":`<footer class="lesson-step-controls">${previous?`<button type="button" data-lesson-previous>← ${t("previousStep")}</button>`:"<span></span>"}${next?`<button class="next" type="button" data-lesson-next>${t("nextStep")} →</button>`:"<span></span>"}</footer>`}</section>`;
+}
+
+function alignActiveLessonStep() {
+  [els.lessonPage.querySelector(".lesson-stepper"),els.lessonOutline.querySelector(".section-map")].forEach(nav=>{
+    const active=nav?.querySelector('[aria-current="step"]');
+    if(!nav || !active || nav.scrollWidth<=nav.clientWidth) return;
+    nav.scrollLeft=Math.max(0,active.offsetLeft-(nav.clientWidth-active.offsetWidth)/2);
+  });
+}
+
+function refreshLessonJourney(focusSelector="") {
+  const current=els.lessonPage.querySelector("[data-lesson-journey]"); if(!current || !state.currentLesson) { renderLesson(); return; }
+  current.outerHTML=lessonJourneyHTML(state.currentLesson);
+  els.lessonOutline.querySelectorAll("[data-lesson-step]").forEach(button=>{ const index=Number(button.dataset.lessonStep), active=!state.lessonFull&&index===state.lessonStep; button.classList.toggle("active",active); button.classList.toggle("visited",index<state.lessonStep); button.setAttribute("aria-current",active?"step":"false"); });
+  requestAnimationFrame(()=>{ alignActiveLessonStep(); if(focusSelector) els.lessonPage.querySelector(focusSelector)?.focus({preventScroll:true}); });
+}
+
+function setLessonStep(index,focusSelector="") {
+  const steps=lessonSteps(state.currentLesson); state.lessonStep=Math.max(0,Math.min(Number(index)||0,steps.length-1)); state.lessonFull=false; state.practiceRevealed=false;
+  refreshLessonJourney(focusSelector || `[data-lesson-step="${state.lessonStep}"]`);
+}
+
 function openLesson(id) {
   const record=state.records.find(r=>r.id===id); if(!record) return;
   if (state.view!=="lesson") state.lessonOrigin=["library","bookmarks"].includes(state.view)?state.view:"path";
-  state.currentLesson=record; state.last=id; state.recall=false; state.storyFocus=null; state.practiceIndex=0; state.practiceRevealed=false;
+  state.currentLesson=record; state.last=id; state.recall=false; state.lessonStep=0; state.lessonFull=false; state.storyFocus=null; state.practiceIndex=0; state.practiceRevealed=false;
   persist(); setView("lesson"); renderLesson();
   history.replaceState(null,"",`#lesson=${encodeURIComponent(id)}`);
 }
@@ -603,34 +707,46 @@ function renderLesson() {
   const nearby=related.slice(Math.max(0,index-3),Math.min(related.length,index+5));
   const back=state.lessonOrigin==="library"?`<button class="back-button" type="button" data-back-library>← ${escapeHTML(record.bookTitle)}</button>`:state.lessonOrigin==="bookmarks"?`<button class="back-button" type="button" data-back-bookmarks>← ${t("bookmarksTitle")}</button>`:`<button class="back-button" type="button" data-back-path>← ${escapeHTML(categoryName(record.category))}</button>`;
   const courseUnits=bookRecords(record.bookId).filter(item=>item.kind==="unit"), courseIndex=courseUnits.findIndex(item=>item.id===record.id);
-  const storyLink=record.story?`<button type="button" data-scroll-story><span>◆</span>${t("contextStory")}</button>`:"";
-  const sectionLinks=storyLink+(record.sections||[]).map((section,sectionIndex)=>`<button type="button" data-scroll-section="${sectionIndex}"><span>${escapeHTML(section.label||String(sectionIndex+1))}</span>${escapeHTML(section.title||t("lessonSections",{count:sectionIndex+1}))}</button>`).join("");
+  const steps=lessonSteps(record); state.lessonStep=Math.max(0,Math.min(state.lessonStep,steps.length-1));
+  const sectionLinks=steps.map((step,stepIndex)=>`<button class="${!state.lessonFull&&stepIndex===state.lessonStep?"active":stepIndex<state.lessonStep?"visited":""}" type="button" data-lesson-step="${stepIndex}" aria-current="${!state.lessonFull&&stepIndex===state.lessonStep?"step":"false"}"><span>${stepIndex+1}</span>${escapeHTML(step.label)}</button>`).join("");
   const coursePercent=percent(Math.max(0,courseIndex+1),courseUnits.length);
   els.lessonOutline.innerHTML=`${back}<div class="outline-progress"><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span><i><b style="width:${coursePercent}%"></b></i></div><p class="outline-label">${t("sectionMap")}</p><nav class="section-map">${sectionLinks}</nav><p class="outline-label">${state.lessonOrigin==="library"?t("originalOrder"):state.lessonOrigin==="bookmarks"?t("savedLessons"):escapeHTML(topicName(topic,record.category))}</p>${nearby.map(r=>`<button class="outline-item ${r.id===record.id?"active":""}" type="button" data-open-lesson="${r.id}"><span class="${state.completed.has(r.id)?"done":""}">${state.completed.has(r.id)?"✓":r.kind==="unit"?escapeHTML(r.unit):"·"}</span><span>${escapeHTML(r.title)}</span></button>`).join("")}`;
-  const body=state.recall?`<div class="recall-panel"><span>${t("activeRecall")}</span><h2>${t("recallQuestion",{title:escapeHTML(record.title)})}</h2><p>${t("recallInstruction")}</p><button type="button" data-reveal-lesson>${t("revealFull")}</button></div>`:`${contextStoryHTML(record)}${lessonContentHTML(record)}${practiceLabHTML(record)}`;
+  const body=state.recall?`<div class="recall-panel"><span>${t("activeRecall")}</span><h2>${t("recallQuestion",{title:escapeHTML(record.title)})}</h2><p>${t("recallInstruction")}</p><button type="button" data-reveal-lesson>${t("revealFull")}</button></div>`:lessonJourneyHTML(record);
   const previous=related[index-1], next=related[index+1];
   els.lessonPage.style.setProperty("--lesson-accent",meta.accent);
-  els.lessonPage.innerHTML=`<header class="lesson-identity"><p class="lesson-breadcrumb">${escapeHTML(categoryName(record.category))} · ${escapeHTML(topicName(topic,record.category))} · ${escapeHTML(levelName(record.level))}</p><h1>${escapeHTML(record.title)}</h1><p class="lesson-source">${escapeHTML(record.bookTitle)} · ${t("learningEdition")}</p><div class="lesson-metrics"><span>${t("estimatedTime",{count:estimatedMinutes(record)})}</span><span>${t("lessonSections",{count:(record.sections?.length||0)+(record.story?1:0)})}</span><span>${t("coreFacts",{count:coreRows(record).length})}</span><span>${t("itemMastery",{done:masteredCount(record),total:coreRows(record).length})}</span><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span></div></header><div class="lesson-actions"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?t("exitRecall"):t("recallMode")}</button><button class="${state.bookmarks.has(record.id)?"active":""}" type="button" data-toggle-bookmark>${state.bookmarks.has(record.id)?t("bookmarked"):t("addBookmark")}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?t("inReview"):t("addReview")}</button><button class="${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?t("completed"):t("markComplete")}</button></div>${body}<nav class="lesson-nav">${previous?`<button type="button" data-open-lesson="${previous.id}"><small>${t("previousLesson")}</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>${t("nextLesson")}</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
+  els.lessonPage.innerHTML=`<header class="lesson-identity"><p class="lesson-breadcrumb">${escapeHTML(categoryName(record.category))} · ${escapeHTML(topicName(topic,record.category))} · ${escapeHTML(levelName(record.level))}</p><h1>${escapeHTML(record.title)}</h1><p class="lesson-source">${escapeHTML(record.bookTitle)} · ${t("learningEdition")}</p><div class="lesson-metrics"><span>${t("estimatedTime",{count:estimatedMinutes(record)})}</span><span>${t("lessonSections",{count:(record.sections?.length||0)+(record.story?1:0)})}</span><span>${t("coreFacts",{count:coreRows(record).length})}</span><span id="lessonMasteryMetric">${t("itemMastery",{done:masteredCount(record),total:coreRows(record).length})}</span><span>${t("lessonPosition",{current:Math.max(1,courseIndex+1),total:courseUnits.length})}</span></div></header><div class="lesson-actions"><button class="${state.recall?"active":""}" type="button" data-toggle-recall>${state.recall?t("exitRecall"):t("recallMode")}</button><button class="${state.bookmarks.has(record.id)?"active":""}" type="button" data-toggle-bookmark>${state.bookmarks.has(record.id)?t("bookmarked"):t("addBookmark")}</button><button class="${state.review.has(record.id)?"active":""}" type="button" data-toggle-review>${state.review.has(record.id)?t("inReview"):t("addReview")}</button><button class="${state.completed.has(record.id)?"active":""}" type="button" data-complete-lesson>${state.completed.has(record.id)?t("completed"):t("markComplete")}</button></div>${body}<nav class="lesson-nav">${previous?`<button type="button" data-open-lesson="${previous.id}"><small>${t("previousLesson")}</small>${escapeHTML(previous.title)}</button>`:"<span></span>"}${next?`<button type="button" data-open-lesson="${next.id}"><small>${t("nextLesson")}</small>${escapeHTML(next.title)}</button>`:""}</nav>`;
+  requestAnimationFrame(alignActiveLessonStep);
 }
 
 function completeCurrent() {
   const id=state.currentLesson.id;
   if(state.completed.has(id)) { state.completed.delete(id); showToast(t("unmarked")); }
   else { state.completed.add(id); state.history.push(dateKey()); showToast(t("marked")); }
-  persist(); renderLesson();
+  persist();
+  const completed=state.completed.has(id);
+  els.lessonPage.querySelectorAll("[data-complete-lesson]").forEach(button=>{ button.classList.toggle("active",completed); button.textContent=t(completed?"completed":"markComplete"); });
+  els.lessonOutline.querySelectorAll("[data-open-lesson]").forEach(button=>{
+    if(button.dataset.openLesson!==id) return;
+    const marker=button.firstElementChild;
+    if(marker) { marker.classList.toggle("done",completed); marker.textContent=completed?"✓":state.currentLesson.kind==="unit"?state.currentLesson.unit:"·"; }
+  });
 }
 function toggleCurrentReview() {
   const id=state.currentLesson.id;
   if(state.review.has(id)) { state.review.delete(id); showToast(t("removedReview")); }
   else { state.review.add(id); showToast(t("addedReview")); }
-  persist(); renderLesson();
+  persist();
+  const active=state.review.has(id), button=els.lessonPage.querySelector("[data-toggle-review]");
+  if(button) { button.classList.toggle("active",active); button.textContent=t(active?"inReview":"addReview"); }
 }
 
 function toggleCurrentBookmark() {
   const id=state.currentLesson.id;
   if(state.bookmarks.has(id)) { state.bookmarks.delete(id); showToast(t("removedBookmark")); }
   else { state.bookmarks.add(id); showToast(t("addedBookmark")); }
-  persist(); renderLesson();
+  persist();
+  const active=state.bookmarks.has(id), button=els.lessonPage.querySelector("[data-toggle-bookmark]");
+  if(button) { button.classList.toggle("active",active); button.textContent=t(active?"bookmarked":"addBookmark"); }
 }
 
 function renderBookmarks() {
@@ -664,15 +780,19 @@ function renderSearch(query) {
 
 function mergeCloudProgress(remote) {
   if (!remote) return;
-  const valid=new Set(state.records.map(record=>record.id));
+  const recordMap=new Map(state.records.map(record=>[record.id,record])), valid=new Set(recordMap.keys());
   state.completed=new Set([...state.completed,...(remote.completed||[])].filter(id=>valid.has(id)));
   state.review=new Set([...state.review,...(remote.review||[])].filter(id=>valid.has(id)));
   state.bookmarks=new Set([...state.bookmarks,...(remote.bookmarks||[])].filter(id=>valid.has(id)));
   const remoteMastery=remote.mastery && typeof remote.mastery==="object"?remote.mastery:{};
   Object.entries(remoteMastery).forEach(([itemKey,value])=>{
-    const recordId=itemKey.split("::")[0]; if(!valid.has(recordId) || !value || typeof value!=="object") return;
-    const local=state.mastery[itemKey], remoteTime=Date.parse(value.updatedAt||0), localTime=Date.parse(local?.updatedAt||0);
-    if(!local || remoteTime>=localTime) state.mastery[itemKey]=value;
+    const match=String(itemKey).match(/^(.*)::(\d+)$/); if(!match || !value || typeof value!=="object") return;
+    const recordId=match[1], index=Number(match[2]), record=recordMap.get(recordId), intervalDays=Number(value.intervalDays);
+    const remoteTime=Date.parse(value.updatedAt||""), dueTime=Date.parse(value.dueAt||"");
+    if(!record || !Number.isInteger(index) || index<0 || index>=coreRows(record).length) return;
+    if(!["again","learning","known"].includes(value.level) || !Number.isFinite(intervalDays) || intervalDays<0 || intervalDays>60 || !Number.isFinite(remoteTime) || !Number.isFinite(dueTime)) return;
+    const local=state.mastery[itemKey], localTime=Date.parse(local?.updatedAt||0);
+    if(!local || !Number.isFinite(localTime) || remoteTime>=localTime) state.mastery[itemKey]={level:value.level,intervalDays,dueAt:new Date(dueTime).toISOString(),updatedAt:new Date(remoteTime).toISOString()};
   });
   state.history=[...new Set([...state.history,...(remote.history||[])])].slice(-120);
   state.last=remote.last && valid.has(remote.last)?remote.last:state.last;
@@ -784,7 +904,7 @@ function bindEvents() {
     const path=event.target.closest("[data-open-path]"); if(path) { state.category=path.dataset.openPath; state.topic=null; state.level="All"; state.lessonLimit=12; renderPath(); return; }
     const levelPath=event.target.closest("[data-open-level-path]"); if(levelPath) { state.category=levelPath.dataset.category; state.topic=null; state.level=levelPath.dataset.level; state.lessonLimit=12; renderPath(); return; }
     const book=event.target.closest("[data-open-book]"); if(book) { state.bookId=book.dataset.openBook; state.bookLimit=18; renderLibrary(); requestAnimationFrame(()=>els.bookCurriculum.scrollIntoView({behavior:"smooth",block:"start"})); return; }
-    const practiceItem=event.target.closest("[data-open-practice]"); if(practiceItem) { openLesson(practiceItem.dataset.openPractice); state.practiceIndex=Number(practiceItem.dataset.practiceIndex||0); state.practiceRevealed=false; renderLesson(); return; }
+    const practiceItem=event.target.closest("[data-open-practice]"); if(practiceItem) { openLesson(practiceItem.dataset.openPractice); state.practiceIndex=Number(practiceItem.dataset.practiceIndex||0); state.practiceRevealed=false; setLessonStep(lessonSteps(state.currentLesson).findIndex(step=>step.key==="practice"),"[data-practice-reveal]"); return; }
     const lesson=event.target.closest("[data-open-lesson]"); if(lesson) { openLesson(lesson.dataset.openLesson); return; }
     const level=event.target.closest("[data-level]"); if(level) { state.level=level.dataset.level; state.topic=null; state.lessonLimit=12; renderPath(); return; }
     const topic=event.target.closest("[data-topic]"); if(topic) { state.topic=topic.dataset.topic; state.lessonLimit=12; renderPath(); requestAnimationFrame(()=>$("#curriculumSection").scrollIntoView({behavior:"smooth",block:"start"})); return; }
@@ -793,14 +913,20 @@ function bindEvents() {
     if(event.target.closest("[data-back-bookmarks]")) { renderBookmarks(); return; }
     if(event.target.closest("[data-toggle-recall]")) { state.recall=!state.recall; renderLesson(); return; }
     if(event.target.closest("[data-reveal-lesson]")) { state.recall=false; renderLesson(); return; }
+    const lessonStep=event.target.closest("[data-lesson-step]"); if(lessonStep) { setLessonStep(Number(lessonStep.dataset.lessonStep)); return; }
+    if(event.target.closest("[data-toggle-lesson-full]")) { state.lessonFull=!state.lessonFull; state.practiceRevealed=false; refreshLessonJourney("[data-toggle-lesson-full]"); return; }
+    if(event.target.closest("[data-lesson-previous]")) { setLessonStep(state.lessonStep-1); return; }
+    if(event.target.closest("[data-lesson-next]")) { setLessonStep(state.lessonStep+1); return; }
     if(event.target.closest("[data-scroll-story]")) { els.lessonPage.querySelector("[data-story-section]")?.scrollIntoView({block:"start"}); return; }
     const storyItem=event.target.closest("[data-story-item]"); if(storyItem) { const index=Number(storyItem.dataset.storyItem); updateStoryFocus(state.storyFocus===index?null:index); return; }
     if(event.target.closest("[data-story-close]")) { updateStoryFocus(null); return; }
     const sectionLink=event.target.closest("[data-scroll-section]"); if(sectionLink) { const section=els.lessonPage.querySelector(`[data-section-index="${sectionLink.dataset.scrollSection}"]`); section?.scrollIntoView({behavior:"smooth",block:"start"}); return; }
     const tableToggle=event.target.closest("[data-toggle-table]"); if(tableToggle) { const shell=tableToggle.closest("[data-learning-table]"), collapsed=shell.classList.toggle("is-collapsed"); tableToggle.setAttribute("aria-expanded",String(!collapsed)); const count=Number(shell.dataset.itemCount||0); tableToggle.textContent=collapsed?t("showAllItems",{count}):t("collapseItems"); return; }
-    if(event.target.closest("[data-practice-reveal]")) { state.practiceRevealed=true; renderLesson(); return; }
+    const itemPractice=event.target.closest("[data-practice-item]"); if(itemPractice) { state.practiceIndex=Number(itemPractice.dataset.practiceItem)||0; state.practiceRevealed=false; setLessonStep(lessonSteps(state.currentLesson).findIndex(step=>step.key==="practice"),"[data-practice-reveal]"); return; }
+    if(event.target.closest("[data-review-weak]")) { const index=coreRows(state.currentLesson).findIndex((_,itemIndex)=>masteryStatus(state.currentLesson,itemIndex)!=="mastered"); state.practiceIndex=Math.max(0,index); state.practiceRevealed=false; setLessonStep(lessonSteps(state.currentLesson).findIndex(step=>step.key==="practice"),"[data-practice-reveal]"); return; }
+    if(event.target.closest("[data-practice-reveal]")) { state.practiceRevealed=true; refreshLessonPractice('[data-practice-rate="again"]'); return; }
     const practiceRate=event.target.closest("[data-practice-rate]"); if(practiceRate) { ratePractice(practiceRate.dataset.practiceRate); return; }
-    if(event.target.closest("[data-practice-next]")) { const count=coreRows(state.currentLesson).length; state.practiceIndex=count?(state.practiceIndex+1)%count:0; state.practiceRevealed=false; renderLesson(); return; }
+    if(event.target.closest("[data-practice-next]")) { const count=coreRows(state.currentLesson).length; state.practiceIndex=count?(state.practiceIndex+1)%count:0; state.practiceRevealed=false; refreshLessonPractice("[data-practice-reveal]"); return; }
     if(event.target.closest("[data-complete-lesson]")) { completeCurrent(); return; }
     if(event.target.closest("[data-toggle-review]")) { toggleCurrentReview(); return; }
     if(event.target.closest("[data-toggle-bookmark]")) { toggleCurrentBookmark(); return; }
